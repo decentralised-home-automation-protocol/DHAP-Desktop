@@ -32,7 +32,9 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+  // const message = Buffer.from("test");
 
+  // server.send(message, 8888, '192.168.1.101');
 }
 
 // This method will be called when Electron has finished
@@ -70,4 +72,4 @@ server.on('listening', () => {
   console.log(`server listening ${address.address}:${address.port}`);
 });
 
-server.bind(61592)
+server.bind(1030)
