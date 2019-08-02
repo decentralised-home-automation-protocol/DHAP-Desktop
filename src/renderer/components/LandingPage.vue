@@ -1,16 +1,18 @@
 <template>
   <div id="wrapper">
     <main>
-      IP Address: <input type="text" v-model="ipaddress" value="192.168.1.102"><br>
+      IP Address: <input type="text" name="ipInput" v-model="ipaddress" value="192.168.1.102"><br>
       Data: <input type="text" v-model="packetdata" value="300"><br>
       <button @click="sendPacket(ipaddress, packetdata)">Send Packet</button>
-      <XmlParser :xml="xml"></XmlParser>
+      <XmlParser></XmlParser>
     </main>
   </div>
 </template>
 
 <script>
   import XmlParser from './LandingPage/XmlParser'
+  import { EventBus } from './event-bus.js'
+
   const dgram = require('dgram')
   const server = dgram.createSocket('udp4')
 
@@ -19,9 +21,10 @@
     components: { XmlParser },
     data: function () {
       return {
-        packetdata: '',
-        ipaddress: '',
-        xml: ''
+        packetdata: '300',
+        ipaddress: '192.168.1.108',
+        xml: '',
+        clickCount: 0
       }
     },
     methods: {
@@ -39,7 +42,7 @@
 
   server.on('message', (msg, rinfo) => {
     console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`)
-    this.xml = msg
+    EventBus.$emit('New-Packet-Data', msg)
   })
 
   server.on('listening', () => {

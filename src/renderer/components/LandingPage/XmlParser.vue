@@ -1,16 +1,24 @@
 <template>
   <div>
+    <input type="text" v-model="xml"></input>
   </div>
 </template>
 
 <script>
+  import { EventBus } from '../event-bus.js'
+
   export default {
     name: 'XmlParser',
-    props: ['xml'],
-    methods: {
-      parseXML () {
-        console.log(this.xml)
+    data: function () {
+      return {
+        xml: ''
       }
+    },
+    mounted () {
+      EventBus.$on('New-Packet-Data', message => {
+        console.log(`Emit Recieved ${message}`)
+        this.xml = message
+      })
     }
   }
 </script>
