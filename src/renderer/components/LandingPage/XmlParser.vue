@@ -2,7 +2,7 @@
   <div>
     <input type="text" v-model="xml">
     <div v-for="elements in xmlElements" :key="elements.id">
-      <component v-bind:is="elements"></component>
+      <component v-bind:is="elements" v-bind:values="props"></component>
     </div>
   </div>
 </template>
@@ -17,7 +17,10 @@
     data: function () {
       return {
         xml: '',
-        xmlElements: ['switchtoggle', 'switchtoggle']
+        xmlElements: ['switchtoggle', 'switchtoggle'],
+        props: {
+          argument: 'prop1'
+        }
       }
     },
     mounted () {

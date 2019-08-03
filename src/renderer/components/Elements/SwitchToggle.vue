@@ -4,24 +4,20 @@
       <input type="checkbox">
       <span class="slider round"></span>
     </label>
+    props: <input type="text" v-model="values.argument"><br>
   </div>
 </template>
 
 <script>
-  import { EventBus } from '@/components/event-bus.js'
-
   export default {
     name: 'switchtoggle',
+    props: {
+      values: Object
+    },
     data: function () {
       return {
         xml: ''
       }
-    },
-    mounted () {
-      EventBus.$on('New-Packet-Data', message => {
-        console.log(`Emit Recieved ${message}`)
-        this.xml = message
-      })
     }
   }
 </script>
