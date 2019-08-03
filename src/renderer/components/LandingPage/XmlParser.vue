@@ -10,14 +10,25 @@
 <script>
   import { EventBus } from '../event-bus.js'
   import switchtoggle from '../Elements/switchtoggle'
+  import buttontoggle from '../Elements/buttontoggle'
+  import stepper from '../Elements/stepper'
+  import buttongroup from '../Elements/buttongroup'
+  import directionalbuttons from '../Elements/directionalbuttons'
+  import password from '../Elements/password'
+  import progressElement from '../Elements/progressElement'
+  import rangeinput from '../Elements/rangeinput'
+  import scheduler from '../Elements/scheduler'
+  import selection from '../Elements/selection'
+  import status from '../Elements/status'
+  import textinput from '../Elements/textinput'
 
   export default {
     name: 'XmlParser',
-    components: { switchtoggle },
+    components: { switchtoggle, buttontoggle, stepper, rangeinput, buttongroup, directionalbuttons, password, progressElement, scheduler, selection, status, textinput },
     data: function () {
       return {
         xml: '',
-        xmlElements: ['switchtoggle', 'switchtoggle'],
+        xmlElements: ['switchtoggle', 'buttontoggle', 'stepper', 'rangeinput', 'buttongroup', 'directionalbuttons', 'password', 'progressElement', 'scheduler', 'selection', 'status', 'textinput'],
         props: {
           argument: 'prop1'
         }

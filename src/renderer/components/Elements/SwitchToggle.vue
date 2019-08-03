@@ -1,10 +1,10 @@
 <template>
   <div>
+    <h2>switch</h2>
     <label class="switch">
       <input type="checkbox">
       <span class="slider round"></span>
     </label>
-    props: <input type="text" v-model="values.argument"><br>
   </div>
 </template>
 
@@ -16,7 +16,7 @@
     },
     data: function () {
       return {
-        xml: ''
+        state: ''
       }
     }
   }
