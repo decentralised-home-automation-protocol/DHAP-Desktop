@@ -27,30 +27,50 @@
     components: { switchtoggle, buttontoggle, stepper, rangeinput, buttongroup, directionalbuttons, password, progressElement, scheduler, selection, status, textinput },
     data: function () {
       return {
-        xml: '',
-        xmlElements: ['switchtoggle', 'buttontoggle', 'stepper', 'rangeinput', 'buttongroup', 'directionalbuttons', 'password', 'progressElement', 'scheduler', 'selection', 'status', 'textinput'],
+        // xmlElements: ['switchtoggle', 'buttontoggle', 'stepper', 'rangeinput', 'buttongroup', 'directionalbuttons', 'password', 'progressElement', 'scheduler', 'selection', 'status', 'textinput'],
+        xmlElements: [],
+        elementDisplaySettings: [],
         props: {
           argument: 'prop1'
         }
       }
     },
     mounted () {
-      EventBus.$on('New-Packet-Data', message => {
-        console.log(`Emit Recieved ${message}`)
-        this.xml = message.toString().substr(4)
+      EventBus.$on('New-UI-XML', message => {
+        parseXML(message.toString().substr(4))
+      })
+      EventBus.$on('New-XML-Elements', (elemets, dispSettings) => {
+        this.xmlElements = elemets
+        this.elementDisplaySettings = dispSettings
       })
     }
   }
 
-  var parseString = require('xml2js').parseString
-  var xml = '<?xml version="1.0" encoding="UTF-8"?><device><group id="0" permission="RR"><name>TV</name><room>Living Room</room></group><group id="1" permission="WR" frame="false" orientation="horizontal"><gui_element id="1"><type>switchtoggle</type><disp_settings>On/Off</disp_settings><status_location>1</status_location><comment>Turn TV On or Off</comment></gui_element></group></device>'
-  parseString(xml, function (err, result) {
-    if (err) {
-      console.dir(err)
-    } else {
-      console.dir(result)
+  function parseXML (xml) {
+    var parseString = require('xml2js').parseString
+    parseString(xml, function (err, result) {
+      if (err) {
+        console.dir(err)
+      } else {
+        getXMLElements(result)
+      }
+    })
+  }
+
+  function getXMLElements (xml) {
+    var elements = []
+    var displaySettings = []
+
+    for (var groupNum = 1; groupNum < xml.device.group.length; groupNum++) {
+      var group = xml.device.group[groupNum]
+      for (var elementNum = 0; elementNum < group.gui_element.length; elementNum++) {
+        var element = group.gui_element[elementNum]
+        elements.push(element.type[0].toString())
+        displaySettings.push(element.disp_settings[0].toString())
+      }
     }
-  })
+    EventBus.$emit('New-XML-Elements', elements, displaySettings)
+  }
 </script>
 
 <style>

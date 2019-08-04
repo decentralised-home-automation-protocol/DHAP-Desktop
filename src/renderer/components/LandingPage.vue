@@ -1,8 +1,8 @@
 <template>
   <div id="wrapper">
     <main>
-      IP Address: <input type="text" name="ipInput" v-model="ipaddress" value="192.168.1.102"><br>
-      Data: <input type="text" v-model="packetdata" value="300"><br>
+      IP Address: <input type="text" name="ipInput" v-model="ipaddress"><br>
+      Data: <input type="text" v-model="packetdata"><br>
       <button @click="sendPacket(ipaddress, packetdata)">Send Packet</button>
       <XmlParser></XmlParser>
     </main>
@@ -21,7 +21,7 @@
     components: { XmlParser },
     data: function () {
       return {
-        packetdata: '300',
+        packetdata: '200',
         ipaddress: '192.168.1.108',
         xml: '',
         clickCount: 0
@@ -41,8 +41,8 @@
   })
 
   server.on('message', (msg, rinfo) => {
-    console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`)
-    EventBus.$emit('New-Packet-Data', msg)
+    console.log(`server got: message from ${rinfo.address}:${rinfo.port}`)
+    handleIncomingPacket(msg)
   })
 
   server.on('listening', () => {
@@ -51,6 +51,41 @@
   })
 
   server.bind(8888)
+
+  function handleIncomingPacket (packetData) {
+    var responseType = packetData.toString().substring(0, 3)
+    switch (responseType) {
+      case '110':
+        // Joining: Acknowledge credentials
+        break
+      case '120':
+        // Joining: Joined network Successfully
+        break
+      case '130':
+        // Joining: Failed to join network
+        break
+      case '210':
+        // Display: UI Recieved
+        console.log('UI Recieved')
+        EventBus.$emit('New-UI-XML', packetData)
+        break
+      case '310':
+        // Discovery: Discovery Response
+        console.log('Discovery Response')
+        break
+      case '510':
+        // Status: Request Response
+        break
+      case '530':
+        // Status: Lease Expired
+        break
+      case '540':
+        // Status: Status Update
+        break
+      default:
+        // Unknown Packet Type
+    }
+  }
 </script>
 
 <style>
