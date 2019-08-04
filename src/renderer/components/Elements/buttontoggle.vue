@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>title</h2>
+    <h2>buttontoggle</h2>
     <button>buttontoggle</button>
   </div>
 </template>
@@ -9,7 +9,7 @@
   export default {
     name: 'buttontoggle',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

@@ -9,7 +9,7 @@
   export default {
     name: 'progressElement',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

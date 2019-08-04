@@ -11,7 +11,7 @@
   export default {
     name: 'rangeinput',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

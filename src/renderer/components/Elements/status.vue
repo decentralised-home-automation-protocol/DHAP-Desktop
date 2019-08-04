@@ -8,7 +8,7 @@
   export default {
     name: 'status',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

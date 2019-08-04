@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>switch</h2>
+    <h2>switchtoggle</h2>
     <label class="switch">
       <input type="checkbox">
       <span class="slider round"></span>
@@ -12,7 +12,7 @@
   export default {
     name: 'switchtoggle',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

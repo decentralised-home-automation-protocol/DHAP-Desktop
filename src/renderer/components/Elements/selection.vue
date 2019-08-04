@@ -14,7 +14,7 @@
   export default {
     name: 'selection',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

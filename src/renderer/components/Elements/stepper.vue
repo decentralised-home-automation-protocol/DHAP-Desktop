@@ -11,7 +11,7 @@
   export default {
     name: 'stepper',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

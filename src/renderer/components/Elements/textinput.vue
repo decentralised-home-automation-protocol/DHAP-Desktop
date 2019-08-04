@@ -10,7 +10,7 @@
   export default {
     name: 'textinput',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

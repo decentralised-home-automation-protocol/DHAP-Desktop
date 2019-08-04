@@ -10,7 +10,7 @@
   export default {
     name: 'password',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

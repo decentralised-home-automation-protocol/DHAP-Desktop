@@ -11,7 +11,7 @@
   export default {
     name: 'buttongroup',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

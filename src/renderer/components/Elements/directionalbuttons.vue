@@ -12,7 +12,7 @@
   export default {
     name: 'directionalbuttons',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {

@@ -16,7 +16,7 @@
   export default {
     name: 'scheduler',
     props: {
-      values: Object
+      values: ''
     },
     data: function () {
       return {
