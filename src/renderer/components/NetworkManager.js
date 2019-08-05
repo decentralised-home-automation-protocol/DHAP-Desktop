@@ -34,7 +34,7 @@ function handleIncomingPacket (packetData) {
     case '210':
       // Display: UI Recieved
       console.log('UI Recieved')
-      EventBus.$emit('New-UI-XML', packetData)
+      EventBus.$emit('New-UI-XML', packetData.toString().substr(4))
       break
     case '310':
       // Discovery: Discovery Response

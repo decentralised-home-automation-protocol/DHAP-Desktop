@@ -1,7 +1,7 @@
 import { EventBus } from './event-bus.js'
 
 EventBus.$on('New-UI-XML', message => {
-  parseXML(message.toString().substr(4))
+  parseXML(message.toString())
 })
 
 function parseXML (xml) {
