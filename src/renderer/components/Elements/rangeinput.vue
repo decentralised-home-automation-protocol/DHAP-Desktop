@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h2>rangeinput</h2>
+    <h2>{{label}}</h2>
     <input type="number" v-model="value">
-    <input type="range" min="1" max="100" v-model="value">
-    <button>Submit</button>
+    <input type="range" :min="min" :max="max" v-model="value">
+    <button>{{buttonLabel}}</button>
   </div>
 </template>
 
@@ -11,12 +11,25 @@
   export default {
     name: 'rangeinput',
     props: {
-      values: ''
+      values: String
     },
     data: function () {
       return {
-        value: 12
+        label: '',
+        buttonLabel: '',
+        min: 0,
+        max: 100,
+        value: 0
       }
+    },
+    mounted () {
+      var dispSettings = this.values.split(',')
+      if (dispSettings[0] !== '~') {
+        this.label = dispSettings[0]
+      }
+      this.buttonLabel = dispSettings[1]
+      this.min = dispSettings[2]
+      this.max = dispSettings[3]
     }
   }
 </script>

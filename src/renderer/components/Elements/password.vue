@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2>password</h2>
+    <h2>{{label}}</h2>
     <input type="password">
-    <button>Submit</button>
+    <button>{{buttonLabel}}</button>
   </div>
 </template>
 
@@ -10,12 +10,21 @@
   export default {
     name: 'password',
     props: {
-      values: ''
+      values: String
     },
     data: function () {
       return {
-        state: ''
+        label: '',
+        buttonLabel: ''
       }
+    },
+    mounted () {
+      var dispSettings = this.values.split(',')
+      if (dispSettings[0] !== '~') {
+        this.label = dispSettings[0]
+      }
+
+      this.buttonLabel = dispSettings[1]
     }
   }
 </script>

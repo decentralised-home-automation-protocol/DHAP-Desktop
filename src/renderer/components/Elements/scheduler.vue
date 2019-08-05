@@ -1,14 +1,11 @@
 <template>
   <div>
-    <h2>scheduler</h2>
+    <h2>{{label}}</h2>
     <select>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
+      <option v-for="option in options" :key="option">{{option}}</option>
     </select>
-    <button>12:00AM</button>
-    <button>Submit</button>
+    <button>{{time}}</button>
+    <button>{{buttonLabel}}</button>
   </div>
 </template>
 
@@ -16,11 +13,24 @@
   export default {
     name: 'scheduler',
     props: {
-      values: ''
+      values: String
     },
     data: function () {
       return {
-        state: ''
+        label: '',
+        buttonLabel: '',
+        options: [],
+        time: '12:00AM'
+      }
+    },
+    mounted () {
+      var dispSettings = this.values.split(',')
+      if (dispSettings[0] !== '~') {
+        this.label = dispSettings[0]
+      }
+      this.buttonLabel = dispSettings[1]
+      for (var i = 2; i < dispSettings.length; i++) {
+        this.options.push(dispSettings[i])
       }
     }
   }

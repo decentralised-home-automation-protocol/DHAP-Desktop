@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>status</h2>    
+    <h2>{{label}}</h2>  
+    <h2>{{value}}</h2>  
   </div>
 </template>
 
@@ -8,11 +9,18 @@
   export default {
     name: 'status',
     props: {
-      values: ''
+      values: String
     },
     data: function () {
       return {
-        state: ''
+        label: '',
+        value: ''
+      }
+    },
+    mounted () {
+      var dispSettings = this.values.split(',')
+      if (dispSettings[0] !== '~') {
+        this.label = dispSettings[0]
       }
     }
   }

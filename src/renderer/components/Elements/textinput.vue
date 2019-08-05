@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2>textinput</h2>
+    <h2>{{label}}</h2>
     <input type="text">
-    <button>Submit</button>
+    <button>{{buttonLabel}}</button>
   </div>
 </template>
 
@@ -10,12 +10,20 @@
   export default {
     name: 'textinput',
     props: {
-      values: ''
+      values: String
     },
     data: function () {
       return {
-        state: ''
+        label: '',
+        buttonLabel: ''
       }
+    },
+    mounted () {
+      var dispSettings = this.values.split(',')
+      if (dispSettings[0] !== '~') {
+        this.label = dispSettings[0]
+      }
+      this.buttonLabel = dispSettings[1]
     }
   }
 </script>

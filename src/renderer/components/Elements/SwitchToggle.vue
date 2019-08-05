@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2>switchtoggle</h2>
+    <h2>{{label}}</h2>
     <label class="switch">
-      <input type="checkbox">
+      <input type="checkbox" v-model="state">
       <span class="slider round"></span>
     </label>
   </div>
@@ -12,11 +12,17 @@
   export default {
     name: 'switchtoggle',
     props: {
-      values: ''
+      values: String
     },
     data: function () {
       return {
-        state: ''
+        label: '',
+        state: false
+      }
+    },
+    mounted () {
+      if (this.values !== '~') {
+        this.label = this.values
       }
     }
   }

@@ -11,11 +11,22 @@
   export default {
     name: 'buttongroup',
     props: {
-      values: ''
+      values: String
     },
     data: function () {
       return {
-        buttons: [1, 2, 3]
+        label: '',
+        buttons: []
+      }
+    },
+    mounted () {
+      var dispSettings = this.values.split(',')
+      if (dispSettings[0] !== '~') {
+        this.label = dispSettings[0]
+      }
+
+      for (var i = 1; i < dispSettings.length; i++) {
+        this.buttons.push(dispSettings[i])
       }
     }
   }

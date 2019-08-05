@@ -23,7 +23,12 @@ function getElementsFromXML (xml) {
     var group = xml.device.group[groupNum]
     for (var elementNum = 0; elementNum < group.gui_element.length; elementNum++) {
       var element = group.gui_element[elementNum]
-      elements.push(element.type[0].toString())
+      var elementType = element.type[0].toString()
+      if (elementType === 'progress') {
+        elements.push('progressElement')
+      } else {
+        elements.push(elementType)
+      }
       displaySettings.push(element.disp_settings[0].toString())
     }
   }
