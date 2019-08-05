@@ -1,40 +1,17 @@
 <template>
   <div id="wrapper">
-    <main>
-      IP Address: <input type="text" name="ipInput" v-model="ipaddress"><br>
-      Data: <input type="text" v-model="packetdata"><br>
-      <button @click="sendPacket(ipaddress, packetdata)">Send Packet</button>
-      <DisplayGenerator></DisplayGenerator>
-    </main>
+    <PacketSender></PacketSender>
+    <DisplayGenerator></DisplayGenerator>
   </div>
 </template>
 
 <script>
   import DisplayGenerator from './LandingPage/DisplayGenerator'
-  import { EventBus } from './event-bus.js'
-  // import { server } from './NetworkManager'
+  import PacketSender from './LandingPage/PacketSender'
 
   export default {
     name: 'landing-page',
-    components: { DisplayGenerator },
-    data: function () {
-      return {
-        packetdata: '200',
-        ipaddress: '192.168.1.108'
-      }
-    },
-    methods: {
-      sendPacket (ipaddress, packetdata) {
-        // console.log('Sending: ' + packetdata)
-        // server.send(packetdata, 8888, ipaddress)
-        const fs = require('fs')
-  
-        fs.readFile('src\\renderer\\components\\TV.xml', (err, data) => {
-          if (err) throw err
-          EventBus.$emit('New-UI-XML', data.toString())
-        })
-      }
-    }
+    components: { DisplayGenerator, PacketSender }
   }
 </script>
 
