@@ -6,7 +6,7 @@
 
     <ul class="list-unstyled components">
         <li>
-            <router-link :to="{ name: 'landing-page' }"><i class="fas fa-home"></i> Dashboard</router-link>
+            <router-link :to="{ name: 'landing-page' }" ><i class="fas fa-home"></i> Dashboard</router-link>
         </li>
         <li>
             <router-link :to="{ name: 'devices' }"><i class="fas fa-wifi"></i> Devices</router-link>
@@ -17,7 +17,18 @@
 
 <script>
   export default {
-    name: 'Sidebar'
+    name: 'Sidebar',
+    data () {
+      return { activeItem: 'about' }
+    },
+    methods: {
+      isActive: function (menuItem) {
+        return this.activeItem === menuItem
+      },
+      setActive: function (menuItem) {
+        this.activeItem = menuItem // no need for Vue.set()
+      }
+    }
   }
 </script>
 
@@ -53,11 +64,11 @@
   }
 
   #sidebar ul li a:hover {
-    background: #43474b;
+    background: #4c545c;
   }
 
-  #sidebar ul li a:focus {
+  nav a.router-link-exact-active {
     background: #43474b;
-    border-left: 1px solid #ff0000;    
+    border-left: 1px solid #ff0000;   
   }
 </style>
