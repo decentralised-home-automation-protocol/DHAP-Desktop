@@ -1,7 +1,7 @@
 <template>
   <div>
-      IP Address: <input type="text" name="ipInput" v-model="ipaddress"><br>
-      Data: <input type="text" v-model="packetdata"><br>
+      <h3>IP Address: </h3><input type="text" name="ipInput" v-model="ipaddress"><br>
+      <h3>Data: </h3><input type="text" v-model="packetdata"><br><br>
       <button @click="sendPacket(ipaddress, packetdata)">Send Packet</button>
   </div>
 </template>
