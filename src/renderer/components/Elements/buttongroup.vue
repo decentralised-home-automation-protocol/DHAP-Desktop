@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>buttongroup</h2>
+    <h2>{{label}}</h2>
     <div v-for="button in buttons" v-bind:key="button.id">
       <button>{{button}}</button>
     </div>
