@@ -39,6 +39,7 @@ function handleIncomingPacket (packetData) {
     case '310':
       // Discovery: Discovery Response
       console.log('Discovery Response')
+      EventBus.$emit('Device-Discovered', packetData.toString().substr(4))
       break
     case '510':
       // Status: Request Response

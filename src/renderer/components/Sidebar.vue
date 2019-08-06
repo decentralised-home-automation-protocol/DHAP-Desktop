@@ -1,5 +1,5 @@
 <template>
-  <nav id="sidebar">
+  <nav id="sidebar" >
     <div class="sidebar-header">
         <h3>IoT Dashboard</h3>
     </div>
@@ -26,6 +26,7 @@
     min-width: 250px;
     max-width: 250px;
     min-height: 100vh;
+    border-right: 1px solid #545a5f;    
   }
 
   #sidebar {
@@ -40,7 +41,6 @@
 
   #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #545a5f;
     border-top: 1px solid #545a5f;
   }
 

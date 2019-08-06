@@ -1,8 +1,18 @@
 <template>
   <div>
-      <h3>IP Address: </h3><input type="text" name="ipInput" v-model="ipaddress"><br>
-      <h3>Data: </h3><input type="text" v-model="packetdata"><br><br>
-      <button @click="sendPacket(ipaddress, packetdata)">Send Packet</button>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">IP Address</span>
+      </div>
+      <input class="form-control" type="text" name="ipInput" placeholder="192.168.1.100" v-model="ipaddress">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Data</span>
+      </div>
+      <input class="form-control" type="text" placeholder="300" v-model="packetdata">
+      <div class="input-group-append">
+        <button class="btn btn-outline-info" @click="sendPacket(ipaddress, packetdata)">Send Packet</button>
+      </div>
+    </div>
   </div>
 </template>
 

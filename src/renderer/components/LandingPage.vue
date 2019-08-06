@@ -16,13 +16,6 @@
 </script>
 
 <style>
-  #wrapper {
-    background: rgb(30, 30, 30);
-    align-items: stretch;
-    display: flex;
-    width: 100%;
-  }
-
   #content {
     padding: 60px 80px;
   }
