@@ -1,16 +1,16 @@
 <template>
   <nav id="sidebar" >
     <div class="sidebar-header">
-        <h3>Decentralised Home Automation</h3>
+      <h3>Decentralised Home Automation</h3>
     </div>
 
     <ul class="list-unstyled components">
-        <li>
-            <router-link :to="{ name: 'landing-page' }" ><i class="fas fa-home"></i> Dashboard</router-link>
-        </li>
-        <li>
-            <router-link :to="{ name: 'devices' }"><i class="fas fa-wifi"></i> Devices</router-link>
-        </li>
+      <li>
+          <router-link :to="{ name: 'landing-page' }" ><i class="fas fa-home"></i> Dashboard</router-link>
+      </li>
+      <li>
+          <router-link :to="{ name: 'devices' }"><i class="fas fa-wifi"></i> Devices</router-link>
+      </li>
     </ul>
   </nav>
 </template>
