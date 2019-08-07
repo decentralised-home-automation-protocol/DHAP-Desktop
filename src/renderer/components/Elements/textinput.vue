@@ -1,8 +1,14 @@
 <template>
   <div>
-    <h2>{{label}}</h2>
-    <input type="text">
-    <button>{{buttonLabel}}</button>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend" v-if="label">
+        <span class="input-group-text" id="basic-addon1">{{label}}</span>
+      </div>
+      <input class="form-control" type="text">
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary">{{buttonLabel}}</button>
+      </div>
+    </div>
   </div>
 </template>
 

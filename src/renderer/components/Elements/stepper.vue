@@ -1,9 +1,15 @@
 <template>
   <div>
-    <h2>{{label}}</h2>
-    <p>{{value}}</p>
-    <button @click="decrement()">-</button>
-    <button @click="increment()">+</button>
+    <div class="input-group mb-3 input-group-lg">
+      <div class="input-group-prepend" v-if="label">
+        <span class="input-group-text" id="inputGroup-sizing-lg">{{label}}</span>
+      </div>
+      <p class="form-control">{{value}}</p>
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" @click="decrement()">-</button>
+        <button class="btn btn-outline-primary" @click="increment()">+</button>
+      </div>
+    </div>
   </div>
 </template>
 

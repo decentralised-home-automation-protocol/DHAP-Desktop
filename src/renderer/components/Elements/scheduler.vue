@@ -4,8 +4,8 @@
     <select>
       <option v-for="option in options" :key="option">{{option}}</option>
     </select>
-    <button>{{time}}</button>
-    <button>{{buttonLabel}}</button>
+    <button class="btn btn-primary">{{time}}</button>
+    <button class="btn btn-primary">{{buttonLabel}}</button>
   </div>
 </template>
 

@@ -1,9 +1,15 @@
 <template>
   <div>
-    <h2>{{label}}</h2>
-    <input type="number" v-model="value">
-    <input type="range" :min="min" :max="max" v-model="value">
-    <button>{{buttonLabel}}</button>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend" v-if="label">
+        <span class="input-group-text" id="basic-addon1">{{label}}</span>
+      </div>
+      <input class="form-control" type="number" v-model="value">
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary">{{buttonLabel}}</button>
+      </div>
+    </div>
+    <input id="slider" type="range" :min="min" :max="max" v-model="value">
   </div>
 </template>
 
@@ -29,10 +35,14 @@
       }
       this.buttonLabel = dispSettings[1]
       this.min = dispSettings[2]
+      this.value = dispSettings[2]
       this.max = dispSettings[3]
     }
   }
 </script>
 
 <style>
+#slider {
+  width: 100%;
+}
 </style>

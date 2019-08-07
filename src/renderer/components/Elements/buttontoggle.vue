@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{label}}</h2>
-    <button @click="buttonClicked()">{{buttonLabel}}</button>
+    <button class="btn btn-primary" @click="buttonClicked()">{{buttonLabel}}</button>
   </div>
 </template>
 

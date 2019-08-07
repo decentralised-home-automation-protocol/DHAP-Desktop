@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button>{{topLabel}}</button>
-    <button>{{rightLabel}}</button>
-    <button>{{bottomLabel}}</button>
-    <button>{{leftLabel}}</button>
-    <button>{{centreLabel}}</button>
+    <button class="btn btn-primary">{{topLabel}}</button>
+    <button class="btn btn-primary">{{rightLabel}}</button>
+    <button class="btn btn-primary">{{bottomLabel}}</button>
+    <button class="btn btn-primary">{{leftLabel}}</button>
+    <button class="btn btn-primary">{{centreLabel}}</button>
     <h2>{{label}}</h2>
   </div>
 </template>

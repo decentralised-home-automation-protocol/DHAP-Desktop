@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>{{label}}</h2>
-    <div v-for="button in buttons" v-bind:key="button.id">
-      <button>{{button}}</button>
+    <div class="btn-group" role="group" aria-label="Basic example" >
+      <button v-for="button in buttons" v-bind:key="button.id" type="button" class="btn btn-primary btn-lg">{{button}}</button>
     </div>
   </div>
 </template>
