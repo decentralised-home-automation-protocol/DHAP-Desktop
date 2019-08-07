@@ -1,9 +1,16 @@
 <template>
   <div>
-    <div v-for="(element, index) in xmlElements" :key="element.id">
-      <component v-bind:is="element" v-bind:values="elementDisplaySettings[index]"></component>
-    </div>
+    <draggable v-model="myArray" group="people" @start="drag=true" @end="drag=false">
+      <div v-for="(ui, uiIndex) in xmlElements" :key="ui.id">
+        <div class="card bg-dark">
+          <div class="card-body">
+            <component v-for="(element, index) in ui" :key="element.id" v-bind:is="element" v-bind:values="elementDisplaySettings[uiIndex][index]"></component>
+          </div>
+        </div>
+      </div>  
+    </draggable>
   </div>
+
 </template>
 
 <script>
@@ -21,10 +28,11 @@
   import status from '../Elements/status'
   import textinput from '../Elements/textinput'
   import '../XmlParser'
+  import draggable from 'vuedraggable'
 
   export default {
     name: 'DisplayGenerator',
-    components: { switchtoggle, buttontoggle, stepper, rangeinput, buttongroup, directionalbuttons, password, progressElement, scheduler, selection, status, textinput },
+    components: { switchtoggle, buttontoggle, stepper, rangeinput, buttongroup, directionalbuttons, password, progressElement, scheduler, selection, status, textinput, draggable },
     data: function () {
       return {
         xmlElements: [],
@@ -32,9 +40,9 @@
       }
     },
     mounted () {
-      EventBus.$on('New-XML-Elements', (elemets, dispSettings) => {
-        this.xmlElements = elemets
-        this.elementDisplaySettings = dispSettings
+      EventBus.$on('New-XML-Elements', (elements, dispSettings) => {
+        this.xmlElements.push(elements)
+        this.elementDisplaySettings.push(dispSettings)
       })
     }
   }
