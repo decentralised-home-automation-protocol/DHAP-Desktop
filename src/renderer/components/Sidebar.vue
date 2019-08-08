@@ -5,11 +5,13 @@
     </div>
 
     <ul class="list-unstyled components">
-      <li>
-          <router-link :to="{ name: 'landing-page' }" ><i class="fas fa-home"></i> Dashboard</router-link>
+      <li>          
+          <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
       </li>
-      <li>
-          <router-link :to="{ name: 'devices' }"><i class="fas fa-wifi"></i> Devices</router-link>
+      <li v-for="device in devices" :key="device.deviceMac" id="device">
+          <i class="fas fa-eye" v-if="device.active" @click="deactivate(device.id)"></i>
+          {{device.remoteIP}}
+          <button type="button" class="btn btn-outline-light"  @click="getUI(device.remoteIP, device.id)"><i class="fas fa-chevron-right"></i></button>
       </li>
     </ul>
   </nav>
@@ -18,15 +20,20 @@
 <script>
   export default {
     name: 'Sidebar',
-    data () {
-      return { activeItem: 'about' }
+    computed: {
+      devices () {
+        return this.$store.state.devices
+      }
     },
     methods: {
-      isActive: function (menuItem) {
-        return this.activeItem === menuItem
+      discovery () {
+        this.$store.dispatch('sendPacket', '300')
       },
-      setActive: function (menuItem) {
-        this.activeItem = menuItem // no need for Vue.set()
+      getUI (ip, mac) {
+        this.$store.dispatch('getUI', { data: '200', ip })
+      },
+      deactivate (id) {
+        this.$store.dispatch('deactivateDevice', id)
       }
     }
   }
@@ -42,7 +49,6 @@
 
   #sidebar {
     background: rgb(50, 50, 50);
-    color: #fff;
     transition: all 0.3s;
   }
 
@@ -51,11 +57,10 @@
   }
 
   #sidebar ul.components {
-    padding: 20px 0;
     border-top: 1px solid #545a5f;
   }
 
-  #sidebar ul li a {
+  #sidebar ul li {
     padding: 10px;
     font-size: 1.1em;
     display: block;
@@ -63,12 +68,12 @@
     color: whitesmoke
   }
 
-  #sidebar ul li a:hover {
+  #sidebar ul li:hover {
     background: #4c545c;
   }
 
-  nav a.router-link-exact-active {
-    background: #43474b;
-    border-left: 1px solid #ff0000;   
+  #device {
+    background: #3b4147;
+    text-align: right;
   }
 </style>

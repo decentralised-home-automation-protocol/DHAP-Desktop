@@ -1,23 +1,17 @@
-import { EventBus } from './event-bus.js'
+const parseString = require('xml2js').parseString
 
-EventBus.$on('New-UI-XML', message => {
-  parseXML(message.toString())
-})
-
-function parseXML (xml) {
-  var parseString = require('xml2js').parseString
+exports.parseXML = (xml, callback) => {
   parseString(xml, function (err, result) {
     if (err) {
       console.dir(err)
     } else {
-      getElementsFromXML(result)
+      callback(getElementsFromXML(result))
     }
   })
 }
 
-function getElementsFromXML (xml) {
+const getElementsFromXML = (xml) => {
   var elements = []
-  var displaySettings = []
 
   for (var groupNum = 1; groupNum < xml.device.group.length; groupNum++) {
     var group = xml.device.group[groupNum]
@@ -25,12 +19,13 @@ function getElementsFromXML (xml) {
       var element = group.gui_element[elementNum]
       var elementType = element.type[0].toString()
       if (elementType === 'progress') {
-        elements.push('progressElement')
-      } else {
-        elements.push(elementType)
+        elementType = 'progressElement'
       }
-      displaySettings.push(element.disp_settings[0].toString())
+      elements.push({
+        type: elementType,
+        displaySettings: element.disp_settings[0].toString()
+      })
     }
   }
-  EventBus.$emit('New-XML-Elements', elements, displaySettings)
+  return elements
 }

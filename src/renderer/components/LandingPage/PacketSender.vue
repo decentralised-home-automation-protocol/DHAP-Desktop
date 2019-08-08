@@ -17,7 +17,8 @@
 </template>
 
 <script>
-  import { EventBus } from '../event-bus.js'
+  const fs = require('fs')
+  // import { EventBus } from '../event-bus.js'
   // import { server } from './NetworkManager'
 
   export default {
@@ -32,11 +33,10 @@
       sendPacket (ipaddress, packetdata) {
         // console.log('Sending: ' + packetdata)
         // server.send(packetdata, 8888, ipaddress)
-        const fs = require('fs')
   
         fs.readFile('src\\renderer\\components\\TV.xml', (err, data) => {
           if (err) throw err
-          EventBus.$emit('New-UI-XML', data.toString())
+          // EventBus.$emit('New-UI-XML', data.toString())
         })
       }
     }

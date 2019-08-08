@@ -6,21 +6,18 @@
       :colNum="25"
     >
 
-    <grid-item v-for="(item, uiIndex) in layout"
-                :x="item.x"
-                :y="item.y"
-                :w="item.w"
-                :h="item.h"
-                :i="item.i"
-                :key="item.i" style="border: 1px solid red;">
-          <component v-for="(element, index) in xmlElements[uiIndex]" :key="element.id" v-bind:is="element" v-bind:values="elementDisplaySettings[uiIndex][index]"></component>
-    </grid-item>
+    <div v-for="device in devices" :key="device.id" >
+      <div v-if="device.active && layoutById(device.id)">
+        <grid-item :x="layoutById(device.id).x" :y="layoutById(device.id).y" :w="layoutById(device.id).w" :h="layoutById(device.id).h" :i="layoutById(device.id).i" style="border: 1px solid red;">
+          <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type" v-bind:values="element.displaySettings"></component>
+        </grid-item>
+      </div>
+    </div>
     </grid-layout>
   </div>
 </template>
 
 <script>
-  import { EventBus } from '../event-bus.js'
   import switchtoggle from '../Elements/switchtoggle'
   import buttontoggle from '../Elements/buttontoggle'
   import stepper from '../Elements/stepper'
@@ -35,6 +32,7 @@
   import textinput from '../Elements/textinput'
   import '../XmlParser'
   import VueGridLayout from 'vue-grid-layout'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'DisplayGenerator',
@@ -54,19 +52,16 @@
       GridLayout: VueGridLayout.GridLayout,
       GridItem: VueGridLayout.GridItem
     },
-    data: function () {
-      return {
-        xmlElements: [],
-        elementDisplaySettings: [],
-        layout: []
+    computed: {
+      ...mapGetters([
+        'layoutById'
+      ]),
+      devices () {
+        return this.$store.state.devices
+      },
+      layout () {
+        return this.$store.state.layout
       }
-    },
-    mounted () {
-      EventBus.$on('New-XML-Elements', (elements, dispSettings) => {
-        this.xmlElements.push(elements)
-        this.elementDisplaySettings.push(dispSettings)
-        this.layout.push({'x': 0, 'y': 0, 'w': 5, 'h': 22, 'i': this.layout.length})
-      })
     }
   }
 </script>

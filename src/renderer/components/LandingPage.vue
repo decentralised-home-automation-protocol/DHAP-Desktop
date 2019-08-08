@@ -17,6 +17,7 @@
 
 <style>
   #content {
+    padding: 40px;
     width: 100%;
   }
 
