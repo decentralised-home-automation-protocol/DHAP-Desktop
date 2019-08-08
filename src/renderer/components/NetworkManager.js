@@ -1,6 +1,7 @@
-import { EventBus } from './event-bus.js'
 const dgram = require('dgram')
 export const server = dgram.createSocket('udp4')
+const xmlParser = require('./XmlParser')
+const store = require('../store')
 
 server.on('error', (err) => {
   console.log(`server error:\n${err.stack}`)
@@ -34,12 +35,24 @@ function handleIncomingPacket (packetData, remoteIP) {
     case '210':
       // Display: UI Recieved
       console.log('UI Recieved')
-      EventBus.$emit('New-UI-XML', packetData.toString().substr(4))
+      // EventBus.$emit('New-UI-XML', packetData.toString().substr(4))
+      const uiString = xmlParser.parseXML(packetData.toString().substr(4))
+      store.dispatch('gotUI', {
+        ip: remoteIP,
+        uiString
+      })
       break
     case '310':
       // Discovery: Discovery Response
       console.log('Discovery Response')
-      EventBus.$emit('Device-Discovered', packetData.toString().substr(4), remoteIP)
+      // EventBus.$emit('Device-Discovered', packetData.toString().substr(4), remoteIP)
+      const mac = packetData.toString().substr(4).split(',')[0]
+      const device = {
+        id: mac,
+        remoteIP,
+        uiString: null
+      }
+      store.dispatch('deviceDiscovered', device)
       break
     case '510':
       // Status: Request Response

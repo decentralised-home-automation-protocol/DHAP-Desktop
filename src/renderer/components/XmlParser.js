@@ -1,21 +1,16 @@
-import { EventBus } from './event-bus.js'
+const parseString = require('xml2js').parseString
 
-EventBus.$on('New-UI-XML', message => {
-  parseXML(message.toString())
-})
-
-function parseXML (xml) {
-  var parseString = require('xml2js').parseString
+exports.parseXML = (xml) => {
   parseString(xml, function (err, result) {
     if (err) {
       console.dir(err)
     } else {
-      getElementsFromXML(result)
+      return getElementsFromXML(result)
     }
   })
 }
 
-function getElementsFromXML (xml) {
+const getElementsFromXML = (xml) => {
   var elements = []
   var displaySettings = []
 
@@ -32,5 +27,9 @@ function getElementsFromXML (xml) {
       displaySettings.push(element.disp_settings[0].toString())
     }
   }
-  EventBus.$emit('New-XML-Elements', elements, displaySettings)
+  return {
+    elements,
+    displaySettings
+  }
+  // EventBus.$emit('New-XML-Elements', elements, displaySettings)
 }

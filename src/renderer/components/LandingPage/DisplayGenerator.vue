@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import { EventBus } from '../event-bus.js'
+  // import { EventBus } from '../event-bus.js'
   import switchtoggle from '../Elements/switchtoggle'
   import buttontoggle from '../Elements/buttontoggle'
   import stepper from '../Elements/stepper'
@@ -62,11 +62,11 @@
       }
     },
     mounted () {
-      EventBus.$on('New-XML-Elements', (elements, dispSettings) => {
-        this.xmlElements.push(elements)
-        this.elementDisplaySettings.push(dispSettings)
-        this.layout.push({'x': 0, 'y': 0, 'w': 5, 'h': 22, 'i': this.layout.length})
-      })
+      // EventBus.$on('New-XML-Elements', (elements, dispSettings) => {
+      //   this.xmlElements.push(elements)
+      //   this.elementDisplaySettings.push(dispSettings)
+      //   this.layout.push({'x': 0, 'y': 0, 'w': 5, 'h': 22, 'i': this.layout.length})
+      // })
     }
   }
 </script>

@@ -17,8 +17,8 @@
 </template>
 
 <script>
-  import { EventBus } from './event-bus.js'
-  import { server } from './NetworkManager'
+  // import { EventBus } from './event-bus.js'
+  // import { server } from './NetworkManager'
 
   export default {
     name: 'Sidebar',
@@ -31,21 +31,21 @@
     methods: {
       discovery () {
         console.log('Starting discovery')
-        server.send('300', 8888, '192.168.1.255')
+        // server.send('300', 8888, '192.168.1.255')
       },
       getUI (ip) {
         console.log('Starting discovery')
-        server.send('200', 8888, ip)
+        // server.send('200', 8888, ip)
       }
     },
     mounted () {
-      EventBus.$on('Device-Discovered', (device, remoteIP) => {
-        if (!this.deviceMacs.includes(device)) {
-          this.deviceMacs.push(device)
-          this.devices.push({deviceMac: device, deviceIP: remoteIP})
-          console.log(remoteIP)
-        }
-      })
+      // EventBus.$on('Device-Discovered', (device, remoteIP) => {
+      //   if (!this.deviceMacs.includes(device)) {
+      //     this.deviceMacs.push(device)
+      //     this.devices.push({deviceMac: device, deviceIP: remoteIP})
+      //     console.log(remoteIP)
+      //   }
+      // })
     }
   }
 </script>

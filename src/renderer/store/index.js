@@ -1,25 +1,41 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { server } from '../components/NetworkManager'
 import { createPersistedState, createSharedMutations } from 'vuex-electron'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    data: 0
+    /* {
+      id: <MAC Address>,
+      remoteIP: <IP Address>,
+      uiString: "..."
+    } */
+    devices: []
   },
   actions: {
-    addTodo ({ commit }, text) {
-      commit('addTodo', {
-        text,
-        done: false
-      })
+    deviceDiscovered ({ commit }, payload) {
+      commit('newDevice', payload)
+    },
+
+    sendPacket ({ commit }, payload) {
+      server.send(payload)
+    },
+
+    gotUI ({ commit, state }, payload) {
+      commit('newUI', payload)
     }
   },
   mutations: {
-    addTodo (state, todo) {
-      state.todos.push(todo)
+    newDevice (state, device) {
+      state.devices.push(device)
+    },
+    newUI (state, payload) {
+      const device = state.devices.find(d => {
+        return d.remoteIP === payload.ip
+      })
+      device.uiString = payload.uiString
     }
   },
   plugins: [
