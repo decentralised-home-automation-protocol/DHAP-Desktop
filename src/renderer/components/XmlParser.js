@@ -1,11 +1,12 @@
 const parseString = require('xml2js').parseString
 
-exports.parseXML = (xml) => {
+exports.parseXML = (xml, callback) => {
+  console.log(xml)
   parseString(xml, function (err, result) {
     if (err) {
       console.dir(err)
     } else {
-      return getElementsFromXML(result)
+      callback(getElementsFromXML(result))
     }
   })
 }

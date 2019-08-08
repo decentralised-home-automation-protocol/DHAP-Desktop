@@ -36,10 +36,12 @@ function handleIncomingPacket (packetData, remoteIP) {
       // Display: UI Recieved
       console.log('UI Recieved')
       // EventBus.$emit('New-UI-XML', packetData.toString().substr(4))
-      const uiString = xmlParser.parseXML(packetData.toString().substr(4))
-      store.dispatch('gotUI', {
-        ip: remoteIP,
-        uiString
+      const xml = packetData.toString().substr(4)
+      xmlParser.parseXML(xml, uiString => {
+        store.default.dispatch('gotUI', {
+          ip: remoteIP,
+          uiString
+        })
       })
       break
     case '310':
@@ -52,7 +54,10 @@ function handleIncomingPacket (packetData, remoteIP) {
         remoteIP,
         uiString: null
       }
-      store.dispatch('deviceDiscovered', device)
+
+      console.log(device)
+
+      store.default.dispatch('deviceDiscovered', device)
       break
     case '510':
       // Status: Request Response

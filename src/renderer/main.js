@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 /* eslint-disable no-new */
 new Vue({

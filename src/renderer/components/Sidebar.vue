@@ -9,32 +9,36 @@
           <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
       </li>
       <li v-for="device in devices" :key="device.deviceMac" id="device">
-          {{device.deviceIP}}
-          <button type="button" class="btn btn-outline-light"  @click="getUI(device.deviceIP)"><i class="fas fa-chevron-right"></i></button>
+          {{device.remoteIP}}
+          <button type="button" class="btn btn-outline-light"  @click="getUI(device.remoteIP)"><i class="fas fa-chevron-right"></i></button>
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
-  // import { EventBus } from './event-bus.js'
-  // import { server } from './NetworkManager'
-
   export default {
     name: 'Sidebar',
-    data: function () {
-      return {
-        devices: [],
-        deviceMacs: []
+    // data: function () {
+    //   return {
+    //     devices: [],
+    //     deviceMacs: []
+    //   }
+    // },
+    computed: {
+      devices () {
+        return this.$store.state.devices
       }
     },
     methods: {
       discovery () {
         console.log('Starting discovery')
+        this.$store.dispatch('sendPacket', '300')
         // server.send('300', 8888, '192.168.1.255')
       },
       getUI (ip) {
-        console.log('Starting discovery')
+        console.log('Starting get ui')
+        this.$store.dispatch('getUI', { data: '200', ip })
         // server.send('200', 8888, ip)
       }
     },
