@@ -15,8 +15,11 @@ export default new Vuex.Store({
     layout: []
   },
   actions: {
-    deviceDiscovered ({ commit }, payload) {
-      commit('newDevice', payload)
+    deviceDiscovered ({ commit, state }, payload) {
+      const device = state.devices.find(d => d.id === payload.id)
+      if (!device) {
+        commit('newDevice', payload)
+      }
     },
     sendPacket ({ commit }, payload) {
       console.log(`Sending: ${payload}...`)
