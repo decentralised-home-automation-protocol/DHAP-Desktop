@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { server } from '../components/NetworkManager'
-// import { createPersistedState, createSharedMutations } from 'vuex-electron'
 
 Vue.use(Vuex)
 
@@ -10,9 +9,10 @@ export default new Vuex.Store({
     /* {
       id: <MAC Address>,
       remoteIP: <IP Address>,
-      uiString: "..."
+      ui: "..."
     } */
-    devices: []
+    devices: [],
+    layout: []
   },
   actions: {
     deviceDiscovered ({ commit }, payload) {
@@ -21,7 +21,7 @@ export default new Vuex.Store({
 
     sendPacket ({ commit }, payload) {
       console.log(`Sending: ${payload}...`)
-      server.send(payload, 8888, '192.168.0.106')
+      server.send(payload, 8888, '192.168.1.255')
     },
 
     getUI ({ commit }, payload) {
@@ -40,11 +40,11 @@ export default new Vuex.Store({
       const device = state.devices.find(d => {
         return d.remoteIP === payload.ip
       })
-      device.uiString = payload.uiString
+      device.ui = payload.ui
+      if (!device.active) {
+        device.active = true
+        state.layout.push({ 'x': 0, 'y': 0, 'w': 5, 'h': 22, 'i': device.id })
+      }
     }
   }
-  // plugins: [
-  //   createPersistedState(),
-  //   createSharedMutations()
-  // ]
 })

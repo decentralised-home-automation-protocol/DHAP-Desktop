@@ -35,24 +35,23 @@ function handleIncomingPacket (packetData, remoteIP) {
     case '210':
       // Display: UI Recieved
       console.log('UI Recieved')
-      // EventBus.$emit('New-UI-XML', packetData.toString().substr(4))
       const xml = packetData.toString().substr(4)
-      xmlParser.parseXML(xml, uiString => {
+      xmlParser.parseXML(xml, ui => {
         store.default.dispatch('gotUI', {
           ip: remoteIP,
-          uiString
+          ui
         })
       })
       break
     case '310':
       // Discovery: Discovery Response
       console.log('Discovery Response')
-      // EventBus.$emit('Device-Discovered', packetData.toString().substr(4), remoteIP)
       const mac = packetData.toString().substr(4).split(',')[0]
       const device = {
         id: mac,
         remoteIP,
-        uiString: null
+        ui: null,
+        active: false
       }
 
       console.log(device)
