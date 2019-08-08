@@ -1,7 +1,7 @@
 <template>
   <div id="content">
     <PacketSender></PacketSender>    
-    <DisplayGenerator style="border: 1px solid red;"></DisplayGenerator>
+    <DisplayGenerator></DisplayGenerator>
   </div>
 </template>
 
@@ -21,7 +21,7 @@
     width: 100%;
   }
 
-  h3, h2, h1, p {
+  h4, h3, h2, h1, p {
     color: white;
   }
 </style>

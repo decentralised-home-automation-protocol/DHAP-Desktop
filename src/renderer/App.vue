@@ -18,7 +18,7 @@
 
 <style>
   #app {
-    background: rgb(30, 30, 30);
+    background: #212121;
     align-items: stretch;
     display: flex;
     width: 100%;

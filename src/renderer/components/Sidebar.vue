@@ -1,11 +1,15 @@
 <template>
   <nav id="sidebar" >
+    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative&display=swap" rel="stylesheet">
     <div class="sidebar-header">
-      <h3>Decentralised Home Automation</h3>
+      <h4>Decentralised</h4>
+      <h4>Home</h4>
+      <h4>Automation</h4>
+      <h4>Protocol</h4>
     </div>
 
     <ul class="list-unstyled components">
-      <li>          
+      <li id="discover">          
           <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
       </li>
       <li v-for="device in devices" :key="device.deviceMac" id="device">
@@ -41,23 +45,34 @@
 
 <style>
   #sidebar {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 230px;
+    max-width: 230px;
     min-height: 100vh;
-    border-right: 1px solid #545a5f;    
+    border-right: 1px solid #9E9E9E;    
   }
 
   #sidebar {
-    background: rgb(50, 50, 50);
+    background: #424242;
     transition: all 0.3s;
   }
 
   #sidebar .sidebar-header {
-    padding: 20px;
+    padding: 10px;
+  }
+
+  #sidebar .sidebar-header h4 {
+    margin: 0px;
+    font-family: 'Cinzel Decorative', cursive;
+  }
+
+  #sidebar .sidebar-header h4::first-letter {
+    font-size: 150%;
   }
 
   #sidebar ul.components {
-    border-top: 1px solid #545a5f;
+    border-top: 1px solid #9E9E9E;
+    border-bottom: 1px solid #616161;
+
   }
 
   #sidebar ul li {
@@ -69,11 +84,20 @@
   }
 
   #sidebar ul li:hover {
-    background: #4c545c;
+    background: #616161;
   }
 
   #device {
-    background: #3b4147;
     text-align: right;
+    border-top: 1px solid #616161;
+  }
+
+  #device button {
+    margin-left: 10px;
+  }
+
+
+  #discover {
+    text-align: center;
   }
 </style>
