@@ -24,7 +24,8 @@
     name: 'Sidebar',
     data: function () {
       return {
-        devices: []
+        devices: [],
+        deviceMacs: []
       }
     },
     methods: {
@@ -39,7 +40,8 @@
     },
     mounted () {
       EventBus.$on('Device-Discovered', (device, remoteIP) => {
-        if (!this.devices.includes(device)) {
+        if (!this.deviceMacs.includes(device)) {
+          this.deviceMacs.push(device)
           this.devices.push({deviceMac: device, deviceIP: remoteIP})
           console.log(remoteIP)
         }
