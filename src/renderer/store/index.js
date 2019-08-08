@@ -18,18 +18,18 @@ export default new Vuex.Store({
     deviceDiscovered ({ commit }, payload) {
       commit('newDevice', payload)
     },
-
     sendPacket ({ commit }, payload) {
       console.log(`Sending: ${payload}...`)
       server.send(payload, 8888, '192.168.1.255')
     },
-
     getUI ({ commit }, payload) {
       server.send(payload.data, 8888, payload.ip)
     },
-
-    gotUI ({ commit, state }, payload) {
+    gotUI ({ commit }, payload) {
       commit('newUI', payload)
+    },
+    deactivateDevice ({ commit }, id) {
+      commit('deactivateDevice', id)
     }
   },
   mutations: {
@@ -45,6 +45,21 @@ export default new Vuex.Store({
         device.active = true
         state.layout.push({ 'x': 0, 'y': 0, 'w': 5, 'h': 22, 'i': device.id })
       }
+    },
+    deactivateDevice (state, id) {
+      const device = state.devices.find(d => {
+        return d.id === id
+      })
+      device.active = false
+      var filtered = state.layout.filter(function (value, index, arr) {
+        return value.i !== device.id
+      })
+      state.layout = filtered
+    }
+  },
+  getters: {
+    layoutById: (state) => (id) => {
+      return state.layout.find(layout => layout.i === id)
     }
   }
 })

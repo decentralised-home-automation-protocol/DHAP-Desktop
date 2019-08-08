@@ -9,6 +9,7 @@
           <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
       </li>
       <li v-for="device in devices" :key="device.deviceMac" id="device">
+          <i class="fas fa-eye" v-if="device.active" @click="deactivate(device.id)"></i>
           {{device.remoteIP}}
           <button type="button" class="btn btn-outline-light"  @click="getUI(device.remoteIP, device.id)"><i class="fas fa-chevron-right"></i></button>
       </li>
@@ -30,6 +31,9 @@
       },
       getUI (ip, mac) {
         this.$store.dispatch('getUI', { data: '200', ip })
+      },
+      deactivate (id) {
+        this.$store.dispatch('deactivateDevice', id)
       }
     }
   }

@@ -6,9 +6,9 @@
       :colNum="25"
     >
 
-    <div v-for="(device, index) in devices" :key="device.id" >
-      <div v-if="device.active">
-        <grid-item :x="layout[index].x" :y="layout[index].y" :w="layout[index].w" :h="layout[index].h" :i="layout[index].i" style="border: 1px solid red;">
+    <div v-for="device in devices" :key="device.id" >
+      <div v-if="device.active && layoutById(device.id)">
+        <grid-item :x="layoutById(device.id).x" :y="layoutById(device.id).y" :w="layoutById(device.id).w" :h="layoutById(device.id).h" :i="layoutById(device.id).i" style="border: 1px solid red;">
           <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type" v-bind:values="element.displaySettings"></component>
         </grid-item>
       </div>
@@ -32,6 +32,7 @@
   import textinput from '../Elements/textinput'
   import '../XmlParser'
   import VueGridLayout from 'vue-grid-layout'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'DisplayGenerator',
@@ -52,6 +53,9 @@
       GridItem: VueGridLayout.GridItem
     },
     computed: {
+      ...mapGetters([
+        'layoutById'
+      ]),
       devices () {
         return this.$store.state.devices
       },

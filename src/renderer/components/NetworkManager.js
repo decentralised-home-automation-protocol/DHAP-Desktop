@@ -54,8 +54,6 @@ function handleIncomingPacket (packetData, remoteIP) {
         active: false
       }
 
-      console.log(device)
-
       store.default.dispatch('deviceDiscovered', device)
       break
     case '510':
