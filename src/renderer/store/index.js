@@ -3,15 +3,27 @@ import Vuex from 'vuex'
 
 import { createPersistedState, createSharedMutations } from 'vuex-electron'
 
-import modules from './modules'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules,
+  state: {
+    data: 0
+  },
+  actions: {
+    addTodo ({ commit }, text) {
+      commit('addTodo', {
+        text,
+        done: false
+      })
+    }
+  },
+  mutations: {
+    addTodo (state, todo) {
+      state.todos.push(todo)
+    }
+  },
   plugins: [
     createPersistedState(),
     createSharedMutations()
-  ],
-  strict: process.env.NODE_ENV !== 'production'
+  ]
 })
