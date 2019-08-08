@@ -9,7 +9,7 @@ server.on('error', (err) => {
 
 server.on('message', (msg, rinfo) => {
   console.log(`server got: message from ${rinfo.address}:${rinfo.port}`)
-  handleIncomingPacket(msg)
+  handleIncomingPacket(msg, rinfo.address)
 })
 
 server.on('listening', () => {
@@ -19,7 +19,7 @@ server.on('listening', () => {
 
 server.bind(8888)
 
-function handleIncomingPacket (packetData) {
+function handleIncomingPacket (packetData, remoteIP) {
   var responseType = packetData.toString().substring(0, 3)
   switch (responseType) {
     case '110':
@@ -39,7 +39,7 @@ function handleIncomingPacket (packetData) {
     case '310':
       // Discovery: Discovery Response
       console.log('Discovery Response')
-      EventBus.$emit('Device-Discovered', packetData.toString().substr(4))
+      EventBus.$emit('Device-Discovered', packetData.toString().substr(4), remoteIP)
       break
     case '510':
       // Status: Request Response
