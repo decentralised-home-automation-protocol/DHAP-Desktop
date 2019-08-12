@@ -21,12 +21,12 @@
             </div>
             <div class="col-2">
               <div v-if="device.active">
-                <button type="button" class="btn btn-outline-light" @click="deactivate(device.id)">
+                <button type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
                   <i class="fas fa-times"></i>
                 </button>
               </div>
               <div v-else>
-                <button type="button" class="btn btn-outline-light" @click="getUI(device.remoteIP, device.id)">
+                <button type="button" class="btn btn-outline-success" @click="getUI(device.remoteIP, device.id)">
                   <i class="fas fa-chevron-right"></i>
                 </button>
               </div>
