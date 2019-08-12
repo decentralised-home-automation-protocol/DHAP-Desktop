@@ -2,6 +2,14 @@ const dgram = require('dgram')
 export const server = dgram.createSocket('udp4')
 const xmlParser = require('./XmlParser')
 const store = require('../store')
+const sameCensusListMax = 5
+const noResponseMax = 3
+
+var listeningForDiscoveryStart = 0
+var discoveryResponseRecieved = false
+var noResponseCount = 0
+var sameListBroadcastCount = 0
+var censusList = ''
 
 server.on('error', (err) => {
   console.log(`server error:\n${err.stack}`)
@@ -19,6 +27,45 @@ server.on('listening', () => {
 })
 
 server.bind(8888)
+
+export function startDiscovery () {
+  listeningForDiscoveryStart = (new Date()).getTime()
+  discoveryResponseRecieved = false
+  var payload = getPacketData()
+  server.send(payload, 8888, '192.168.1.255')
+
+  if (payload === censusList) {
+    sameListBroadcastCount++
+  }
+  censusList = payload
+
+  if (sameListBroadcastCount < sameCensusListMax) {
+    setTimeout(function () {
+      if (!discoveryResponseRecieved) {
+        noResponseCount++
+        if (noResponseCount < noResponseMax) {
+          startDiscovery()
+        }
+      } else {
+        noResponseCount = 0
+        startDiscovery()
+      }
+    }, 1000)
+  }
+}
+
+function getPacketData () {
+  const devices = store.default.state.devices
+  var payload = '300|'
+  for (var i = 0; i < devices.length; i++) {
+    if (i > 0) {
+      payload += '-'
+    }
+    payload += devices[i].id + ',' + devices[i].remoteIP + ',' + devices[i].statusBit + ',' + devices[i].visibilityBit
+  }
+
+  return payload
+}
 
 function handleIncomingPacket (packetData, remoteIP) {
   var responseType = packetData.toString().substring(0, 3)
@@ -45,16 +92,22 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '310':
       // Discovery: Discovery Response
-      console.log('Discovery Response')
-      const mac = packetData.toString().substr(4).split(',')[0]
-      const device = {
-        id: mac,
-        remoteIP,
-        ui: null,
-        active: false
-      }
+      if ((new Date()).getTime() - listeningForDiscoveryStart <= 1000) {
+        discoveryResponseRecieved = true
+        console.log('Discovery Response')
+        var info = packetData.toString().substr(4).split(',')
+        const device = {
+          id: info[0],
+          remoteIP,
+          ui: null,
+          statusBit: info[1],
+          visibilityBit: info[2],
+          lastContactDate: new Date(),
+          active: false
+        }
 
-      store.default.dispatch('deviceDiscovered', device)
+        store.default.dispatch('deviceDiscovered', device)
+      }
       break
     case '510':
       // Status: Request Response

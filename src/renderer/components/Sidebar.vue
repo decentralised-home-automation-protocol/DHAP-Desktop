@@ -31,7 +31,7 @@
     },
     methods: {
       discovery () {
-        this.$store.dispatch('sendPacket', '300')
+        this.$store.dispatch('startDiscovery')
       },
       getUI (ip, mac) {
         this.$store.dispatch('getUI', { data: '200', ip })

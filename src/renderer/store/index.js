@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { server } from '../components/NetworkManager'
+import { startDiscovery, server } from '../components/NetworkManager'
 
 Vue.use(Vuex)
 
@@ -9,7 +9,13 @@ export default new Vuex.Store({
     /* {
       id: <MAC Address>,
       remoteIP: <IP Address>,
-      ui: "..."
+      ui: "...",
+      statusBit: Number,
+      visibilityBit: Number,
+      lastContactDate: String,
+      active: Boolean,
+      name: String,
+      room: String
     } */
     devices: [],
     layout: []
@@ -24,6 +30,10 @@ export default new Vuex.Store({
     sendPacket ({ commit }, payload) {
       console.log(`Sending: ${payload}...`)
       server.send(payload, 8888, '192.168.1.255')
+    },
+    startDiscovery ({ commit }) {
+      console.log(`Starting discovery...`)
+      startDiscovery()
     },
     getUI ({ commit }, payload) {
       server.send(payload.data, 8888, payload.ip)
