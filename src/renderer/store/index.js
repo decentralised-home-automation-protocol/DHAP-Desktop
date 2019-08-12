@@ -43,6 +43,9 @@ export default new Vuex.Store({
     },
     deactivateDevice ({ commit }, id) {
       commit('deactivateDevice', id)
+    },
+    addDeviceNameAndRoom ({ commit }, data) {
+      commit('addDeviceNameAndRoom', data)
     }
   },
   mutations: {
@@ -68,6 +71,11 @@ export default new Vuex.Store({
         return value.i !== device.id
       })
       state.layout = filtered
+    },
+    addDeviceNameAndRoom (state, data) {
+      const device = state.devices.find(device => device.id === data.mac)
+      device.name = data.name
+      device.room = data.room
     }
   },
   getters: {

@@ -12,10 +12,27 @@
       <li id="discover">          
           <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
       </li>
-      <li v-for="device in devices" :key="device.deviceMac" id="device">
-          <i class="fas fa-eye" v-if="device.active" @click="deactivate(device.id)"></i>
-          {{device.remoteIP}}
-          <button type="button" class="btn btn-outline-light"  @click="getUI(device.remoteIP, device.id)"><i class="fas fa-chevron-right"></i></button>
+      <li v-for="device in devices" :key="device.deviceMac" id="device"> 
+        <div class="container-fluid">
+          <div class="row">       
+            <div class="col-9">
+              <div v-if="device.name">{{device.name}}</div>
+              <div v-else>{{device.remoteIP}}</div>
+            </div>
+            <div class="col-2">
+              <div v-if="device.active">
+                <button type="button" class="btn btn-outline-light" @click="deactivate(device.id)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div v-else>
+                <button type="button" class="btn btn-outline-light" @click="getUI(device.remoteIP, device.id)">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
   </nav>
@@ -72,7 +89,6 @@
   #sidebar ul.components {
     border-top: 1px solid #9E9E9E;
     border-bottom: 1px solid #616161;
-
   }
 
   #sidebar ul li {
@@ -88,14 +104,13 @@
   }
 
   #device {
-    text-align: right;
     border-top: 1px solid #616161;
+    display: inline;
   }
 
-  #device button {
-    margin-left: 10px;
+  #elements {
+    margin: 0px;
   }
-
 
   #discover {
     text-align: center;

@@ -45,13 +45,22 @@ export function startDiscovery () {
         noResponseCount++
         if (noResponseCount < noResponseMax) {
           startDiscovery()
+        } else {
+          getDeviceHeaders()
         }
       } else {
         noResponseCount = 0
         startDiscovery()
       }
     }, 1000)
+  } else {
+    getDeviceHeaders()
   }
+}
+
+function getDeviceHeaders () {
+  console.log('once')
+  server.send('320', 8888, '192.168.1.255')
 }
 
 function getPacketData () {
@@ -103,11 +112,20 @@ function handleIncomingPacket (packetData, remoteIP) {
           statusBit: info[1],
           visibilityBit: info[2],
           lastContactDate: new Date(),
-          active: false
+          active: false,
+          name: null,
+          room: null
         }
 
         store.default.dispatch('deviceDiscovered', device)
       }
+      break
+    case '330':
+      // Discovery: Discovery Header Response
+      console.log(packetData.toString().substr(4))
+      var header = packetData.toString().substr(4).split(',')
+
+      store.default.dispatch('addDeviceNameAndRoom', {mac: header[0], name: header[1], room: header[2]})
       break
     case '510':
       // Status: Request Response
