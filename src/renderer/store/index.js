@@ -29,6 +29,7 @@ export default new Vuex.Store({
       }
     },
     iotCommand ({ commit }, data) {
+      // TODO: send update to ESP
       commit('updateElementStatus', { device: data.device, elementId: data.id, status: data.status })
     },
     sendPacket ({ commit }, payload) {
@@ -69,7 +70,8 @@ export default new Vuex.Store({
   },
   mutations: {
     updateElementStatus (state, update) {
-      if (update.device != null) {
+      console.log(update)
+      if (update.device != null && update.device.ui != null) {
         const element = update.device.ui.find(d => {
           return d.id === update.elementId
         })
@@ -180,6 +182,9 @@ export default new Vuex.Store({
     },
     isDeviceActive: (state) => (mac) => {
       const device = state.devices.find(d => d.id === mac)
+      if (device == null) {
+        return false
+      }
       return device.active === true
     },
     devicesByMac: (state) => (mac) => {

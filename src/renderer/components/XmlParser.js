@@ -24,7 +24,7 @@ const getElementsFromXML = (xml) => {
         id: group.$.id + '-' + element.$.id,
         type: elementType,
         displaySettings: element.disp_settings[0].toString(),
-        state: {}
+        state: null
       })
     }
   }

@@ -9,18 +9,25 @@
   export default {
     name: 'status',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: false
     },
     data: function () {
       return {
-        label: '',
-        value: ''
+        label: ''
       }
     },
     mounted () {
       var dispSettings = this.displaySettings.split(',')
       if (dispSettings[0] !== '~') {
         this.label = dispSettings[0]
+      }
+    },
+    computed: {
+      value () {
+        return this.state
       }
     }
   }

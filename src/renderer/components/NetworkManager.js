@@ -74,7 +74,7 @@ export function sendPacketToIP (data, ip) {
 
 function requestStatusLease (remoteIP) {
   console.log(remoteIP)
-  sendPacketToIP('500|300000,2000,F', remoteIP)
+  sendPacketToIP('500|10000,2000,F', remoteIP)
 }
 
 function getPacketData () {

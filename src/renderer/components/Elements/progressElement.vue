@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{label}}</h2>
-    <progress value="35" max="100"></progress>
+    <progress :value="value" max="100"></progress>
   </div>
 </template>
 
@@ -9,7 +9,10 @@
   export default {
     name: 'progressElement',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: Number
     },
     data: function () {
       return {
@@ -20,6 +23,11 @@
       var dispSettings = this.displaySettings.split(',')
       if (dispSettings[0] !== '~') {
         this.label = dispSettings[0]
+      }
+    },
+    computed: {
+      value () {
+        return this.state === 'true'
       }
     }
   }

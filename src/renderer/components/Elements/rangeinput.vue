@@ -6,7 +6,8 @@
       </div>
       <input class="form-control" type="number" v-model="value">
       <div class="input-group-append">
-        <button class="btn btn-outline-primary">{{buttonLabel}}</button>
+        <button v-if="synced" class="btn btn-outline-success" @click="submit()">{{buttonLabel}}</button>
+        <button v-else class="btn btn-outline-danger" @click="submit()">{{buttonLabel}}</button>
       </div>
     </div>
     <input id="slider" type="range" :min="min" :max="max" v-model="value">
@@ -17,7 +18,10 @@
   export default {
     name: 'rangeinput',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: 0
     },
     data: function () {
       return {
@@ -37,6 +41,23 @@
       this.min = dispSettings[2]
       this.value = dispSettings[2]
       this.max = dispSettings[3]
+    },
+    methods: {
+      submit () {
+        this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value})
+      }
+    },
+    computed: {
+      currentValue () {
+        if (isNaN(this.state) || this.state == null) {
+          return 0
+        } else {
+          return parseInt(this.state)
+        }
+      },
+      synced () {
+        return this.currentValue === parseInt(this.value)
+      }
     }
   }
 </script>

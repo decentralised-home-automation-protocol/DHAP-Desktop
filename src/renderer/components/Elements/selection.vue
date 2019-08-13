@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>{{label}}</h2>
-    <select>
-      <option v-for="option in options" :key="option">{{option}}</option>
+    <select @change="onChange($event)">
+      <option v-for="(option, index) in options" :key="option" :value="index" :selected="isSelected(index)">{{option}}</option>
     </select>
   </div>
 </template>
@@ -11,7 +11,10 @@
   export default {
     name: 'selection',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: Number
     },
     data: function () {
       return {
@@ -27,6 +30,23 @@
 
       for (var i = 1; i < dispSettings.length; i++) {
         this.options.push(dispSettings[i])
+      }
+    },
+    methods: {
+      isSelected (index) {
+        return index === this.selected
+      },
+      onChange (event) {
+        this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: parseInt(event.target.value)})
+      }
+    },
+    computed: {
+      selected () {
+        if (isNaN(this.state) || this.state == null) {
+          return 0
+        } else {
+          return parseInt(this.state)
+        }
       }
     }
   }

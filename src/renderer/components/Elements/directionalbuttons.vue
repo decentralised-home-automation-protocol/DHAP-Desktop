@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button class="btn btn-primary">{{topLabel}}</button>
-    <button class="btn btn-primary">{{rightLabel}}</button>
-    <button class="btn btn-primary">{{bottomLabel}}</button>
-    <button class="btn btn-primary">{{leftLabel}}</button>
-    <button class="btn btn-primary" v-if="centreLabel">{{centreLabel}}</button>
+    <button class="btn btn-primary" @click="pressed(0)">{{topLabel}}</button>
+    <button class="btn btn-primary" @click="pressed(1)">{{rightLabel}}</button>
+    <button class="btn btn-primary" @click="pressed(2)">{{bottomLabel}}</button>
+    <button class="btn btn-primary" @click="pressed(3)">{{leftLabel}}</button>
+    <button class="btn btn-primary" @click="pressed(4)" v-if="centreLabel">{{centreLabel}}</button>
     <h2>{{label}}</h2>
   </div>
 </template>
@@ -13,7 +13,10 @@
   export default {
     name: 'directionalbuttons',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: Number
     },
     data: function () {
       return {
@@ -35,6 +38,11 @@
       this.bottomLabel = dispSettings[3]
       this.leftLabel = dispSettings[4]
       this.centreLabel = dispSettings[5]
+    },
+    methods: {
+      pressed (buttonNum) {
+        this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: buttonNum})
+      }
     }
   }
 </script>

@@ -17,25 +17,29 @@
   export default {
     name: 'stepper',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: 0
     },
     data: function () {
       return {
         label: '',
-        value: 0,
         max: 100,
         min: 0
       }
     },
     methods: {
       increment () {
-        if (this.value < this.max) {
-          this.value++
+        console.log(this.value)
+        if (this.value <= this.max) {
+          this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value + 1})
         }
       },
       decrement () {
-        if (this.value > this.min) {
-          this.value--
+        console.log(this.value)
+        if (this.value >= this.min) {
+          this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value - 1})
         }
       }
     },
@@ -46,6 +50,15 @@
       }
       this.min = dispSettings[1]
       this.max = dispSettings[2]
+    },
+    computed: {
+      value () {
+        if (isNaN(this.state) || this.state == null) {
+          return 0
+        } else {
+          return parseInt(this.state)
+        }
+      }
     }
   }
 </script>

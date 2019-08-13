@@ -30,10 +30,8 @@
     methods: {
       toggle () {
         if (this.value) {
-          console.log('setting to false')
           this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'false'})
         } else {
-          console.log('setting to true')
           this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'true'})
         }
       }

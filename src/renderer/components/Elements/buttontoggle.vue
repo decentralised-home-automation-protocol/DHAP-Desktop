@@ -9,12 +9,14 @@
   export default {
     name: 'buttontoggle',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: false
     },
     data: function () {
       return {
         label: '',
-        state: false,
         positiveLabel: '',
         negativeLabel: ''
       }
@@ -29,16 +31,25 @@
     },
     methods: {
       buttonClicked () {
-        this.state = !this.state
+        if (this.value) {
+          console.log('setting false')
+          this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'false'})
+        } else {
+          console.log('setting true')
+          this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'true'})
+        }
       }
     },
     computed: {
       buttonLabel: function () {
-        if (this.state) {
+        if (this.value) {
           return this.positiveLabel
         } else {
           return this.negativeLabel
         }
+      },
+      value () {
+        return this.state === 'true'
       }
     }
   }

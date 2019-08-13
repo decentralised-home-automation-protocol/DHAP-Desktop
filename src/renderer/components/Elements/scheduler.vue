@@ -13,7 +13,10 @@
   export default {
     name: 'scheduler',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: String
     },
     data: function () {
       return {
