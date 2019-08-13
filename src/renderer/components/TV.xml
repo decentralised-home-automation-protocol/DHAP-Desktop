@@ -49,7 +49,7 @@
     <group id="5" permisison="WR">
         <gui_element id="1">
             <type>directionalbuttons</type>
-            <disp_settings>Direction,N,E,S,W,C</disp_settings>
+            <disp_settings>Direction,N,E,S,W</disp_settings>
             <status_location>1</status_location>
             <comment>Directional movement</comment>
         </gui_element>

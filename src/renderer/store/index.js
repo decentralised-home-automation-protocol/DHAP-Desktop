@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { startDiscovery, server } from '../components/NetworkManager'
+import { startDiscovery, sendPacketBroadcast, sendPacketToIP } from '../components/NetworkManager'
 
 Vue.use(Vuex)
 
@@ -28,32 +28,52 @@ export default new Vuex.Store({
         commit('newDevice', payload)
       }
     },
+    iotCommand ({ commit }, data) {
+      commit('updateElementStatus', { device: data.device, elementId: data.id, status: data.status })
+    },
     sendPacket ({ commit }, payload) {
       console.log(`Sending: ${payload}...`)
-      server.send(payload, 8888, '192.168.1.255')
+      sendPacketBroadcast(payload)
     },
     startDiscovery ({ commit }) {
       console.log(`Starting discovery...`)
       startDiscovery()
     },
     getUI ({ commit }, payload) {
-      server.send(payload.data, 8888, payload.ip)
+      sendPacketToIP(payload.data, payload.ip)
     },
     gotUI ({ commit }, payload) {
       commit('newUI', payload)
     },
     deactivateDevice ({ commit }, id) {
       commit('deactivateDevice', id)
-      server.send('520', 8888, this.getters.devicesByMac(id).remoteIP)
+      sendPacketToIP('520', this.getters.devicesByMac(id).remoteIP)
     },
     addDeviceNameAndRoom ({ commit }, data) {
       commit('addDeviceNameAndRoom', data)
     },
     debugDiscovery ({ commit }) {
       commit('debugDiscovery')
+    },
+    statusUpdate ({ commit }, status) {
+      const updates = status.split(',')
+      const mac = updates[0]
+      const device = this.getters.devicesByMac(mac)
+
+      for (var i = 1; i < updates.length; i++) {
+        const value = updates[i]
+        const updateData = value.split('=')
+        commit('updateElementStatus', {device, elementId: updateData[0], status: updateData[1]})
+      }
     }
   },
   mutations: {
+    updateElementStatus (state, update) {
+      const element = update.device.ui.find(d => {
+        return d.id === update.elementId
+      })
+      element.state = update.status
+    },
     newDevice (state, device) {
       state.devices.push(device)
     },
@@ -64,7 +84,7 @@ export default new Vuex.Store({
       device.ui = payload.ui
       if (!device.active) {
         device.active = true
-        state.layout.push({ 'x': 0, 'y': 0, 'w': 5, 'h': (device.ui.length * 2), 'i': device.id })
+        state.layout.push({ 'x': 0, 'y': 0, 'w': 10, 'h': (device.ui.length * 2), 'i': device.id })
       }
     },
     deactivateDevice (state, id) {

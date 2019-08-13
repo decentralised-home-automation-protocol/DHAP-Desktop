@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>{{label}}</h2>
-    <label class="switch">
-      <input type="checkbox" v-model="state">
+    <label class="switch" @click="toggle()">
+      <input type="checkbox" disabled v-model="value">
       <span class="slider round"></span>
     </label>
   </div>
@@ -12,17 +12,35 @@
   export default {
     name: 'switchtoggle',
     props: {
-      values: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: false
     },
     data: function () {
       return {
-        label: '',
-        state: false
+        label: ''
       }
     },
     mounted () {
-      if (this.values !== '~') {
-        this.label = this.values
+      if (this.displaySettings !== '~') {
+        this.label = this.displaySettings
+      }
+    },
+    methods: {
+      toggle () {
+        if (this.value) {
+          console.log('setting to false')
+          this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'false'})
+        } else {
+          console.log('setting to true')
+          this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'true'})
+        }
+      }
+    },
+    computed: {
+      value () {
+        return this.state === 'true'
       }
     }
   }

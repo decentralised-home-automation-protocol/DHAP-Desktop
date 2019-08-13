@@ -9,7 +9,7 @@
   export default {
     name: 'buttontoggle',
     props: {
-      values: String
+      displaySettings: String
     },
     data: function () {
       return {
@@ -20,7 +20,7 @@
       }
     },
     mounted () {
-      var dispSettings = this.values.split(',')
+      var dispSettings = this.displaySettings.split(',')
       if (dispSettings[0] !== '~') {
         this.label = dispSettings[0]
       }

@@ -18,8 +18,8 @@
 
 <script>
   const fs = require('fs')
-  // import { EventBus } from '../event-bus.js'
   // import { server } from './NetworkManager'
+  const xmlParser = require('../XmlParser')
 
   export default {
     name: 'landing-page',
@@ -36,7 +36,13 @@
   
         fs.readFile('src\\renderer\\components\\TV.xml', (err, data) => {
           if (err) throw err
-          // EventBus.$emit('New-UI-XML', data.toString())
+          const xml = data.toString()
+          xmlParser.parseXML(xml, ui => {
+            this.$store.dispatch('gotUI', {
+              ip: '192.168.1.108',
+              ui
+            })
+          })
         })
       }
     }

@@ -1,6 +1,11 @@
 <template>
   <div id="deviceUI">
-    <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type" v-bind:values="element.displaySettings"></component>
+    <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type"
+      v-bind:device="device" 
+      v-bind:displaySettings="element.displaySettings" 
+      v-bind:state="element.state" 
+      v-bind:id="element.id">
+    </component>
   </div>
 </template>
 

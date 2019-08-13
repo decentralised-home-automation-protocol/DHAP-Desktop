@@ -4,7 +4,7 @@
     <button class="btn btn-primary">{{rightLabel}}</button>
     <button class="btn btn-primary">{{bottomLabel}}</button>
     <button class="btn btn-primary">{{leftLabel}}</button>
-    <button class="btn btn-primary">{{centreLabel}}</button>
+    <button class="btn btn-primary" v-if="centreLabel">{{centreLabel}}</button>
     <h2>{{label}}</h2>
   </div>
 </template>
@@ -13,7 +13,7 @@
   export default {
     name: 'directionalbuttons',
     props: {
-      values: String
+      displaySettings: String
     },
     data: function () {
       return {
@@ -26,7 +26,7 @@
       }
     },
     mounted () {
-      var dispSettings = this.values.split(',')
+      var dispSettings = this.displaySettings.split(',')
       if (dispSettings[0] !== '~') {
         this.label = dispSettings[0]
       }

@@ -4,6 +4,8 @@ const xmlParser = require('./XmlParser')
 const store = require('../store')
 const sameCensusListMax = 5
 const noResponseMax = 3
+const broadcast = '192.168.1.255'
+const port = 8888
 
 var listeningForDiscoveryStart = 0
 var discoveryResponseRecieved = false
@@ -26,13 +28,13 @@ server.on('listening', () => {
   console.log(`server listening ${address.address}:${address.port}`)
 })
 
-server.bind(8888)
+server.bind(port)
 
 export function startDiscovery () {
   listeningForDiscoveryStart = (new Date()).getTime()
   discoveryResponseRecieved = false
   var payload = getPacketData()
-  server.send(payload, 8888, '192.168.1.255')
+  sendPacketBroadcast(payload)
 
   if (payload === censusList) {
     sameListBroadcastCount++
@@ -59,11 +61,20 @@ export function startDiscovery () {
 }
 
 function getDeviceHeaders () {
-  server.send('320', 8888, '192.168.1.255')
+  sendPacketBroadcast('320')
+}
+
+export function sendPacketBroadcast (data) {
+  server.send(data, port, broadcast)
+}
+
+export function sendPacketToIP (data, ip) {
+  server.send(data, port, ip)
 }
 
 function requestStatusLease (remoteIP) {
-  server.send('500|10000,2000,F', 8888, remoteIP)
+  console.log(remoteIP)
+  sendPacketToIP('500|300000,2000,F', remoteIP)
 }
 
 function getPacketData () {
@@ -142,6 +153,7 @@ function handleIncomingPacket (packetData, remoteIP) {
     case '540':
       // Status: Status Update
       console.log('Status Update: ' + packetData.toString().substr(4))
+      store.default.dispatch('statusUpdate', packetData.toString().substr(4))
       break
     default:
       // Unknown Packet Type
