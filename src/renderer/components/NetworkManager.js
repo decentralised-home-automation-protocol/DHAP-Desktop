@@ -62,6 +62,10 @@ function getDeviceHeaders () {
   server.send('320', 8888, '192.168.1.255')
 }
 
+function requestStatusLease (remoteIP) {
+  server.send('500|10000,2000,F', 8888, remoteIP)
+}
+
 function getPacketData () {
   const devices = store.default.state.devices
   var payload = '300|'
@@ -97,6 +101,8 @@ function handleIncomingPacket (packetData, remoteIP) {
           ui
         })
       })
+
+      requestStatusLease(remoteIP)
       break
     case '310':
       // Discovery: Discovery Response
@@ -129,9 +135,13 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '530':
       // Status: Lease Expired
+      if (store.default.getters.isDeviceActive(packetData.toString().substr(4))) {
+        requestStatusLease(remoteIP)
+      }
       break
     case '540':
       // Status: Status Update
+      console.log('Status Update: ' + packetData.toString().substr(4))
       break
     default:
       // Unknown Packet Type

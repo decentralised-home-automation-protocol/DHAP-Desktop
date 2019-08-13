@@ -44,6 +44,7 @@ export default new Vuex.Store({
     },
     deactivateDevice ({ commit }, id) {
       commit('deactivateDevice', id)
+      server.send('520', 8888, this.getters.devicesByMac(id).remoteIP)
     },
     addDeviceNameAndRoom ({ commit }, data) {
       commit('addDeviceNameAndRoom', data)
@@ -152,6 +153,13 @@ export default new Vuex.Store({
       return state.devices.filter(function (value, index, arr) {
         return room === value.room
       })
+    },
+    isDeviceActive: (state) => (mac) => {
+      const device = state.devices.find(d => d.id === mac)
+      return device.active === true
+    },
+    devicesByMac: (state) => (mac) => {
+      return state.devices.find(d => d.id === mac)
     }
   }
 })
