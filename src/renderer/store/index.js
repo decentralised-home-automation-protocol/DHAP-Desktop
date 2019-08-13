@@ -69,10 +69,14 @@ export default new Vuex.Store({
   },
   mutations: {
     updateElementStatus (state, update) {
-      const element = update.device.ui.find(d => {
-        return d.id === update.elementId
-      })
-      element.state = update.status
+      if (update.device != null) {
+        const element = update.device.ui.find(d => {
+          return d.id === update.elementId
+        })
+        if (element != null) {
+          element.state = update.status
+        }
+      }
     },
     newDevice (state, device) {
       state.devices.push(device)
