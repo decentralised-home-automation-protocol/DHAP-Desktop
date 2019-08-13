@@ -39,7 +39,7 @@
           const xml = data.toString()
           xmlParser.parseXML(xml, ui => {
             this.$store.dispatch('gotUI', {
-              ip: '192.168.1.108',
+              ip: ipaddress,
               ui
             })
           })
