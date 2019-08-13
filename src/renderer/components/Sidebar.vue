@@ -8,53 +8,40 @@
       <h4>Protocol</h4>
     </div>
 
-    <ul class="list-unstyled components">
-      <li id="discover">          
-          <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
-      </li>
-      <li v-for="device in devices" :key="device.deviceMac" id="device"> 
-        <div class="container-fluid">
-          <div class="row">       
-            <div class="col-9">
-              <div v-if="device.name">{{device.name}}</div>
-              <div v-else>{{device.remoteIP}}</div>
-            </div>
-            <div class="col-2">
-              <div v-if="device.active">
-                <button type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-              <div v-else>
-                <button type="button" class="btn btn-outline-success" @click="getUI(device.remoteIP, device.id)">
-                  <i class="fas fa-chevron-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <div id="list">
+      <div id="discover">          
+        <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
+      </div>
+      <div id="discover">          
+        <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
+      </div>
+
+      <div v-for="room in rooms" :key="room">
+        <Room :roomName="room"></Room>
+      </div>
+    </div>
   </nav>
 </template>
 
 <script>
+  import Room from './Sidebar/Room'
+
   export default {
     name: 'Sidebar',
+    components: {
+      Room
+    },
     computed: {
-      devices () {
-        return this.$store.state.devices
+      rooms () {
+        return this.$store.state.rooms
       }
     },
     methods: {
       discovery () {
         this.$store.dispatch('startDiscovery')
       },
-      getUI (ip, mac) {
-        this.$store.dispatch('getUI', { data: '200', ip })
-      },
-      deactivate (id) {
-        this.$store.dispatch('deactivateDevice', id)
+      debugDiscovery () {
+        this.$store.dispatch('debugDiscovery')
       }
     }
   }
@@ -86,33 +73,13 @@
     font-size: 150%;
   }
 
-  #sidebar ul.components {
+  #list {
     border-top: 1px solid #9E9E9E;
     border-bottom: 1px solid #616161;
   }
 
-  #sidebar ul li {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-    text-decoration: none;
-    color: whitesmoke
-  }
-
-  #sidebar ul li:hover {
-    background: #616161;
-  }
-
-  #device {
-    border-top: 1px solid #616161;
-    display: inline;
-  }
-
-  #elements {
-    margin: 0px;
-  }
-
   #discover {
     text-align: center;
+    padding: 10px;
   }
 </style>

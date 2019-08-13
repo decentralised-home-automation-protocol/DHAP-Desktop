@@ -18,6 +18,7 @@ export default new Vuex.Store({
       room: String
     } */
     devices: [],
+    rooms: [],
     layout: []
   },
   actions: {
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     addDeviceNameAndRoom ({ commit }, data) {
       commit('addDeviceNameAndRoom', data)
+    },
+    debugDiscovery ({ commit }) {
+      commit('debugDiscovery')
     }
   },
   mutations: {
@@ -59,7 +63,7 @@ export default new Vuex.Store({
       device.ui = payload.ui
       if (!device.active) {
         device.active = true
-        state.layout.push({ 'x': 0, 'y': 0, 'w': 5, 'h': 22, 'i': device.id })
+        state.layout.push({ 'x': 0, 'y': 0, 'w': 5, 'h': (device.ui.length * 2), 'i': device.id })
       }
     },
     deactivateDevice (state, id) {
@@ -76,11 +80,78 @@ export default new Vuex.Store({
       const device = state.devices.find(device => device.id === data.mac)
       device.name = data.name
       device.room = data.room
+
+      if (!state.rooms.includes(data.room)) {
+        state.rooms.push(data.room)
+      }
+    },
+    debugDiscovery (state) {
+      const device = {
+        id: '00:0a:95:9d:68:16',
+        remoteIP: '192.168.1.108',
+        ui: null,
+        statusBit: 0,
+        visibilityBit: 0,
+        lastContactDate: new Date(),
+        active: false,
+        name: 'TV',
+        room: 'Living Room'
+      }
+
+      const device2 = {
+        id: '00:0a:95:9d:68:17',
+        remoteIP: '192.168.1.102',
+        ui: null,
+        statusBit: 0,
+        visibilityBit: 0,
+        lastContactDate: new Date(),
+        active: false,
+        name: 'Xbox',
+        room: 'Living Room'
+      }
+
+      const device3 = {
+        id: '00:0a:95:9d:68:18',
+        remoteIP: '192.168.1.103',
+        ui: null,
+        statusBit: 0,
+        visibilityBit: 0,
+        lastContactDate: new Date(),
+        active: false,
+        name: 'Garage Door',
+        room: 'Garage'
+      }
+
+      const device4 = {
+        id: '00:0a:95:9d:68:19',
+        remoteIP: '192.168.1.101',
+        ui: null,
+        statusBit: 0,
+        visibilityBit: 0,
+        lastContactDate: new Date(),
+        active: false,
+        name: 'Lights',
+        room: 'Kitchen'
+      }
+
+      state.devices.push(device)
+      state.devices.push(device2)
+      state.devices.push(device3)
+      state.devices.push(device4)
+
+      state.rooms.push('Living Room')
+      state.rooms.push('Garage')
+      state.rooms.push('Kitchen')
     }
   },
   getters: {
     layoutById: (state) => (id) => {
       return state.layout.find(layout => layout.i === id)
+    },
+    devicesByRoom: (state) => (room) => {
+      return state.devices.filter(function (value, index, arr) {
+        return room === value.room
+      })
     }
   }
 })

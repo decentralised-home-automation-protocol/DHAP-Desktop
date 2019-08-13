@@ -59,7 +59,6 @@ export function startDiscovery () {
 }
 
 function getDeviceHeaders () {
-  console.log('once')
   server.send('320', 8888, '192.168.1.255')
 }
 
@@ -122,9 +121,7 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '330':
       // Discovery: Discovery Header Response
-      console.log(packetData.toString().substr(4))
       var header = packetData.toString().substr(4).split(',')
-
       store.default.dispatch('addDeviceNameAndRoom', {mac: header[0], name: header[1], room: header[2]})
       break
     case '510':
