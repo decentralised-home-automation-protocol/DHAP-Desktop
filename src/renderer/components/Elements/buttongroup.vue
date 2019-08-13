@@ -2,7 +2,7 @@
   <div>
     <h2>{{label}}</h2>
     <div class="btn-group" role="group" aria-label="Basic example" >
-      <button v-for="button in buttons" v-bind:key="button.id" type="button" class="btn btn-primary btn-lg">{{button}}</button>
+      <button v-for="(button,index) in buttons" v-bind:key="button.id" type="button" class="btn btn-primary btn-lg" @click="clicked(index)">{{button}}</button>
     </div>
   </div>
 </template>
@@ -11,7 +11,10 @@
   export default {
     name: 'buttongroup',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: Number
     },
     data: function () {
       return {
@@ -27,6 +30,11 @@
 
       for (var i = 1; i < dispSettings.length; i++) {
         this.buttons.push(dispSettings[i])
+      }
+    },
+    methods: {
+      clicked (index) {
+        this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: index})
       }
     }
   }

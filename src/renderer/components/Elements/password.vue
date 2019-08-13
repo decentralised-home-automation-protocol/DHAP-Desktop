@@ -4,9 +4,9 @@
       <div class="input-group-prepend" v-if="label">
         <span class="input-group-text" id="basic-addon1">{{label}}</span>
       </div>
-      <input class="form-control" type="password">
+      <input class="form-control" type="password" v-model="value">
       <div class="input-group-append">
-        <button class="btn btn-outline-primary">{{buttonLabel}}</button>
+        <button class="btn btn-outline-primary" @click="clicked()">{{buttonLabel}}</button>
       </div>
     </div>
   </div>
@@ -16,12 +16,16 @@
   export default {
     name: 'password',
     props: {
-      displaySettings: String
+      device: Object,
+      displaySettings: String,
+      id: String,
+      state: String
     },
     data: function () {
       return {
         label: '',
-        buttonLabel: ''
+        buttonLabel: '',
+        value: ''
       }
     },
     mounted () {
@@ -31,6 +35,11 @@
       }
 
       this.buttonLabel = dispSettings[1]
+    },
+    methods: {
+      clicked () {
+        this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value})
+      }
     }
   }
 </script>

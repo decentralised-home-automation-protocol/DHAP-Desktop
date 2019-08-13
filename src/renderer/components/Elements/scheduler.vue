@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>{{label}}</h2>
-    <select>
-      <option v-for="option in options" :key="option">{{option}}</option>
+    <select @change="onChange($event)">
+      <option v-for="(option, index) in options" :key="option" :value="index" :selected="isSelected(index)">{{option}}</option>
     </select>
     <button class="btn btn-primary">{{time}}</button>
     <button class="btn btn-primary">{{buttonLabel}}</button>
@@ -22,8 +22,7 @@
       return {
         label: '',
         buttonLabel: '',
-        options: [],
-        time: '12:00AM'
+        options: []
       }
     },
     mounted () {
@@ -34,6 +33,33 @@
       this.buttonLabel = dispSettings[1]
       for (var i = 2; i < dispSettings.length; i++) {
         this.options.push(dispSettings[i])
+      }
+    },
+    methods: {
+      isSelected (index) {
+        return index === this.selected
+      },
+      onChange (event) {
+        const status = event.target.value + '?' + this.time
+        this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: status})
+      }
+    },
+    computed: {
+      time () {
+        if (this.state == null) {
+          return '12:00AM'
+        } else {
+          const vals = this.state.toString().split('?')
+          return vals[1]
+        }
+      },
+      selected () {
+        if (this.state == null) {
+          return 0
+        } else {
+          const vals = this.state.toString().split('?')
+          return parseInt(vals[0])
+        }
       }
     }
   }
