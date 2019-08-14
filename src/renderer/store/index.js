@@ -56,13 +56,10 @@ export default new Vuex.Store({
     debugDiscovery ({ commit }) {
       commit('debugDiscovery')
     },
-    statusUpdate ({ commit }, status) {
-      const updates = status.split(',')
-      const mac = updates[0]
-      const device = this.getters.devicesByMac(mac)
-
-      for (var i = 1; i < updates.length; i++) {
-        const value = updates[i]
+    statusUpdate ({ commit }, data) {
+      const device = this.getters.devicesByMac(data.mac)
+      for (var i = 0; i < data.updates.length; i++) {
+        const value = data.updates[i]
         const updateData = value.split('=')
         commit('updateElementStatus', {device, elementId: updateData[0], status: updateData[1]})
       }

@@ -74,7 +74,7 @@ export function sendPacketToIP (data, ip) {
 
 function requestStatusLease (remoteIP) {
   console.log(remoteIP)
-  sendPacketToIP('500|10000,2000,F', remoteIP)
+  sendPacketToIP('500|10000,1000,F', remoteIP)
 }
 
 function getPacketData () {
@@ -92,6 +92,8 @@ function getPacketData () {
 
 function handleIncomingPacket (packetData, remoteIP) {
   var responseType = packetData.toString().substring(0, 3)
+  var data = packetData.toString().substr(4).split(',')
+
   switch (responseType) {
     case '110':
       // Joining: Acknowledge credentials
@@ -105,7 +107,7 @@ function handleIncomingPacket (packetData, remoteIP) {
     case '210':
       // Display: UI Recieved
       console.log('UI Recieved')
-      const xml = packetData.toString().substr(4)
+      const xml = packetData.toString().substring(4)
       xmlParser.parseXML(xml, ui => {
         store.default.dispatch('gotUI', {
           ip: remoteIP,
@@ -120,13 +122,12 @@ function handleIncomingPacket (packetData, remoteIP) {
       if ((new Date()).getTime() - listeningForDiscoveryStart <= 1000) {
         discoveryResponseRecieved = true
         console.log('Discovery Response')
-        var info = packetData.toString().substr(4).split(',')
         const device = {
-          id: info[0],
+          id: data[0],
           remoteIP,
           ui: null,
-          statusBit: info[1],
-          visibilityBit: info[2],
+          statusBit: data[1],
+          visibilityBit: data[2],
           lastContactDate: new Date(),
           active: false,
           name: null,
@@ -138,21 +139,20 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '330':
       // Discovery: Discovery Header Response
-      var header = packetData.toString().substr(4).split(',')
-      store.default.dispatch('addDeviceNameAndRoom', {mac: header[0], name: header[1], room: header[2]})
+      store.default.dispatch('addDeviceNameAndRoom', {mac: data[0], name: data[1], room: data[2]})
       break
     case '510':
       // Status: Request Response
       break
     case '530':
       // Status: Status Update
-      console.log('Status Update: ' + packetData.toString().substr(4))
-      store.default.dispatch('statusUpdate', packetData.toString().substr(4))
+      console.log('Status Update:')
+
+      store.default.dispatch('statusUpdate', {mac: data[0], updates: data.slice(2)})
 
       // Check if this is the last update
-      var pack = packetData.toString().substr(4).split(',')
-      if (pack[1] === 'T') {
-        if (store.default.getters.isDeviceActive(packetData.toString().substr(4))) {
+      if (data[1].toString() === 'T') {
+        if (store.default.getters.isDeviceActive(data[0])) {
           requestStatusLease(remoteIP)
         }
       }
