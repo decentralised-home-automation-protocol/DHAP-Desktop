@@ -145,15 +145,17 @@ function handleIncomingPacket (packetData, remoteIP) {
       // Status: Request Response
       break
     case '530':
-      // Status: Lease Expired
-      if (store.default.getters.isDeviceActive(packetData.toString().substr(4))) {
-        requestStatusLease(remoteIP)
-      }
-      break
-    case '540':
       // Status: Status Update
       console.log('Status Update: ' + packetData.toString().substr(4))
       store.default.dispatch('statusUpdate', packetData.toString().substr(4))
+
+      // Check if this is the last update
+      var pack = packetData.toString().substr(4).split(',')
+      if (pack[1] === 'T') {
+        if (store.default.getters.isDeviceActive(packetData.toString().substr(4))) {
+          requestStatusLease(remoteIP)
+        }
+      }
       break
     default:
       // Unknown Packet Type
