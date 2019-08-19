@@ -2,24 +2,24 @@
   <div class>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">IP Address</span>
+        <span class="input-group-text" id="basic-addon1">IP</span>
       </div>
       <input class="form-control" type="text" name="ipInput" placeholder="192.168.1.100" v-model="ipaddress">
+    </div>
+    <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Data</span>
       </div>
       <input class="form-control" type="text" placeholder="300" v-model="packetdata">
       <div class="input-group-append">
-        <button class="btn btn-outline-info" @click="sendPacket(ipaddress, packetdata)">Send Packet</button>
+        <button class="btn btn-outline-info" @click="sendPacket(ipaddress, packetdata)">Send</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  const fs = require('fs')
-  // import { server } from './NetworkManager'
-  const xmlParser = require('../XmlParser')
+  import { server } from '../NetworkManager'
 
   export default {
     name: 'landing-page',
@@ -31,19 +31,8 @@
     },
     methods: {
       sendPacket (ipaddress, packetdata) {
-        // console.log('Sending: ' + packetdata)
-        // server.send(packetdata, 8888, ipaddress)
-  
-        fs.readFile('src\\renderer\\components\\TV.xml', (err, data) => {
-          if (err) throw err
-          const xml = data.toString()
-          xmlParser.parseXML(xml, ui => {
-            this.$store.dispatch('gotUI', {
-              ip: ipaddress,
-              ui
-            })
-          })
-        })
+        console.log('Sending: ' + packetdata)
+        server.send(packetdata, 8888, ipaddress)
       }
     }
   }

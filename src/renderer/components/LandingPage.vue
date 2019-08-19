@@ -1,17 +1,15 @@
 <template>
   <div id="content">
-    <PacketSender></PacketSender>    
     <DisplayGenerator></DisplayGenerator>
   </div>
 </template>
 
 <script>
   import DisplayGenerator from './LandingPage/DisplayGenerator'
-  import PacketSender from './LandingPage/PacketSender'
 
   export default {
     name: 'landing-page',
-    components: { DisplayGenerator, PacketSender }
+    components: { DisplayGenerator }
   }
 </script>
 

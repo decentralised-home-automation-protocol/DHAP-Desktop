@@ -87,7 +87,7 @@ export default new Vuex.Store({
       device.ui = payload.ui
       if (!device.active) {
         device.active = true
-        state.layout.push({ 'x': 0, 'y': 0, 'w': 6, 'h': (device.ui.length * 2), 'i': device.id })
+        state.layout.push({'x': 0, 'y': 0, 'w': 6, 'h': (device.ui.length * 2), 'i': device.id})
       }
     },
     deactivateDevice (state, id) {
@@ -166,6 +166,41 @@ export default new Vuex.Store({
       state.rooms.push('Living Room')
       state.rooms.push('Garage')
       state.rooms.push('Kitchen')
+
+      const fs = require('fs')
+      const xmlParser = require('../components/XmlParser')
+
+      fs.readFile('src\\renderer\\components\\TV.xml', (err, data) => {
+        if (err) throw err
+        const xml = data.toString()
+        xmlParser.parseXML(xml, ui => {
+          this.commit('newUI', {
+            ip: '192.168.1.101',
+            ui
+          })
+        })
+
+        xmlParser.parseXML(xml, ui => {
+          this.commit('newUI', {
+            ip: '192.168.1.102',
+            ui
+          })
+        })
+
+        xmlParser.parseXML(xml, ui => {
+          this.commit('newUI', {
+            ip: '192.168.1.103',
+            ui
+          })
+        })
+
+        xmlParser.parseXML(xml, ui => {
+          this.commit('newUI', {
+            ip: '192.168.1.108',
+            ui
+          })
+        })
+      })
     }
   },
   getters: {

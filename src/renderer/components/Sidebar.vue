@@ -7,12 +7,14 @@
       <h4>Automation</h4>
       <h4>Protocol</h4>
     </div>
-
+    
     <div id="list">
       <div id="discover">          
         <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
       </div>
-      <div id="discover">          
+      <div id="discover">
+        <PacketSender></PacketSender>    
+          
         <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
       </div>
 
@@ -29,12 +31,14 @@
 <script>
   import Room from './Sidebar/Room'
   import Device from './Sidebar/Device'
+  import PacketSender from './LandingPage/PacketSender'
 
   export default {
     name: 'Sidebar',
     components: {
       Room,
-      Device
+      Device,
+      PacketSender
     },
     computed: {
       rooms () {
