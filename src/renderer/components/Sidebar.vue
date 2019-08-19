@@ -19,21 +19,29 @@
       <div v-for="room in rooms" :key="room">
         <Room :roomName="room"></Room>
       </div>
+      <div v-for="device in devices" :key="device.id">
+        <Device v-if="device.room == null" :device="device"></Device>
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
   import Room from './Sidebar/Room'
+  import Device from './Sidebar/Device'
 
   export default {
     name: 'Sidebar',
     components: {
-      Room
+      Room,
+      Device
     },
     computed: {
       rooms () {
         return this.$store.state.rooms
+      },
+      devices () {
+        return this.$store.state.devices
       }
     },
     methods: {
