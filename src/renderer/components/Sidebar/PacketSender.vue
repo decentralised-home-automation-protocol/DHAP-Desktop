@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { server } from '../NetworkManager'
+  import { server } from '@/NetworkManager'
 
   export default {
     name: 'landing-page',

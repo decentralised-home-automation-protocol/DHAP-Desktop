@@ -29,9 +29,9 @@
 </template>
 
 <script>
-  import Room from './Sidebar/Room'
-  import Device from './Sidebar/Device'
-  import PacketSender from './LandingPage/PacketSender'
+  import Room from './Room'
+  import Device from './Device'
+  import PacketSender from './PacketSender'
 
   export default {
     name: 'Sidebar',

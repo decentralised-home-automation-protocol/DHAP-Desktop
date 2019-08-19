@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <div id="content">
     <grid-layout
       :layout.sync="layout"
       :row-height="30"
       :colNum="25"
+      :responsive=true
     >
-
-    <div v-for="device in devices" :key="device.id">
-      <div v-if="device.active && layoutById(device.id)">
-        <grid-item :x="layoutById(device.id).x" :y="layoutById(device.id).y" :w="layoutById(device.id).w" :h="layoutById(device.id).h" :i="layoutById(device.id).i">
-          <DeviceUI v-bind:device="device" v-bind:layout="layoutById(device.id)"></DeviceUI>
-        </grid-item>
+      <div v-for="device in devices" :key="device.id">
+        <div v-if="device.active && layoutById(device.id)">
+          <grid-item :x="layoutById(device.id).x" :y="layoutById(device.id).y" :w="layoutById(device.id).w" 
+                    :h="layoutById(device.id).h" :i="layoutById(device.id).i" :dragIgnoreFrom="dragIgnore">
+            <DeviceUI v-bind:device="device" v-bind:layout="layoutById(device.id)"></DeviceUI>
+          </grid-item>
+        </div>
       </div>
-    </div>
-
     </grid-layout>
   </div>
 </template>
@@ -30,6 +30,11 @@
       GridLayout: VueGridLayout.GridLayout,
       GridItem: VueGridLayout.GridItem
     },
+    data: function () {
+      return {
+        dragIgnore: 'a, button, input'
+      }
+    },
     computed: {
       ...mapGetters([
         'layoutById'
@@ -45,4 +50,8 @@
 </script>
 
 <style>
+#content {
+  padding: 40px;
+  width: 100%;
+}
 </style>

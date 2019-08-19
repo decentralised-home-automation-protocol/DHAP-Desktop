@@ -1,7 +1,7 @@
 const dgram = require('dgram')
 export const server = dgram.createSocket('udp4')
 const xmlParser = require('./XmlParser')
-const store = require('../store')
+const store = require('./store')
 const sameCensusListMax = 5
 const noResponseMax = 3
 const broadcast = '192.168.1.255'
