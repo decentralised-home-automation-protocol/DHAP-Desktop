@@ -60,8 +60,26 @@ export function startDiscovery () {
   }
 }
 
-function getDeviceHeaders () {
-  sendPacketBroadcast('320')
+async function getDeviceHeaders () {
+  const devices = store.default.state.devices
+  for (var loop = 0; loop < 10; loop++) {
+    var devicesWithNoHeader = 0
+    for (var i = 0; i < devices.length; i++) {
+      if (devices[i].name == null) {
+        sendPacketToIP('320', devices[i].remoteIP)
+        devicesWithNoHeader++
+      }
+    }
+    console.log(devicesWithNoHeader)
+    if (devicesWithNoHeader === 0) {
+      return
+    }
+    await sleep(1000)
+  }
+}
+
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 export function sendPacketBroadcast (data) {

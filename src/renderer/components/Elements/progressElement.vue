@@ -27,7 +27,12 @@
     },
     computed: {
       value () {
-        return parseInt(this.state)
+        const num = parseInt(this.state)
+        if (isNaN(num)) {
+          return 0
+        } else {
+          return num
+        }
       }
     }
   }
