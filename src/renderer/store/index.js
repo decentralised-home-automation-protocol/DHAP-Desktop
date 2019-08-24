@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { startDiscovery, sendPacketBroadcast, sendPacketToIP } from '../components/NetworkManager'
-
+import { joinDevice, scanWifi } from '../components/joining'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,9 +19,28 @@ export default new Vuex.Store({
     } */
     devices: [],
     rooms: [],
-    layout: []
+    layout: [],
+    networks: []
   },
   actions: {
+    joining ({commit}) {
+      commit('joinDevice')
+    },
+    joinNewDevice ({commit}, joinData) {
+      joinDevice(joinData)
+    },
+    scanNetwork ({commit}) {
+      scanWifi()
+    },
+    sendJoiningCredentials ({commit}, credentials) {
+      console.log(credentials)
+      const packetData = '100|' + credentials.SSID + ',' + credentials.password
+      console.log(packetData)
+      sendPacketBroadcast(packetData)
+    },
+    updateNetworks ({commit}, networks) {
+      commit('updateNetworks', networks)
+    },
     deviceDiscovered ({ commit, state }, payload) {
       const device = state.devices.find(d => d.id === payload.id)
       if (!device) {
@@ -79,6 +98,26 @@ export default new Vuex.Store({
     },
     newDevice (state, device) {
       state.devices.push(device)
+    },
+    joinDevice (state) {
+      const device = {
+        id: state.devices.length,
+        remoteIP: null,
+        ui: null,
+        statusBit: null,
+        visibilityBit: null,
+        lastContactDate: null,
+        active: true,
+        name: null,
+        room: null,
+        joining: true
+      }
+      state.devices.push(device)
+      state.layout.push({ 'x': 0, 'y': 0, 'w': 9, 'h': 10, 'i': device.id })
+    },
+    updateNetworks (state, network) {
+      console.log(network)
+      state.networks = network
     },
     newUI (state, payload) {
       const device = state.devices.find(d => {
@@ -186,6 +225,9 @@ export default new Vuex.Store({
     },
     devicesByMac: (state) => (mac) => {
       return state.devices.find(d => d.id === mac)
+    },
+    getNetworks: (state) => (data) => {
+      return state.networks
     }
   }
 })

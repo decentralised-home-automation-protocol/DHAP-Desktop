@@ -4,7 +4,7 @@ const xmlParser = require('./XmlParser')
 const store = require('../store')
 const sameCensusListMax = 5
 const noResponseMax = 3
-const broadcast = '192.168.1.255'
+const broadcast = '192.168.255.255'
 const port = 8888
 
 var listeningForDiscoveryStart = 0
@@ -97,12 +97,15 @@ function handleIncomingPacket (packetData, remoteIP) {
   switch (responseType) {
     case '110':
       // Joining: Acknowledge credentials
+      console.log('Credentials Acknowledged')
       break
     case '120':
       // Joining: Joined network Successfully
+      console.log('IoT device joined network successfully')
       break
     case '130':
       // Joining: Failed to join network
+      console.log('IoT Device failed to join network')
       break
     case '210':
       // Display: UI Recieved

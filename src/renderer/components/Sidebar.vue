@@ -15,6 +15,9 @@
       <div id="discover">          
         <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
       </div>
+      <div id="discover">          
+        <button type="button" class="btn btn-outline-light" @click="joining()">Joining</button>
+      </div>
 
       <div v-for="room in rooms" :key="room">
         <Room :roomName="room"></Room>
@@ -42,6 +45,10 @@
       },
       debugDiscovery () {
         this.$store.dispatch('debugDiscovery')
+      },
+      joining () {
+        this.$store.dispatch('joining')
+        this.$store.dispatch('scanNetwork')
       }
     }
   }

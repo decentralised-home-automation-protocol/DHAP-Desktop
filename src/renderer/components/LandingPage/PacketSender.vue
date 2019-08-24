@@ -17,9 +17,7 @@
 </template>
 
 <script>
-  const fs = require('fs')
-  // import { server } from './NetworkManager'
-  const xmlParser = require('../XmlParser')
+  import { server } from '../NetworkManager'
 
   export default {
     name: 'landing-page',
@@ -31,19 +29,8 @@
     },
     methods: {
       sendPacket (ipaddress, packetdata) {
-        // console.log('Sending: ' + packetdata)
-        // server.send(packetdata, 8888, ipaddress)
-  
-        fs.readFile('src\\renderer\\components\\TV.xml', (err, data) => {
-          if (err) throw err
-          const xml = data.toString()
-          xmlParser.parseXML(xml, ui => {
-            this.$store.dispatch('gotUI', {
-              ip: ipaddress,
-              ui
-            })
-          })
-        })
+        console.log('Sending: ' + packetdata)
+        server.send(packetdata, 8888, ipaddress)
       }
     }
   }
