@@ -5,17 +5,15 @@ wifi.init({
   iface: null
 })
 
-export function joinDevice (joinData) {
-  console.log(joinData)
-
+export function joinDevice (credentials) {
   wifi.connect(
-    { ssid: 'TP-LINK_AE045A', password: '0358721743' },
+    { ssid: credentials.homeSSID, password: credentials.homePassword },
     function (err) {
       if (err) {
         console.log(err)
       } else {
         console.log('Home credentials verified')
-        connectToIoTAP(joinData)
+        connectToIoTAP(credentials)
       }
     }
   )
@@ -23,29 +21,39 @@ export function joinDevice (joinData) {
 
 function connectToIoTAP (credentials) {
   wifi.connect(
-    { ssid: 'ESPsoftAP_01', password: 'passforap' },
+    { ssid: credentials.iotSSID, password: credentials.iotPassword },
     function (err) {
       if (err) {
         console.log(err)
       } else {
-        console.log('Connected to IoT device')
-        var connected = false
-        // while (!connected) {
-          wifi.getCurrentConnections().then(function (networks) {
-            console.log(networks)
-            connected = true
-          }).catch(function (error) {
-            console.log(error)
-          })
-        // }
-        // setTimeout(function () {
-        //   const vals = wifi.getCurrentConnections()
-        //   console.log(vals)
-        //   store.default.dispatch('sendJoiningCredentials', {SSID: 'TP-LINK_AE045A', password: '0358721743'})
-        // }, 4000)
+        console.log('Connecting to IoT device...')
+        sendJoiningCredentials(0, credentials)
       }
     }
   )
+}
+
+function sendJoiningCredentials (attempts, credentials) {
+  setTimeout(function () {
+    wifi.getCurrentConnections().then(function (networks) {
+      console.log(networks)
+      for (var i = 0; i < networks.length; i++) {
+        if (networks[i].ssid === credentials.iotSSID) {
+          console.log('Connected to IoT Device: ' + credentials.iotSSID)
+          store.default.dispatch('sendJoiningCredentials', {SSID: credentials.homeSSID, password: credentials.homePassword})
+          return true
+        }
+      }
+
+      sendJoiningCredentials(attempts++, credentials)
+    }).catch(function (error) {
+      console.log(error)
+    })
+    if (attempts > 20) {
+      console.log('Failed to connect to IoT Device')
+      return false
+    }
+  }, 1000)
 }
 
 export function scanWifi () {

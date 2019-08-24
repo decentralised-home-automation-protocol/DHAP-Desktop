@@ -33,10 +33,10 @@
     },
     data () {
       return {
-        homeSSID: '',
-        homePassword: '',
-        iotSSID: '',
-        iotPassword: ''
+        homeSSID: 'TP-LINK_AE045A',
+        homePassword: '0358721743',
+        iotSSID: 'ESPsoftAP_01',
+        iotPassword: 'passforap'
       }
     },
     methods: {
