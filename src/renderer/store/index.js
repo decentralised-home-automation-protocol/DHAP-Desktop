@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { startDiscovery, sendPacketBroadcast, sendPacketToIP } from '../NetworkManager'
-
+import { joinDevice, scanWifi } from '../components/joining'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,9 +19,23 @@ export default new Vuex.Store({
     } */
     devices: [],
     rooms: [],
-    layout: []
+    layout: [],
+    networks: []
   },
   actions: {
+    joinNewDevice ({commit}, joinData) {
+      joinDevice(joinData)
+    },
+    scanNetwork ({commit}) {
+      scanWifi()
+    },
+    sendJoiningCredentials ({commit}, credentials) {
+      const packetData = '100|' + credentials.SSID + ',' + credentials.password
+      sendPacketBroadcast(packetData)
+    },
+    updateNetworks ({commit}, networks) {
+      commit('updateNetworks', networks)
+    },
     deviceDiscovered ({ commit, state }, payload) {
       const device = state.devices.find(d => d.id === payload.id)
       if (!device) {
@@ -79,6 +93,10 @@ export default new Vuex.Store({
     },
     newDevice (state, device) {
       state.devices.push(device)
+    },
+    updateNetworks (state, network) {
+      console.log(network)
+      state.networks = network
     },
     newUI (state, payload) {
       const device = state.devices.find(d => {
@@ -221,6 +239,9 @@ export default new Vuex.Store({
     },
     devicesByMac: (state) => (mac) => {
       return state.devices.find(d => d.id === mac)
+    },
+    getNetworks: (state) => (data) => {
+      return state.networks
     }
   }
 })
