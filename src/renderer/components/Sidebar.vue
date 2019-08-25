@@ -15,8 +15,8 @@
       <div id="discover">          
         <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
       </div>
-      <div id="discover">          
-        <button type="button" class="btn btn-outline-light" @click="joining()">Joining</button>
+      <div>
+        <Joining></Joining>
       </div>
 
       <div v-for="room in rooms" :key="room">
@@ -28,11 +28,13 @@
 
 <script>
   import Room from './Sidebar/Room'
+  import Joining from './Sidebar/Joining'
 
   export default {
     name: 'Sidebar',
     components: {
-      Room
+      Room,
+      Joining
     },
     computed: {
       rooms () {
@@ -45,10 +47,6 @@
       },
       debugDiscovery () {
         this.$store.dispatch('debugDiscovery')
-      },
-      joining () {
-        this.$store.dispatch('joining')
-        this.$store.dispatch('scanNetwork')
       }
     }
   }

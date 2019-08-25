@@ -1,9 +1,6 @@
 <template>
   <div id="deviceUI">
-    <div v-if="device.joining">
-      <Joining v-bind:device="device"></Joining>
-    </div>
-    <component v-else v-for="element in device.ui" :key="element.id" v-bind:is="element.type"
+    <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type"
       v-bind:device="device" 
       v-bind:displaySettings="element.displaySettings" 
       v-bind:state="element.state" 
@@ -26,7 +23,6 @@
   import status from '../Elements/status'
   import textinput from '../Elements/textinput'
   import VueGridLayout from 'vue-grid-layout'
-  import Joining from '../LandingPage/Joining'
 
   export default {
     name: 'DeviceUI',
@@ -35,7 +31,6 @@
       layout: Object
     },
     components: {
-      Joining,
       switchtoggle,
       buttontoggle,
       stepper,

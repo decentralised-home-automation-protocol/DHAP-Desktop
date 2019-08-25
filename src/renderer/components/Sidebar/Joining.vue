@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>Joining</h1>
+    <button type="button" class="btn btn-outline-light" @click="scanWifi()">Scan Wifi</button>
+
     <h2>Home Network</h2>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -28,9 +30,6 @@
 <script>
   export default {
     name: 'Joining',
-    props: {
-      device: Object
-    },
     data () {
       return {
         homeSSID: 'TP-LINK_AE045A',
@@ -42,6 +41,9 @@
     methods: {
       joinDevice () {
         this.$store.dispatch('joinNewDevice', {homeSSID: this.homeSSID, homePassword: this.homePassword, iotSSID: this.iotSSID, iotPassword: this.iotPassword})
+      },
+      scanWifi () {
+        this.$store.dispatch('scanNetwork')
       }
     },
     computed: {

@@ -23,9 +23,6 @@ export default new Vuex.Store({
     networks: []
   },
   actions: {
-    joining ({commit}) {
-      commit('joinDevice')
-    },
     joinNewDevice ({commit}, joinData) {
       joinDevice(joinData)
     },
@@ -33,9 +30,7 @@ export default new Vuex.Store({
       scanWifi()
     },
     sendJoiningCredentials ({commit}, credentials) {
-      console.log(credentials)
       const packetData = '100|' + credentials.SSID + ',' + credentials.password
-      console.log(packetData)
       sendPacketBroadcast(packetData)
     },
     updateNetworks ({commit}, networks) {
@@ -98,22 +93,6 @@ export default new Vuex.Store({
     },
     newDevice (state, device) {
       state.devices.push(device)
-    },
-    joinDevice (state) {
-      const device = {
-        id: state.devices.length,
-        remoteIP: null,
-        ui: null,
-        statusBit: null,
-        visibilityBit: null,
-        lastContactDate: null,
-        active: true,
-        name: null,
-        room: null,
-        joining: true
-      }
-      state.devices.push(device)
-      state.layout.push({ 'x': 0, 'y': 0, 'w': 9, 'h': 10, 'i': device.id })
     },
     updateNetworks (state, network) {
       console.log(network)

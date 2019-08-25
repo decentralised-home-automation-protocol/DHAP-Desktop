@@ -40,7 +40,16 @@ function sendJoiningCredentials (attempts, credentials) {
       for (var i = 0; i < networks.length; i++) {
         if (networks[i].ssid === credentials.iotSSID) {
           console.log('Connected to IoT Device: ' + credentials.iotSSID)
-          store.default.dispatch('sendJoiningCredentials', {SSID: credentials.homeSSID, password: credentials.homePassword})
+          // send credentials after a little bit of time to ensure connection is finalised.
+          setTimeout(function () {
+            store.default.dispatch('sendJoiningCredentials', {SSID: credentials.homeSSID, password: credentials.homePassword})
+          }, 5000)
+          setTimeout(function () {
+            store.default.dispatch('sendJoiningCredentials', {SSID: credentials.homeSSID, password: credentials.homePassword})
+          }, 6000)
+          setTimeout(function () {
+            store.default.dispatch('sendJoiningCredentials', {SSID: credentials.homeSSID, password: credentials.homePassword})
+          }, 7000)
           return true
         }
       }

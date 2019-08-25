@@ -65,6 +65,7 @@ function getDeviceHeaders () {
 }
 
 export function sendPacketBroadcast (data) {
+  console.log('Sending broadcast: ' + data)
   server.send(data, port, broadcast)
 }
 
@@ -98,6 +99,7 @@ function handleIncomingPacket (packetData, remoteIP) {
     case '110':
       // Joining: Acknowledge credentials
       console.log('Credentials Acknowledged')
+      // startDiscovery()
       break
     case '120':
       // Joining: Joined network Successfully
