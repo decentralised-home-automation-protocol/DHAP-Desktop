@@ -153,6 +153,7 @@ function handleIncomingPacket (packetData, remoteIP) {
           visibilityBit: data[2],
           lastContactDate: new Date(),
           active: false,
+          static: false,
           name: null,
           room: null
         }

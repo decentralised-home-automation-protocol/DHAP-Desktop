@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <button type="button" class="btn btn-outline-light" @click="scanWifi()">Scan Wifi</button>
-    <h2>Home Network</h2>
+  <div id="joining">
+    <h3>Home Network</h3>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <select class="form-control" v-model="homeSSID">
@@ -11,7 +10,7 @@
     </div>
     <input type="password" placeholder="Password" class="form-control" v-model="homePassword">
 
-    <h2>IoT Device</h2>
+    <h3>IoT Device</h3>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <select class="form-control" v-model="iotSSID">
@@ -21,7 +20,10 @@
     </div>
     <input type="password" placeholder="Password" class="form-control" v-model="iotPassword">
 
-    <button type="button" class="btn btn-outline-light" @click="joinDevice()">Join Device</button>
+    <div id="buttons">
+      <button type="button" class="btn btn-outline-light" @click="joinDevice()">Join Device</button>
+      <button type="button" class="btn btn-outline-light" @click="scanWifi()">Scan Wifi</button>
+    </div>
   </div>
 </template>
 
@@ -56,4 +58,11 @@
 </script>
 
 <style>
+#joining {
+  padding: 0px 10px 10px 10px;
+}
+
+#buttons {
+  padding-top: 10px;
+}
 </style>

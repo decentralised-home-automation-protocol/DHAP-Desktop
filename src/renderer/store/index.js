@@ -64,6 +64,10 @@ export default new Vuex.Store({
       commit('deactivateDevice', id)
       sendPacketToIP('520', this.getters.devicesByMac(id).remoteIP)
     },
+    toggleDeviceLock ({ commit }, id) {
+      const layout = this.getters.layoutById(id)
+      commit('toggleDeviceLock', layout)
+    },
     addDeviceNameAndRoom ({ commit }, data) {
       commit('addDeviceNameAndRoom', data)
     },
@@ -105,7 +109,7 @@ export default new Vuex.Store({
       device.ui = payload.ui
       if (!device.active) {
         device.active = true
-        state.layout.push({'x': 0, 'y': 0, 'w': 6, 'h': (device.ui.length * 2), 'i': device.id})
+        state.layout.push({ 'x': 0, 'y': 0, 'w': 6, 'h': (device.ui.length * 2), 'i': device.id, 'static': false })
       }
     },
     deactivateDevice (state, id) {
@@ -117,6 +121,9 @@ export default new Vuex.Store({
         return value.i !== device.id
       })
       state.layout = filtered
+    },
+    toggleDeviceLock (state, layout) {
+      layout.static = !layout.static
     },
     addDeviceNameAndRoom (state, data) {
       const device = state.devices.find(device => device.id === data.mac)
@@ -242,6 +249,10 @@ export default new Vuex.Store({
     },
     getNetworks: (state) => (data) => {
       return state.networks
+    },
+    isDeviceStatic: (state) => (id) => {
+      const layout = state.layout.find(layout => layout.i === id)
+      return layout.static
     }
   }
 })

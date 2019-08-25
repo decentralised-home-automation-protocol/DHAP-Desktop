@@ -1,18 +1,18 @@
 <template>
-<div id="device">
+  <div id="device">
     <span id="deviceName">
       <span v-if="device.name">{{device.name}}</span>
       <span v-else>{{device.remoteIP}}</span>
     </span>
-  <span id="deviceToggle">
-    <button v-if="device.active" type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
-      <i class="fas fa-times"></i>
-    </button>
-    <button v-else type="button" class="btn btn-outline-success" @click="getUI(device.remoteIP, device.id)">
-      <i class="fas fa-chevron-right"></i>
-    </button>
-  </span>
-</div>
+    <span id="deviceToggle">
+      <button v-if="device.active" type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
+        <i class="fas fa-times"></i>
+      </button>
+      <button v-else type="button" class="btn btn-outline-success" @click="getUI(device.remoteIP, device.id)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </span>
+  </div>
 </template>
 
 <script>

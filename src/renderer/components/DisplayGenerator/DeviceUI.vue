@@ -1,11 +1,29 @@
 <template>
-  <div id="deviceUI">
-    <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type"
-      v-bind:device="device" 
-      v-bind:displaySettings="element.displaySettings" 
-      v-bind:state="element.state" 
-      v-bind:id="element.id">
-    </component>
+  <div id="window">
+    <div id="header" class="row no-gutters">
+      <div class="col">
+        <button type="button" class="btn btn-outline-light" @click="toggleLock(device.id)">
+          <i v-if="isDeviceStatic(device.id)" class="fas fa-lock"></i>
+          <i v-else class="fas fa-lock-open"></i>
+        </button>
+      </div>
+      <div class="col-8" id="DeviceName">
+        {{device.name}}
+      </div>
+      <div class="col">
+        <button id="close" type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div id="deviceUI">
+      <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type"
+        v-bind:device="device" 
+        v-bind:displaySettings="element.displaySettings" 
+        v-bind:state="element.state" 
+        v-bind:id="element.id">
+      </component>
+    </div>
   </div>
 </template>
 
@@ -23,6 +41,7 @@
   import status from '../Elements/status'
   import textinput from '../Elements/textinput'
   import VueGridLayout from 'vue-grid-layout'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'DeviceUI',
@@ -44,18 +63,50 @@
       status,
       textinput,
       GridItem: VueGridLayout.GridItem
+    },
+    methods: {
+      deactivate (id) {
+        this.$store.dispatch('deactivateDevice', id)
+      },
+      toggleLock (id) {
+        this.$store.dispatch('toggleDeviceLock', id)
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'isDeviceStatic'
+      ])
     }
   }
 </script>
 
 <style>
-#deviceUI {
-  border-radius: 20px;
-  border: 1px solid #9E9E9E;
+#window {
+  border: 1px solid #9E9E9E;  
+  background: #424242;
   width: 100%;
   height: 100%;
-  padding: 10px;
+}
+
+#header {
+  border-bottom: 1px solid #9E9E9E;  
+  background: #363636;
+}
+
+#DeviceName {
+  font-size: 1.5em;
+  text-decoration: none;
+  color: whitesmoke;
   text-align: center;
-  background: #424242;
+}
+
+#close {
+  float: right;
+}
+
+#deviceUI {
+  border-radius: 2px;
+  padding: 0px 10px 10px 10px;
+  text-align: center;
 }
 </style>

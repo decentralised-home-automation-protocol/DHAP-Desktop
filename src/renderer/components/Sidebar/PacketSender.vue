@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="PacketSender">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">IP</span>
@@ -39,4 +39,7 @@
 </script>
 
 <style>
+#PacketSender {
+  padding: 10px 10px 0px 10px;
+}
 </style>
