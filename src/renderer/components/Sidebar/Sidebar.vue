@@ -17,6 +17,9 @@
           
         <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
       </div>
+      <div>
+        <Joining></Joining>
+      </div>
 
       <div v-for="room in rooms" :key="room">
         <Room :roomName="room"></Room>
@@ -32,13 +35,15 @@
   import Room from './Room'
   import Device from './Device'
   import PacketSender from './PacketSender'
+  import Joining from './Joining'
 
   export default {
     name: 'Sidebar',
     components: {
       Room,
       Device,
-      PacketSender
+      PacketSender,
+      Joining
     },
     computed: {
       rooms () {

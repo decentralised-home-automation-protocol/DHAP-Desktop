@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { startDiscovery, sendPacketBroadcast, sendPacketToIP } from '../NetworkManager'
-import { joinDevice, scanWifi } from '../components/joining'
+import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
 
 export default new Vuex.Store({

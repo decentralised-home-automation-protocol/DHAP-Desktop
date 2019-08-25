@@ -1,5 +1,5 @@
 var wifi = require('node-wifi')
-const store = require('../store')
+const store = require('./store')
 
 wifi.init({
   iface: null
