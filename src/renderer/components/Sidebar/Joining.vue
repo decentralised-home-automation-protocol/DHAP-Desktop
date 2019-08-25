@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1>Joining</h1>
     <button type="button" class="btn btn-outline-light" @click="scanWifi()">Scan Wifi</button>
-
     <h2>Home Network</h2>
     <div class="input-group mb-3">
       <div class="input-group-prepend">

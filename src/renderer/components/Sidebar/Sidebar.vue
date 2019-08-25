@@ -9,21 +9,18 @@
     </div>
     
     <div id="list">
+      <Dropdown heading="Joining" component="Joining"></Dropdown>
+      <Dropdown heading="Packet Sender" component="PacketSender"></Dropdown>
+
       <div id="discover">          
         <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
-      </div>
-      <div id="discover">
-        <PacketSender></PacketSender>    
-          
         <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
-      </div>
-      <div>
-        <Joining></Joining>
       </div>
 
       <div v-for="room in rooms" :key="room">
-        <Room :roomName="room"></Room>
+        <Dropdown :heading="room" component="Device"></Dropdown>
       </div>
+
       <div v-for="device in devices" :key="device.id">
         <Device v-if="device.room == null" :device="device"></Device>
       </div>
@@ -32,18 +29,14 @@
 </template>
 
 <script>
-  import Room from './Room'
   import Device from './Device'
-  import PacketSender from './PacketSender'
-  import Joining from './Joining'
+  import Dropdown from './Dropdown'
 
   export default {
     name: 'Sidebar',
     components: {
-      Room,
       Device,
-      PacketSender,
-      Joining
+      Dropdown
     },
     computed: {
       rooms () {
