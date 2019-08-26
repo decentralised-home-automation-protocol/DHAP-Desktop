@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2>{{label}}</h2>
+  <div class="element horizontalElement">
+    <p id="label">{{label}}</p>
     <select @change="onChange($event)">
       <option v-for="(option, index) in options" :key="option" :value="index" :selected="isSelected(index)">{{option}}</option>
     </select>

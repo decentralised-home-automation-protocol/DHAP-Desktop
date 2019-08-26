@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div class="input-group mb-3">
+  <div class="element">
+    <div class="input-group mb-3 input-group-sm">
       <div class="input-group-prepend" v-if="label">
-        <span class="input-group-text" id="basic-addon1">{{label}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-sm">{{label}}</span>
       </div>
       <input class="form-control" type="text" v-model="value">
       <div class="input-group-append">

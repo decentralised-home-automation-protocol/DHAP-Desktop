@@ -1,6 +1,6 @@
 <template>
-  <div class="element">
-    <p>{{label}}</p>
+  <div class="element horizontalElement">
+    <p id="label">{{label}}</p>
     <label class="switch" @click="toggle()">
       <input type="checkbox" disabled v-model="value">
       <span class="slider round"></span>
@@ -45,20 +45,9 @@
 </script>
 
 <style scoped>
-.element {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 10px;
-}
-
-label {
-  margin-bottom: 0;
-}
-
-p {
-  margin: 0;
-}
+  label {
+    margin-bottom: 0;
+  }
 
   .switch {
     position: relative;

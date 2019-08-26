@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h2>{{label}}</h2>  
-    <h2>{{value}}</h2>  
+  <div class="element">
+    <p id="label">{{label}}</p>  
+    <p id="label">{{value}}</p>  
   </div>
 </template>
 

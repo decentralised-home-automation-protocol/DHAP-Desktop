@@ -1,11 +1,23 @@
 <template>
-  <div>
-    <button class="btn btn-primary" @click="pressed(0)">{{topLabel}}</button>
-    <button class="btn btn-primary" @click="pressed(1)">{{rightLabel}}</button>
-    <button class="btn btn-primary" @click="pressed(2)">{{bottomLabel}}</button>
-    <button class="btn btn-primary" @click="pressed(3)">{{leftLabel}}</button>
-    <button class="btn btn-primary" @click="pressed(4)" v-if="centreLabel">{{centreLabel}}</button>
-    <h2>{{label}}</h2>
+  <div class="element"> 
+    <table id="buttonsTable">
+      <tr>
+        <th></th>
+        <th><button class="btn btn-primary" @click="pressed(0)">{{topLabel}}</button></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th><button class="btn btn-primary" @click="pressed(3)">{{leftLabel}}</button></th>
+        <th><button class="btn btn-primary" @click="pressed(4)" v-if="centreLabel">{{centreLabel}}</button></th>
+        <th><button class="btn btn-primary" @click="pressed(1)">{{rightLabel}}</button></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th><button class="btn btn-primary" @click="pressed(2)">{{bottomLabel}}</button></th>
+        <th></th>
+      </tr>
+    </table>
+    <p id="label">{{label}}</p>
   </div>
 </template>
 
@@ -48,4 +60,13 @@
 </script>
 
 <style>
+#buttonsTable {
+  margin-left:auto; 
+  margin-right:auto;
+}
+
+#buttonsTable th {
+  min-width: 40px;
+  min-height: 40px;
+}
 </style>

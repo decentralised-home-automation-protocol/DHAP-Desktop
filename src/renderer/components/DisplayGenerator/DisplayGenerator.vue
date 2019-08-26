@@ -2,9 +2,8 @@
   <div id="content">
     <grid-layout
       :layout.sync="layout"
-      :row-height="30"
-      :colNum="25"
-      :responsive=true
+      :row-height="15"
+      :colNum="50"
     >
       <div v-for="device in devices" :key="device.id">
         <div v-if="device.active && layoutById(device.id)">
@@ -53,5 +52,23 @@
 <style>
 #content {
   width: 100%;
+  min-width: 1000px;
+  min-height: 1000px;
+}
+
+.element {
+  min-width: 50px;
+  min-height: 30px;
+}
+
+.horizontalElement {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px;
+}
+
+#label {
+  margin: 0;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2>{{label}}</h2>
+  <div class="element horizontalElement">
+    <p id="label">{{label}}</p>
     <progress :value="value" max="100"></progress>
   </div>
 </template>
