@@ -1,8 +1,8 @@
 {
-  "name": "my-project",
+  "name": "DHAP",
   "version": "0.0.1",
   "author": "Daniel Milner <danielmmilner@gmail.com>",
-  "description": "An electron-vue project",
+  "description": "An implementation of the decentralised home automation protocol",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "my-project",
+    "productName": "DHAP",
     "appId": "com.example.yourapp",
     "directories": {
       "output": "build"
@@ -46,10 +46,10 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/DHAP_Logo.ico"
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "build/icons/DHAP_Logo.png"
     }
   },
   "dependencies": {
