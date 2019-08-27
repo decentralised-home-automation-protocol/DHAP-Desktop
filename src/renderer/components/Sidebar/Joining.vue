@@ -32,10 +32,10 @@
     name: 'Joining',
     data () {
       return {
-        homeSSID: 'TP-LINK_AE045A',
-        homePassword: '0358721743',
-        iotSSID: 'ESPsoftAP_01',
-        iotPassword: 'passforap'
+        homeSSID: '',
+        homePassword: '',
+        iotSSID: '',
+        iotPassword: ''
       }
     },
     methods: {
