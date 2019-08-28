@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'Device',
+  name: 'device',
   props: {
     device: Object
   },

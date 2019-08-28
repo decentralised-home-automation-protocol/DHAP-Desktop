@@ -9,30 +9,30 @@
     </div>
     
     <div id="list">
-      <Dropdown heading="Joining" component="Joining"></Dropdown>
-      <Dropdown heading="Packet Sender" component="PacketSender"></Dropdown>
-      <Dropdown heading="Discovery" component="Discovery"></Dropdown>
+      <dropdown heading="Joining" component="joining"></dropdown>
+      <dropdown heading="Packet Sender" component="packet-sender"></dropdown>
+      <dropdown heading="Discovery" component="discovery"></dropdown>
 
       <div v-for="room in rooms" :key="room">
-        <Dropdown :heading="room" component="Device"></Dropdown>
+        <dropdown :heading="room" component="device"></dropdown>
       </div>
 
       <div v-for="device in devices" :key="device.id">
-        <Device v-if="device.room == null" :device="device"></Device>
+        <device v-if="device.room == null" :device="device"></device>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-  import Device from './Device'
-  import Dropdown from './Dropdown'
+  import device from './device'
+  import dropdown from './dropdown'
 
   export default {
-    name: 'Sidebar',
+    name: 'sidebar',
     components: {
-      Device,
-      Dropdown
+      device,
+      dropdown
     },
     computed: {
       rooms () {

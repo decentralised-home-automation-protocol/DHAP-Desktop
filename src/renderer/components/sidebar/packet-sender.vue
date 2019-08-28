@@ -19,10 +19,10 @@
 </template>
 
 <script>
-  import { server } from '@/NetworkManager'
+  import { server } from '@/network-manager'
 
   export default {
-    name: 'landing-page',
+    name: 'packet-sender',
     data: function () {
       return {
         packetdata: '200',

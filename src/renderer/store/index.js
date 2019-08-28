@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { startDiscovery, sendPacketBroadcast, sendPacketToIP, updateBroadcastAddress } from '../NetworkManager'
+import { startDiscovery, sendPacketBroadcast, sendPacketToIP, updateBroadcastAddress } from '../network-manager'
 import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
 
@@ -196,9 +196,9 @@ export default new Vuex.Store({
       state.rooms.push('Kitchen')
 
       const fs = require('fs')
-      const xmlParser = require('../XmlParser')
+      const xmlParser = require('../xml-parser')
 
-      fs.readFile('src/renderer/TV.xml', (err, data) => {
+      fs.readFile('src/renderer/tv.xml', (err, data) => {
         if (err) throw err
         const xml = data.toString()
         xmlParser.parseXML(xml, ui => {
