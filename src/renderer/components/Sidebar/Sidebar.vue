@@ -11,11 +11,7 @@
     <div id="list">
       <Dropdown heading="Joining" component="Joining"></Dropdown>
       <Dropdown heading="Packet Sender" component="PacketSender"></Dropdown>
-
-      <div id="discover">          
-        <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
-        <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
-      </div>
+      <Dropdown heading="Discovery" component="Discovery"></Dropdown>
 
       <div v-for="room in rooms" :key="room">
         <Dropdown :heading="room" component="Device"></Dropdown>
@@ -44,14 +40,6 @@
       },
       devices () {
         return this.$store.state.devices
-      }
-    },
-    methods: {
-      discovery () {
-        this.$store.dispatch('startDiscovery')
-      },
-      debugDiscovery () {
-        this.$store.dispatch('debugDiscovery')
       }
     }
   }
@@ -86,10 +74,5 @@
   #list {
     border-top: 1px solid #9E9E9E;
     border-bottom: 1px solid #616161;
-  }
-
-  #discover {
-    text-align: center;
-    padding: 10px;
   }
 </style>

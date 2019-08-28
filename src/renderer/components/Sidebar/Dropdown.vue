@@ -20,13 +20,15 @@
   import Joining from './Joining'
   import PacketSender from './PacketSender'
   import Device from './Device'
+  import Discovery from './Discovery'
 
   export default {
     name: 'Dropdown',
     components: {
       PacketSender,
       Joining,
-      Device
+      Device,
+      Discovery
     },
     props: {
       heading: '',

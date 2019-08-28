@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { startDiscovery, sendPacketBroadcast, sendPacketToIP } from '../NetworkManager'
+import { startDiscovery, sendPacketBroadcast, sendPacketToIP, updateBroadcastAddress } from '../NetworkManager'
 import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
 
@@ -49,6 +49,9 @@ export default new Vuex.Store({
     sendPacket ({ commit }, payload) {
       console.log(`Sending: ${payload}...`)
       sendPacketBroadcast(payload)
+    },
+    setBroadcastAddress ({ commit }, broadcastAddress) {
+      updateBroadcastAddress(broadcastAddress)
     },
     startDiscovery ({ commit }) {
       console.log(`Starting discovery...`)

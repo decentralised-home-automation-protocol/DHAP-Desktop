@@ -4,7 +4,6 @@ const xmlParser = require('./XmlParser')
 const store = require('./store')
 const sameCensusListMax = 5
 const noResponseMax = 3
-const broadcast = '192.168.1.255'
 const port = 8888
 
 var listeningForDiscoveryStart = 0
@@ -12,6 +11,7 @@ var discoveryResponseRecieved = false
 var noResponseCount = 0
 var sameListBroadcastCount = 0
 var censusList = ''
+export var broadcastAddress = '255.255.255.255'
 
 server.on('error', (err) => {
   console.log(`server error:\n${err.stack}`)
@@ -31,6 +31,12 @@ server.on('listening', () => {
 server.bind(port)
 
 export function startDiscovery () {
+  noResponseCount = 0
+  sameListBroadcastCount = 0
+  discovery()
+}
+
+function discovery () {
   listeningForDiscoveryStart = (new Date()).getTime()
   discoveryResponseRecieved = false
   var payload = getPacketData()
@@ -46,16 +52,18 @@ export function startDiscovery () {
       if (!discoveryResponseRecieved) {
         noResponseCount++
         if (noResponseCount < noResponseMax) {
-          startDiscovery()
+          discovery()
         } else {
+          console.log('Max no response count reached. Ending discovery')
           getDeviceHeaders()
         }
       } else {
         noResponseCount = 0
-        startDiscovery()
+        discovery()
       }
     }, 1000)
   } else {
+    console.log('Max same census list count reached. Ending discovery')
     getDeviceHeaders()
   }
 }
@@ -82,9 +90,13 @@ function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+export function updateBroadcastAddress (bAddress) {
+  broadcastAddress = bAddress
+}
+
 export function sendPacketBroadcast (data) {
-  console.log('Sending broadcast: ' + data)
-  server.send(data, port, broadcast)
+  console.log('Sending broadcast to ' + broadcastAddress + ': ' + data)
+  server.send(data, port, broadcastAddress)
 }
 
 export function sendPacketToIP (data, ip) {
