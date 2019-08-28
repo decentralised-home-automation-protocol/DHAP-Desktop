@@ -10,7 +10,7 @@
           <grid-item :x="layoutById(device.id).x" :y="layoutById(device.id).y" :w="layoutById(device.id).w" 
                     :h="layoutById(device.id).h" :i="layoutById(device.id).i" :static="layoutById(device.id).static" 
                     :is-draggable="!layoutById(device.id).static" :is-resizable="!layoutById(device.id).static" :dragIgnoreFrom="dragIgnore">
-            <DeviceUI v-bind:device="device" v-bind:layout="layoutById(device.id)"></DeviceUI>
+            <deviceUI v-bind:device="device" v-bind:layout="layoutById(device.id)"></deviceUI>
           </grid-item>
         </div>
       </div>
@@ -19,14 +19,14 @@
 </template>
 
 <script>
-  import DeviceUI from './DeviceUI'
+  import deviceUI from './device-ui'
   import VueGridLayout from 'vue-grid-layout'
   import { mapGetters } from 'vuex'
 
   export default {
-    name: 'DisplayGenerator',
+    name: 'display-generator',
     components: {
-      DeviceUI,
+      deviceUI,
       GridLayout: VueGridLayout.GridLayout,
       GridItem: VueGridLayout.GridItem
     },

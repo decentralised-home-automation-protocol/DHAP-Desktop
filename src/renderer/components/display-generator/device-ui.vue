@@ -44,7 +44,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    name: 'DeviceUI',
+    name: 'device-ui',
     props: {
       device: Object,
       layout: Object

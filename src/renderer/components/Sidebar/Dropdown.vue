@@ -6,7 +6,7 @@
     </div>
 
     <div v-if="isOpen">
-      <span v-if="component === 'Device'">
+      <span v-if="component === 'device'">
         <component v-for="device in devicesByRoom" :key="device.deviceMac" v-bind:is="component" :device="device"></component>
       </span>
       <span v-else>
@@ -17,18 +17,18 @@
 </template>
 
 <script>
-  import Joining from './Joining'
-  import PacketSender from './PacketSender'
-  import Device from './Device'
-  import Discovery from './Discovery'
+  import joining from './joining'
+  import packetSender from './packet-sender'
+  import device from './device'
+  import discovery from './discovery'
 
   export default {
-    name: 'Dropdown',
+    name: 'dropdown',
     components: {
-      PacketSender,
-      Joining,
-      Device,
-      Discovery
+      packetSender,
+      joining,
+      device,
+      discovery
     },
     props: {
       heading: '',

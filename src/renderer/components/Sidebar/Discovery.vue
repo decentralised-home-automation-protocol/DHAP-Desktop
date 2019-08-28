@@ -18,7 +18,7 @@
 
 <script>
   export default {
-    name: 'Discovery',
+    name: 'discovery',
     data () {
       return {
         interfaces: [],

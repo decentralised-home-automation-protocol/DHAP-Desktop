@@ -29,7 +29,7 @@
 
 <script>
   export default {
-    name: 'Joining',
+    name: 'joining',
     data () {
       return {
         homeSSID: '',
