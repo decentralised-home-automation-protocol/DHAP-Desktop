@@ -198,7 +198,7 @@ export default new Vuex.Store({
       const fs = require('fs')
       const xmlParser = require('../xml-parser')
 
-      fs.readFile('src/renderer/TV.xml', (err, data) => {
+      fs.readFile('src/renderer/tv.xml', (err, data) => {
         if (err) throw err
         const xml = data.toString()
         xmlParser.parseXML(xml, ui => {
