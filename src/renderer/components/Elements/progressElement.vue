@@ -7,7 +7,7 @@
 
 <script>
   export default {
-    name: 'progressElement',
+    name: 'progresselement',
     props: {
       device: Object,
       displaySettings: String,

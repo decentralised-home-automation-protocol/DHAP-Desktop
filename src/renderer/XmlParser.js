@@ -18,7 +18,7 @@ const getElementsFromXML = (xml) => {
       var element = group.gui_element[elementNum]
       var elementType = element.type[0].toString()
       if (elementType === 'progress') {
-        elementType = 'progressElement'
+        elementType = 'progresselement'
       }
       elements.push({
         id: group.$.id + '-' + element.$.id,

@@ -34,7 +34,7 @@
   import buttongroup from '../Elements/buttongroup'
   import directionalbuttons from '../Elements/directionalbuttons'
   import password from '../Elements/password'
-  import progressElement from '../Elements/progressElement'
+  import progresselement from '../Elements/progresselement'
   import rangeinput from '../Elements/rangeinput'
   import scheduler from '../Elements/scheduler'
   import selection from '../Elements/selection'
@@ -57,7 +57,7 @@
       buttongroup,
       directionalbuttons,
       password,
-      progressElement,
+      progresselement,
       scheduler,
       selection,
       status,
