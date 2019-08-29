@@ -60,13 +60,13 @@
 .element {
   min-width: 50px;
   min-height: 30px;
+  padding: 5px;
 }
 
 .horizontalElement {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 10px;
 }
 
 #label {

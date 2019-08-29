@@ -1,5 +1,5 @@
 <template>
-  <div class="element">
+  <div class="element horizontalElement">
     <p id="label">{{label}}</p>  
     <p id="label">{{value}}</p>  
   </div>

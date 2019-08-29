@@ -2,10 +2,7 @@
   <nav id="sidebar" >
     <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative&display=swap" rel="stylesheet">
     <div class="sidebar-header">
-      <h4>Decentralised</h4>
-      <h4>Home</h4>
-      <h4>Automation</h4>
-      <h4>Protocol</h4>
+      <img src="src\renderer\assets\DHAP_Logo.png" class="img-fluid" alt="Responsive image">
     </div>
     
     <div id="list">
@@ -50,8 +47,8 @@
 
 <style>
   #sidebar {
-    min-width: 230px;
-    max-width: 230px;
+    min-width: 210px;
+    max-width: 210px;
     min-height: 100vh;
     border-right: 1px solid #9E9E9E;    
   }
@@ -63,6 +60,7 @@
 
   #sidebar .sidebar-header {
     padding: 10px;
+    background: #e4e4e4;
   }
 
   #sidebar .sidebar-header h4 {

@@ -1,6 +1,6 @@
 <template>
   <div id="joining">
-    <h3>Home Network</h3>
+    <p>Home Network</p>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <select class="form-control" v-model="homeSSID">
@@ -10,7 +10,7 @@
     </div>
     <input type="password" placeholder="Password" class="form-control" v-model="homePassword">
 
-    <h3>IoT Device</h3>
+    <p>IoT Device</p>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <select class="form-control" v-model="iotSSID">
@@ -60,6 +60,11 @@
 <style>
 #joining {
   padding: 0px 10px 10px 10px;
+}
+
+#joining p {
+  margin: 0px;
+  font-size: 1.3em
 }
 
 #buttons {

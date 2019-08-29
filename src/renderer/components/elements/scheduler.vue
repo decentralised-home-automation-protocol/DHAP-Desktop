@@ -1,11 +1,11 @@
 <template>
-  <div class="element">
+  <div class="element scheduler">
     <p id="label">{{label}}</p>
     <select @change="onChange($event)">
       <option v-for="(option, index) in options" :key="option" :value="index" :selected="isSelected(index)">{{option}}</option>
     </select>
-    <button class="btn btn-primary">{{time}}</button>
-    <button class="btn btn-primary">{{buttonLabel}}</button>
+    <button class="btn btn-primary btn-sm">{{time}}</button>
+    <button class="btn btn-primary btn-sm">{{buttonLabel}}</button>
   </div>
 </template>
 
@@ -66,4 +66,8 @@
 </script>
 
 <style>
+/* .scheduler {
+  padding-top: 10px;
+  padding-bottom: 10px;
+} */
 </style>

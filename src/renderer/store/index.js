@@ -122,7 +122,7 @@ export default new Vuex.Store({
       device.ui = payload.ui
       if (!device.active) {
         device.active = true
-        state.layout.push({ 'x': 0, 'y': 0, 'w': 10, 'h': (device.ui.length * 2 + 6), 'minH': (device.ui.length * 2), 'minW': 7, 'i': device.id, 'static': false })
+        state.layout.push({ 'x': 0, 'y': 0, 'w': 10, 'h': (device.ui.length * 2 + 7), 'minH': (device.ui.length * 2), 'minW': 7, 'i': device.id, 'static': false })
       }
     },
     deactivateDevice (state, id) {
