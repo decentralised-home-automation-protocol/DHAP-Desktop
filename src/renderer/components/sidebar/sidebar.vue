@@ -14,6 +14,8 @@
       <dropdown heading="Joining" component="joining"></dropdown>
       <dropdown heading="Discovery" component="discovery"></dropdown>
 
+      <div id="divider"></div>
+
       <div v-for="room in rooms" :key="room">
         <dropdown :heading="room" component="device"></dropdown>
       </div>
@@ -75,5 +77,9 @@
   #list {
     border-top: 1px solid #9E9E9E;
     border-bottom: 1px solid #616161;
+  }
+
+  #divider {
+    border-top: 1px solid #9E9E9E;
   }
 </style>
