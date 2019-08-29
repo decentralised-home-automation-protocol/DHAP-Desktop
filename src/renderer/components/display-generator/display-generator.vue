@@ -8,7 +8,8 @@
       <div v-for="device in devices" :key="device.id">
         <div v-if="device.active && layoutById(device.id)">
           <grid-item :x="layoutById(device.id).x" :y="layoutById(device.id).y" :w="layoutById(device.id).w" 
-                    :h="layoutById(device.id).h" :i="layoutById(device.id).i" :static="layoutById(device.id).static" 
+                    :h="layoutById(device.id).h" :i="layoutById(device.id).i" :static="layoutById(device.id).static"
+                    :minH="device.ui.length * 2 + 6" :minW="10" 
                     :is-draggable="!layoutById(device.id).static" :is-resizable="!layoutById(device.id).static" :dragIgnoreFrom="dragIgnore">
             <deviceUI v-bind:device="device" v-bind:layout="layoutById(device.id)"></deviceUI>
           </grid-item>

@@ -1,20 +1,14 @@
 <template>
   <div id="window">
-    <div id="header" class="row no-gutters">
-      <div class="col">
-        <button type="button" class="btn btn-outline-light" @click="toggleLock(device.id)">
-          <i v-if="isDeviceStatic(device.id)" class="fas fa-lock"></i>
-          <i v-else class="fas fa-lock-open"></i>
-        </button>
-      </div>
-      <div class="col-8" id="DeviceName">
-        {{device.name}}
-      </div>
-      <div class="col">
-        <button id="close" type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
+    <div id="header">
+      <button id="lock" type="button" class="btn btn-outline-light" @click="toggleLock(device.id)">
+        <i v-if="isDeviceStatic(device.id)" class="fas fa-lock"></i>
+        <i v-else class="fas fa-lock-open"></i>
+      </button>
+      <p id="DeviceName">{{device.name}}</p>
+      <button id="close" type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
     <div id="deviceUI">
       <component v-for="element in device.ui" :key="element.id" v-bind:is="element.type"
@@ -91,17 +85,15 @@
 #header {
   border-bottom: 1px solid #9E9E9E;  
   background: #363636;
+  display: flex;
+  justify-content: space-between;
 }
 
 #DeviceName {
-  font-size: 1.5em;
+  font-size: 1.3em;
   text-decoration: none;
   color: whitesmoke;
-  text-align: center;
-}
-
-#close {
-  float: right;
+  margin: 0px;
 }
 
 #deviceUI {
