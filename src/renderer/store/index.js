@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 import { startDiscovery, sendPacketBroadcast, sendPacketToIP, updateBroadcastAddress } from '../network-manager'
 import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
@@ -257,5 +258,6 @@ export default new Vuex.Store({
       const layout = state.layout.find(layout => layout.i === id)
       return layout.static
     }
-  }
+  },
+  plugins: [new VuexPersistence().plugin]
 })
