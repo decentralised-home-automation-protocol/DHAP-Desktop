@@ -34,8 +34,9 @@ export default {
 
 <style>
 #device {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  display: table;
+  width: 100%;
+  padding: 10px;
   color: whitesmoke;
   margin-right: 0px;
 }
@@ -44,12 +45,14 @@ export default {
 }
 
 #deviceName {
-  padding-left: 30px;
+  padding-left: 20px;  
+  display: table-cell;
+  vertical-align: middle
 }
 
 #deviceToggle {
-  padding-right: 10px;
   float: right;
-  height: 100%;
+  display: table-cell;
+  vertical-align: middle
 }
 </style>

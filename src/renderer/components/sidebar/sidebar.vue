@@ -1,6 +1,5 @@
 <template>
   <nav id="sidebar" >
-    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative&display=swap" rel="stylesheet">
     <div class="sidebar-header">
       <img src="src\renderer\assets\DHAP_Logo.png" class="img-fluid" alt="Responsive image">
     </div>
@@ -61,15 +60,6 @@
   #sidebar .sidebar-header {
     padding: 10px;
     background: #e4e4e4;
-  }
-
-  #sidebar .sidebar-header h4 {
-    margin: 0px;
-    font-family: 'Cinzel Decorative', cursive;
-  }
-
-  #sidebar .sidebar-header h4::first-letter {
-    font-size: 150%;
   }
 
   #list {
