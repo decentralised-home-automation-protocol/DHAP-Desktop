@@ -21,6 +21,7 @@
   import packetSender from './packet-sender'
   import device from './device'
   import discovery from './discovery'
+  import settings from './settings'
 
   export default {
     name: 'dropdown',
@@ -28,7 +29,8 @@
       packetSender,
       joining,
       device,
-      discovery
+      discovery,
+      settings
     },
     props: {
       heading: '',

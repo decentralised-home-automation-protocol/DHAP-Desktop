@@ -9,9 +9,8 @@
     </div>
     <input type="text" placeholder="Broadcast address" class="form-control" v-model="broadcastAddress">
 
-    <div id= "discover">          
+    <div id="discoveryButton">          
       <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
-      <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Debug</button>
     </div>
   </div>
 </template>
@@ -29,9 +28,6 @@
     methods: {
       discovery () {
         this.$store.dispatch('startDiscovery')
-      },
-      debugDiscovery () {
-        this.$store.dispatch('debugDiscovery')
       },
       getBroadcast (event) {
         this.broadcastAddress = this.calculateBroadcast(this.interfaces[event.target.value])
@@ -75,10 +71,11 @@
 
 <style>
 #discovery {
-  padding: 0px 10px 10px 10px;
+  padding: 10px;
 }
 
-#discover {
+#discoveryButton {
+  padding-top: 10px;
   text-align: center;
 }
 </style>

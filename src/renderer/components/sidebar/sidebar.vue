@@ -9,8 +9,9 @@
     </div>
     
     <div id="list">
-      <dropdown heading="Joining" component="joining"></dropdown>
+      <dropdown heading="Settings" component="settings"></dropdown>
       <dropdown heading="Packet Sender" component="packet-sender"></dropdown>
+      <dropdown heading="Joining" component="joining"></dropdown>
       <dropdown heading="Discovery" component="discovery"></dropdown>
 
       <div v-for="room in rooms" :key="room">

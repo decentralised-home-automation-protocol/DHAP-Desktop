@@ -24,6 +24,9 @@ export default new Vuex.Store({
     networks: []
   },
   actions: {
+    resetState ({commit}) {
+      commit('resetState')
+    },
     joinNewDevice ({commit}, joinData) {
       joinDevice(joinData)
     },
@@ -88,6 +91,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    resetState (state) {
+      state.devices = []
+      state.rooms = []
+      state.layout = []
+      state.networks = []
+    },
     updateElementStatus (state, update) {
       console.log(update)
       if (update.device != null && update.device.ui != null) {
