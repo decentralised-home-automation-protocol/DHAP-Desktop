@@ -63,6 +63,7 @@ export default new Vuex.Store({
     iotCommand ({ commit }, data) {
       // TODO: send update to ESP
       commit('updateElementStatus', { device: data.device, elementId: data.id, status: data.status })
+      sendPacketToIP('400|' + data.id + '=' + data.status, data.device.remoteIP)
     },
     sendPacket ({ commit }, payload) {
       console.log(`Sending: ${payload}...`)
