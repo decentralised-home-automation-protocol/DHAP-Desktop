@@ -21,7 +21,7 @@
     <input type="password" placeholder="Password" class="form-control" v-model="iotPassword">
 
     <div id="buttons">
-      <button type="button" class="btn btn-outline-light" @click="joinDevice()">Join Device</button>
+      <button type="button" class="btn btn-outline-light" :disabled="joiningInProgress" @click="joinDevice()">Join Device</button>
       <button type="button" class="btn btn-outline-light" @click="scanWifi()">Scan Wifi</button>
     </div>
   </div>
@@ -52,6 +52,9 @@
         return networks.filter(function (value, index, arr) {
           return value.ssid !== ''
         })
+      },
+      joiningInProgress () {
+        return this.$store.getters.joiningInProgress()
       }
     }
   }

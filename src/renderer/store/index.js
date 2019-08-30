@@ -21,7 +21,8 @@ export default new Vuex.Store({
     devices: [],
     rooms: [],
     layout: [],
-    networks: []
+    networks: [],
+    joiningInProgress: false
   },
   actions: {
     setUp ({commit, state}) {
@@ -35,7 +36,11 @@ export default new Vuex.Store({
       commit('resetState')
     },
     joinNewDevice ({commit}, joinData) {
+      commit('joiningInProgress', true)
       joinDevice(joinData)
+    },
+    doneJoining ({commit}) {
+      commit('joiningInProgress', false)
     },
     scanNetwork ({commit}) {
       scanWifi()
@@ -98,11 +103,15 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    joiningInProgress (state, inProgress) {
+      state.joiningInProgress = inProgress
+    },
     resetState (state) {
       state.devices = []
       state.rooms = []
       state.layout = []
       state.networks = []
+      state.joiningInProgress = false
     },
     updateElementStatus (state, update) {
       if (update.device != null && update.device.ui != null) {
@@ -272,6 +281,9 @@ export default new Vuex.Store({
     isDeviceStatic: (state) => (id) => {
       const layout = state.layout.find(layout => layout.i === id)
       return layout.static
+    },
+    joiningInProgress: (state) => (id) => {
+      return state.joiningInProgress
     }
   },
   plugins: [new VuexPersistence().plugin]
