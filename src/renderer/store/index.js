@@ -36,6 +36,7 @@ export default new Vuex.Store({
       commit('resetState')
     },
     joinNewDevice ({commit}, joinData) {
+      updateBroadcastAddress('255.255.255.255')
       commit('joiningInProgress', true)
       joinDevice(joinData)
     },
