@@ -104,7 +104,7 @@ export function sendPacketToIP (data, ip) {
   server.send(data, port, ip)
 }
 
-function requestStatusLease (remoteIP) {
+export function requestStatusLease (remoteIP) {
   console.log(remoteIP)
   sendPacketToIP('500|10000,1000,F', remoteIP)
 }

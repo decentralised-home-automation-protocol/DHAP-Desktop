@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import { startDiscovery, sendPacketBroadcast, sendPacketToIP, updateBroadcastAddress } from '../network-manager'
+import { startDiscovery, sendPacketBroadcast, sendPacketToIP, updateBroadcastAddress, requestStatusLease } from '../network-manager'
 import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
 
@@ -24,6 +24,13 @@ export default new Vuex.Store({
     networks: []
   },
   actions: {
+    setUp ({commit, state}) {
+      for (var i = 0; i < state.devices.length; i++) {
+        if (state.devices[i].active) {
+          requestStatusLease(state.devices[i].remoteIP)
+        }
+      }
+    },
     resetState ({commit}) {
       commit('resetState')
     },

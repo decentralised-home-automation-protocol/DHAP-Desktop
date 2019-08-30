@@ -12,7 +12,10 @@
 
   export default {
     name: 'DHAP',
-    components: { sidebar, displayGenerator }
+    components: { sidebar, displayGenerator },
+    mounted: function () {
+      this.$store.dispatch('setUp')
+    }
   }
 </script>
 
