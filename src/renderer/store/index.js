@@ -98,7 +98,6 @@ export default new Vuex.Store({
       state.networks = []
     },
     updateElementStatus (state, update) {
-      console.log(update)
       if (update.device != null && update.device.ui != null) {
         const element = update.device.ui.find(d => {
           return d.id === update.elementId

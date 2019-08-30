@@ -25,6 +25,7 @@ server.on('message', (msg, rinfo) => {
 
 server.on('listening', () => {
   const address = server.address()
+  server.setBroadcast(true)
   console.log(`server listening ${address.address}:${address.port}`)
 })
 
@@ -175,14 +176,17 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '330':
       // Discovery: Discovery Header Response
+      console.log('Discovery header response recieved')
+
       store.default.dispatch('addDeviceNameAndRoom', {mac: data[0], name: data[1], room: data[2]})
       break
     case '510':
       // Status: Request Response
+      console.log('Status request response recieved')
       break
     case '530':
       // Status: Status Update
-      console.log('Status Update:')
+      console.log('Status update recieved')
 
       store.default.dispatch('statusUpdate', {mac: data[0], updates: data.slice(2)})
 
