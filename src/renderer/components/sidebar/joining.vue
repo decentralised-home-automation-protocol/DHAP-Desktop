@@ -1,5 +1,7 @@
 <template>
   <div id="joining">
+          <button type="button" class="btn btn-outline-light" @click="scanWifi()">Scan Wifi</button>
+
     <p>Home Network</p>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -20,14 +22,19 @@
     </div>
     <input type="password" placeholder="Password" class="form-control" v-model="iotPassword">
 
-    <div id="buttons">
-      <button type="button" class="btn btn-outline-light" :disabled="joiningInProgress" @click="joinDevice()">Join Device</button>
-      <button type="button" class="btn btn-outline-light" @click="scanWifi()">Scan Wifi</button>
+    <div id="join">
+      <span id="joinButton">
+        <button type="button" class="btn btn-outline-light" :disabled="joiningInProgress" @click="joinDevice()">Join Device</button>
+      </span>
+      <span id="joiningInProgress">
+        <spinner v-if="joiningInProgress"></spinner>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
+  import spinner from './spinner'
   export default {
     name: 'joining',
     data () {
@@ -38,6 +45,9 @@
         iotPassword: ''
       }
     },
+    components: {
+      spinner
+    },
     methods: {
       joinDevice () {
         this.$store.dispatch('joinNewDevice', {homeSSID: this.homeSSID, homePassword: this.homePassword, iotSSID: this.iotSSID, iotPassword: this.iotPassword})
@@ -45,6 +55,9 @@
       scanWifi () {
         this.$store.dispatch('scanNetwork')
       }
+    },
+    mounted: function () {
+      this.$store.dispatch('scanNetwork')
     },
     computed: {
       localNetworks () {
@@ -70,7 +83,18 @@
   font-size: 1.3em
 }
 
-#buttons {
+#join {
   padding-top: 10px;
+}
+
+#joinButton {
+  display: table-cell;
+  vertical-align: middle
+}
+
+#joiningInProgress {
+  padding-left: 30px;
+  display: table-cell;
+  vertical-align: middle
 }
 </style>

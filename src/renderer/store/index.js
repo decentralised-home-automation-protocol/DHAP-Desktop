@@ -22,7 +22,8 @@ export default new Vuex.Store({
     rooms: [],
     layout: [],
     networks: [],
-    joiningInProgress: false
+    joiningInProgress: false,
+    discoveryInProgress: false
   },
   actions: {
     setUp ({commit, state}) {
@@ -72,7 +73,11 @@ export default new Vuex.Store({
     },
     startDiscovery ({ commit }) {
       console.log(`Starting discovery...`)
+      commit('discoveryInProgress', true)
       startDiscovery()
+    },
+    doneDiscovery ({ commit }) {
+      commit('discoveryInProgress', false)
     },
     getUI ({ commit }, payload) {
       sendPacketToIP(payload.data, payload.ip)
@@ -107,12 +112,16 @@ export default new Vuex.Store({
     joiningInProgress (state, inProgress) {
       state.joiningInProgress = inProgress
     },
+    discoveryInProgress (state, inProgress) {
+      state.discoveryInProgress = inProgress
+    },
     resetState (state) {
       state.devices = []
       state.rooms = []
       state.layout = []
       state.networks = []
       state.joiningInProgress = false
+      state.discoveryInProgress = false
     },
     updateElementStatus (state, update) {
       if (update.device != null && update.device.ui != null) {
@@ -285,6 +294,9 @@ export default new Vuex.Store({
     },
     joiningInProgress: (state) => (id) => {
       return state.joiningInProgress
+    },
+    discoveryInProgress: (state) => (id) => {
+      return state.discoveryInProgress
     }
   },
   plugins: [new VuexPersistence().plugin]

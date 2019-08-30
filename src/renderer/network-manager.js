@@ -81,6 +81,7 @@ async function getDeviceHeaders () {
     }
     console.log(devicesWithNoHeader)
     if (devicesWithNoHeader === 0) {
+      store.default.dispatch('doneDiscovery')
       return
     }
     await sleep(1000)

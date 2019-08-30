@@ -9,13 +9,20 @@
     </div>
     <input type="text" placeholder="Broadcast address" class="form-control" v-model="broadcastAddress">
 
-    <div id="discoveryButton">          
-      <button type="button" class="btn btn-outline-light" @click="discovery()">Discover Devices</button>
+    <div id="discoveryStart">
+      <span id="discoveryButton">
+      <button type="button" class="btn btn-outline-light" :disabled="discoveryInProgress" @click="discovery()">Discover Devices</button>
+      </span>
+      <span id="discoveryInProgress">
+        <spinner v-if="discoveryInProgress"></spinner>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
+  import spinner from './spinner'
+
   export default {
     name: 'discovery',
     data () {
@@ -24,6 +31,9 @@
         networkInterface: '',
         broadcastAddress: ''
       }
+    },
+    components: {
+      spinner
     },
     methods: {
       discovery () {
@@ -48,6 +58,9 @@
     computed: {
       interfaceNames () {
         return Object.keys(this.interfaces)
+      },
+      discoveryInProgress () {
+        return this.$store.getters.discoveryInProgress()
       }
     },
     mounted: function () {
@@ -74,8 +87,18 @@
   padding: 10px;
 }
 
-#discoveryButton {
+#discoveryStart {
   padding-top: 10px;
-  text-align: center;
+}
+
+#discoveryButton {
+  display: table-cell;
+  vertical-align: middle
+}
+
+#discoveryInProgress {
+  padding-left: 10px;
+  display: table-cell;
+  vertical-align: middle
 }
 </style>
