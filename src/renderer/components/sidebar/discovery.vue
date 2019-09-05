@@ -37,6 +37,7 @@
     },
     methods: {
       discovery () {
+        this.$store.dispatch('setBroadcastAddress', this.broadcastAddress)
         this.$store.dispatch('startDiscovery')
       },
       getBroadcast (event) {
