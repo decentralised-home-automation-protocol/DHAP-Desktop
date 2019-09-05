@@ -14,7 +14,7 @@
       device: Object,
       displaySettings: String,
       id: String,
-      state: Number
+      state: String
     },
     data: function () {
       return {
