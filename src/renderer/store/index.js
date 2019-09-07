@@ -104,8 +104,7 @@ export default new Vuex.Store({
       const device = this.getters.devicesByMac(data.mac)
       for (var i = 0; i < data.updates.length; i++) {
         const value = data.updates[i]
-        const updateData = value.split('=')
-        commit('updateElementStatus', {device, elementId: updateData[0], status: updateData[1]})
+        commit('updateElementStatus', {device, status_location: i + 1, status: value})
       }
     }
   },
@@ -127,7 +126,7 @@ export default new Vuex.Store({
     updateElementStatus (state, update) {
       if (update.device != null && update.device.ui != null) {
         const element = update.device.ui.find(d => {
-          return d.id === update.elementId
+          return parseInt(d.status_location) === update.status_location
         })
         if (element != null) {
           element.state = update.status

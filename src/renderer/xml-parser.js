@@ -20,12 +20,23 @@ const getElementsFromXML = (xml) => {
       if (elementType === 'progress') {
         elementType = 'progresselement'
       }
-      elements.push({
-        id: group.$.id + '-' + element.$.id,
-        type: elementType,
-        displaySettings: element.disp_settings[0].toString(),
-        state: null
-      })
+
+      if (element.status_location) {
+        elements.push({
+          id: group.$.id + '-' + element.$.id,
+          status_location: element.status_location[0],
+          type: elementType,
+          displaySettings: element.disp_settings[0].toString(),
+          state: null
+        })
+      } else {
+        elements.push({
+          id: group.$.id + '-' + element.$.id,
+          type: elementType,
+          displaySettings: element.disp_settings[0].toString(),
+          state: null
+        })
+      }
     }
   }
   return elements
