@@ -32,10 +32,8 @@
     methods: {
       buttonClicked () {
         if (this.value) {
-          console.log('setting false')
           this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'false'})
         } else {
-          console.log('setting true')
           this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: 'true'})
         }
       }

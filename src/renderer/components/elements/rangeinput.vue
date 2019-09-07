@@ -47,16 +47,18 @@
         this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value})
       }
     },
+    watch: {
+      state: function (val) {
+        this.value = val
+      }
+    },
     computed: {
-      currentValue () {
-        if (isNaN(this.state) || this.state == null) {
-          return 0
-        } else {
-          return parseInt(this.state)
-        }
-      },
       synced () {
-        return this.currentValue === parseInt(this.value)
+        if (isNaN(this.state) || this.state == null) {
+          return false
+        } else {
+          return this.state === this.value
+        }
       }
     }
   }

@@ -41,12 +41,18 @@
         this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value})
       }
     },
+    watch: {
+      state: function (val) {
+        this.value = val
+      }
+    },
     computed: {
-      currentValue () {
-        return this.state
-      },
       synced () {
-        return this.currentValue === this.value
+        if (this.state == null) {
+          return false
+        } else {
+          return this.state === this.value
+        }
       }
     }
   }
