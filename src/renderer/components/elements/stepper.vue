@@ -31,13 +31,11 @@
     },
     methods: {
       increment () {
-        console.log(this.value)
         if (this.value < this.max) {
           this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value + 1})
         }
       },
       decrement () {
-        console.log(this.value)
         if (this.value > this.min) {
           this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value - 1})
         }

@@ -40,6 +40,20 @@
       clicked () {
         this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: this.value})
       }
+    },
+    watch: {
+      state: function (val) {
+        this.value = val
+      }
+    },
+    computed: {
+      synced () {
+        if (this.state == null) {
+          return false
+        } else {
+          return this.state === this.value
+        }
+      }
     }
   }
 </script>

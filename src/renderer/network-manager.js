@@ -19,7 +19,6 @@ server.on('error', (err) => {
 })
 
 server.on('message', (msg, rinfo) => {
-  console.log(`server got: message from ${rinfo.address}:${rinfo.port}`)
   handleIncomingPacket(msg, rinfo.address)
 })
 
