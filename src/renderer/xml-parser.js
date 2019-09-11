@@ -12,7 +12,7 @@ exports.parseXML = (xml, callback) => {
 
 const getElementsFromXML = (xml) => {
   var elements = []
-  for (var groupNum = 1; groupNum < xml.device.group.length; groupNum++) {
+  for (var groupNum = 0; groupNum < xml.device.group.length; groupNum++) {
     var group = xml.device.group[groupNum]
     for (var elementNum = 0; elementNum < group.gui_element.length; elementNum++) {
       var element = group.gui_element[elementNum]
