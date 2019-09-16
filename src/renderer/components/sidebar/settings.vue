@@ -1,7 +1,6 @@
 <template>
   <div id="settings">
     <button type="button" class="btn btn-outline-light" @click="resetState()">Reset</button>
-    <button type="button" class="btn btn-outline-light" @click="debugDiscovery()">Add dummies</button>
   </div>
 </template>
 
@@ -11,9 +10,6 @@
     methods: {
       resetState () {
         this.$store.dispatch('resetState')
-      },
-      debugDiscovery () {
-        this.$store.dispatch('debugDiscovery')
       }
     }
   }
