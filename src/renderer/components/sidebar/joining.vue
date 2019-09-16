@@ -76,7 +76,7 @@
         return this.$store.getters.joiningInProgress()
       },
       networksFound () {
-        return this.localNetworks > 0
+        return this.localNetworks.length > 0
       }
     }
   }
