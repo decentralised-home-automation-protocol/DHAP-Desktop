@@ -7,7 +7,7 @@ const noResponseMax = 3
 const port = 8888
 
 var listeningForDiscoveryStart = 0
-var discoveryResponseRecieved = false
+var discoveryResponseReceived = false
 var noResponseCount = 0
 var sameListBroadcastCount = 0
 var censusList = ''
@@ -38,7 +38,7 @@ export function startDiscovery () {
 
 function discovery () {
   listeningForDiscoveryStart = (new Date()).getTime()
-  discoveryResponseRecieved = false
+  discoveryResponseReceived = false
   var payload = getPacketData()
   sendPacketBroadcast(payload)
 
@@ -49,7 +49,7 @@ function discovery () {
 
   if (sameListBroadcastCount < sameCensusListMax) {
     setTimeout(function () {
-      if (!discoveryResponseRecieved) {
+      if (!discoveryResponseReceived) {
         noResponseCount++
         if (noResponseCount < noResponseMax) {
           discovery()
@@ -78,7 +78,7 @@ async function getDeviceHeaders () {
         devicesWithNoHeader++
       }
     }
-    console.log(devicesWithNoHeader)
+
     if (devicesWithNoHeader === 0) {
       store.default.dispatch('doneDiscovery')
       return
@@ -141,8 +141,8 @@ function handleIncomingPacket (packetData, remoteIP) {
       console.log('IoT Device failed to join network')
       break
     case '210':
-      // Display: UI Recieved
-      console.log('UI Recieved')
+      // Display: UI Received
+      console.log('UI Received')
       const xml = packetData.toString().substring(4)
       xmlParser.parseXML(xml, ui => {
         store.default.dispatch('gotUI', {
@@ -156,7 +156,7 @@ function handleIncomingPacket (packetData, remoteIP) {
     case '310':
       // Discovery: Discovery Response
       if ((new Date()).getTime() - listeningForDiscoveryStart <= 1000) {
-        discoveryResponseRecieved = true
+        discoveryResponseReceived = true
         console.log('Discovery Response')
         const device = {
           id: data[0],
@@ -176,17 +176,17 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '330':
       // Discovery: Discovery Header Response
-      console.log('Discovery header response recieved')
+      console.log('Discovery header response received')
 
-      store.default.dispatch('addDeviceNameAndRoom', {mac: data[0], name: data[1], room: data[2]})
+      store.default.dispatch('addDeviceNameAndRoom', {mac: data[0], name: data[2], room: data[3]})
       break
     case '510':
       // Status: Request Response
-      console.log('Status request response recieved')
+      console.log('Status request response received')
       break
     case '530':
       // Status: Status Update
-      console.log('Status update recieved')
+      console.log('Status update received')
 
       store.default.dispatch('statusUpdate', {mac: data[0], updates: data.slice(2)})
 
