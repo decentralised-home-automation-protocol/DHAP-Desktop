@@ -23,7 +23,8 @@ function createWindow () {
     height: 563,
     useContentSize: true,
     width: 1000,
-    icon: 'src\\renderer\\assets\\DHAP_Logo.png'
+    icon: 'src\\renderer\\assets\\DHAP_Logo.png',
+    title: 'DHAP'
   })
 
   mainWindow.loadURL(winURL)
