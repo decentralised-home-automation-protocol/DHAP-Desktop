@@ -11,7 +11,6 @@ var discoveryResponseReceived = false
 var noResponseCount = 0
 var sameListBroadcastCount = 0
 var censusList = ''
-export var broadcastAddress = '255.255.255.255'
 
 server.on('error', (err) => {
   console.log(`server error:\n${err.stack}`)
@@ -91,13 +90,9 @@ function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-export function updateBroadcastAddress (bAddress) {
-  broadcastAddress = bAddress
-}
-
 export function sendPacketBroadcast (data) {
-  console.log('Sending broadcast to ' + broadcastAddress + ': ' + data)
-  server.send(data, port, broadcastAddress)
+  console.log('Sending broadcast to ' + store.default.state.broadcastAddress + ': ' + data)
+  server.send(data, port, store.default.state.broadcastAddress)
 }
 
 export function sendPacketToIP (data, ip) {

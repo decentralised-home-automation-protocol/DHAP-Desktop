@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import { startDiscovery, sendPacketBroadcast, sendPacketToIP, updateBroadcastAddress, requestStatusLease } from '../network-manager'
+import { startDiscovery, sendPacketBroadcast, sendPacketToIP, requestStatusLease } from '../network-manager'
 import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
 
@@ -23,7 +23,8 @@ export default new Vuex.Store({
     layout: [],
     networks: [],
     joiningInProgress: false,
-    discoveryInProgress: false
+    discoveryInProgress: false,
+    broadcastAddress: '255.255.255.255'
   },
   actions: {
     setUp ({commit, state}) {
@@ -37,7 +38,7 @@ export default new Vuex.Store({
       commit('resetState')
     },
     joinNewDevice ({commit}, joinData) {
-      updateBroadcastAddress('255.255.255.255')
+      commit('setBroadcastAddress', '255.255.255.255')
       commit('joiningInProgress', true)
       joinDevice(joinData)
     },
@@ -61,7 +62,6 @@ export default new Vuex.Store({
       }
     },
     iotCommand ({ commit }, data) {
-      // TODO: send update to ESP
       commit('updateElementStatus', { device: data.device, elementId: data.id, status: data.status })
       sendPacketToIP('400|' + data.id + '=' + data.status, data.device.remoteIP)
     },
@@ -70,7 +70,7 @@ export default new Vuex.Store({
       sendPacketBroadcast(payload)
     },
     setBroadcastAddress ({ commit }, broadcastAddress) {
-      updateBroadcastAddress(broadcastAddress)
+      commit('setBroadcastAddress', broadcastAddress)
     },
     startDiscovery ({ commit }) {
       console.log(`Starting discovery...`)
@@ -122,6 +122,7 @@ export default new Vuex.Store({
       state.networks = []
       state.joiningInProgress = false
       state.discoveryInProgress = false
+      state.broadcastAddress = '255.255.255.255'
     },
     updateElementStatus (state, update) {
       if (update.device != null && update.device.ui != null) {
@@ -171,6 +172,9 @@ export default new Vuex.Store({
       if (!state.rooms.includes(data.room)) {
         state.rooms.push(data.room)
       }
+    },
+    setBroadcastAddress (state, bAddress) {
+      state.broadcastAddress = bAddress
     }
   },
   getters: {
@@ -204,6 +208,9 @@ export default new Vuex.Store({
     },
     discoveryInProgress: (state) => (id) => {
       return state.discoveryInProgress
+    },
+    currentBroadcastAddress: (state) => {
+      return state.broadcastAddress
     }
   },
   plugins: [new VuexPersistence().plugin]
