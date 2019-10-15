@@ -1,8 +1,13 @@
 <template>
   <div id="device">
+    <span id="deviceTrash">
+      <button type="button" class="btn btn-outline-danger" @click="removeDevice(device)">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </span>
     <span id="deviceName">
-      <span v-if="device.name">{{device.name}}</span>
-      <span v-else>{{device.remoteIP}}</span>
+      <span id="deviceName2" v-if="device.name">{{device.name}}</span>
+      <span id="deviceName2" v-else>{{device.remoteIP}}</span>
     </span>
     <span id="deviceToggle">
       <button v-if="device.active" type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
@@ -27,6 +32,9 @@ export default {
     },
     deactivate (id) {
       this.$store.dispatch('deactivateDevice', id)
+    },
+    removeDevice (device) {
+      this.$store.dispatch('removeDevice', device)
     }
   }
 }
@@ -34,25 +42,21 @@ export default {
 
 <style>
 #device {
-  display: table;
-  width: 100%;
-  padding: 10px;
+  padding: 10px 0px 10px 0px;
+  display: flex;
   color: whitesmoke;
-  margin-right: 0px;
+  justify-content: space-between;
 }
 #device:hover {
   background: #363636;
 }
 
 #deviceName {
-  padding-left: 20px;  
-  display: table-cell;
-  vertical-align: middle
+  display: flex;
 }
 
-#deviceToggle {
-  float: right;
-  display: table-cell;
-  vertical-align: middle
+#deviceName2 {
+  margin: auto; /* Important */ 
+  text-align: center; 
 }
 </style>

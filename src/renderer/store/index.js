@@ -61,6 +61,15 @@ export default new Vuex.Store({
         commit('newDevice', payload)
       }
     },
+    removeDevice ({ commit, state }, device) {
+      const found = state.devices.find(d => d.id === device.id)
+      if (found) {
+        if (device.active) {
+          commit('deactivateDevice', device.id)
+        }
+        commit('removeDevice', device)
+      }
+    },
     iotCommand ({ commit }, data) {
       commit('updateElementStatus', { device: data.device, elementId: data.id, status: data.status })
       sendPacketToIP('400|' + data.id + '=' + data.status, data.device.remoteIP)
@@ -136,6 +145,27 @@ export default new Vuex.Store({
     },
     newDevice (state, device) {
       state.devices.push(device)
+    },
+    removeDevice (state, device) {
+      var filtered = state.devices.filter(function (value, index, arr) {
+        return value.id !== device.id
+      })
+      state.devices = filtered
+
+      var removeRoom = true
+
+      filtered.forEach(element => {
+        if (element.room === device.room) {
+          removeRoom = false
+        }
+      })
+
+      if (removeRoom) {
+        var filteredRooms = state.rooms.filter(function (value, index, arr) {
+          return value !== device.room
+        })
+        state.rooms = filteredRooms
+      }
     },
     updateNetworks (state, network) {
       console.log(network)
