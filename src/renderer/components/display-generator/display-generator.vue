@@ -53,8 +53,6 @@
 <style>
 #content {
   width: 100%;
-  min-width: 1000px;
-  min-height: 1000px;
 }
 
 .element {

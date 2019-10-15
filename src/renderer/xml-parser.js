@@ -12,6 +12,11 @@ exports.parseXML = (xml, callback) => {
 
 const getElementsFromXML = (xml) => {
   var elements = []
+  if (xml == null) {
+    console.log('UI XML is empty')
+    return elements
+  }
+
   for (var groupNum = 0; groupNum < xml.device.group.length; groupNum++) {
     var group = xml.device.group[groupNum]
     for (var elementNum = 0; elementNum < group.gui_element.length; elementNum++) {

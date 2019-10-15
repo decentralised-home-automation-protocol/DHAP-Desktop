@@ -145,13 +145,15 @@ function handleIncomingPacket (packetData, remoteIP) {
       console.log('UI Received')
       const xml = packetData.toString().substring(4)
       xmlParser.parseXML(xml, ui => {
+        if (ui.length === 0) {
+          return
+        }
         store.default.dispatch('gotUI', {
           ip: remoteIP,
           ui
         })
+        requestStatusLease(remoteIP)
       })
-
-      requestStatusLease(remoteIP)
       break
     case '310':
       // Discovery: Discovery Response
