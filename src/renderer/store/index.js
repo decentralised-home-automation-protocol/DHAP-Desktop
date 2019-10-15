@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import { startDiscovery, sendPacketBroadcast, sendPacketToIP, requestStatusLease } from '../network-manager'
+import { startDiscovery, sendPacketBroadcast, sendPacketToIP, requestStatusLease, refreshCensusList } from '../network-manager'
 import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
 
@@ -15,6 +15,7 @@ export default new Vuex.Store({
       visibilityBit: Number,
       lastContactDate: String,
       active: Boolean,
+      headerVersion: Number,
       name: String,
       room: String
     } */
@@ -55,10 +56,12 @@ export default new Vuex.Store({
     updateNetworks ({commit}, networks) {
       commit('updateNetworks', networks)
     },
-    deviceDiscovered ({ commit, state }, payload) {
-      const device = state.devices.find(d => d.id === payload.id)
-      if (!device) {
-        commit('newDevice', payload)
+    deviceDiscovered ({ commit, state }, device) {
+      const found = state.devices.find(d => d.id === device.id)
+      if (found) {
+        commit('updateDevice', device)
+      } else {
+        commit('newDevice', device)
       }
     },
     removeDevice ({ commit, state }, device) {
@@ -86,8 +89,14 @@ export default new Vuex.Store({
       commit('discoveryInProgress', true)
       startDiscovery()
     },
+    refreshCensusList ({ commit }) {
+      console.log(`refreshing Census list`)
+      commit('discoveryInProgress', true)
+      refreshCensusList()
+    },
     doneDiscovery ({ commit }) {
       commit('discoveryInProgress', false)
+      commit('refreshRooms')
     },
     getUI ({ commit }, payload) {
       sendPacketToIP(payload.data, payload.ip)
@@ -123,6 +132,12 @@ export default new Vuex.Store({
     },
     discoveryInProgress (state, inProgress) {
       state.discoveryInProgress = inProgress
+
+      if (inProgress) {
+        state.devices.forEach(element => {
+          element.statusBit = 0
+        })
+      }
     },
     resetState (state) {
       state.devices = []
@@ -146,6 +161,19 @@ export default new Vuex.Store({
     newDevice (state, device) {
       state.devices.push(device)
     },
+    updateDevice (state, device) {
+      const oldDevice = state.devices.find(d => {
+        return d.id === device.id
+      })
+
+      oldDevice.remoteIP = device.remoteIP
+      oldDevice.statusBit = device.statusBit
+      oldDevice.visibilityBit = device.visibilityBit
+      oldDevice.lastContactDate = device.lastContactDate
+      if (oldDevice.headerVersion !== device.headerVersion) {
+        oldDevice.headerVersion = -1
+      }
+    },
     removeDevice (state, device) {
       var filtered = state.devices.filter(function (value, index, arr) {
         return value.id !== device.id
@@ -167,8 +195,18 @@ export default new Vuex.Store({
         state.rooms = filteredRooms
       }
     },
+    refreshRooms (state) {
+      var currentRooms = []
+      state.devices.forEach(element => {
+        currentRooms.push(element.room)
+      })
+
+      var filteredRooms = state.rooms.filter(function (value, index, arr) {
+        return currentRooms.includes(value)
+      })
+      state.rooms = filteredRooms
+    },
     updateNetworks (state, network) {
-      console.log(network)
       state.networks = network
     },
     newUI (state, payload) {
@@ -198,6 +236,7 @@ export default new Vuex.Store({
       const device = state.devices.find(device => device.id === data.mac)
       device.name = data.name
       device.room = data.room
+      device.headerVersion = data.headerVersion
 
       if (!state.rooms.includes(data.room)) {
         state.rooms.push(data.room)

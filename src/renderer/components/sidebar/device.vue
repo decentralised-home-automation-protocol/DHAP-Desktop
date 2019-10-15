@@ -9,12 +9,17 @@
       <span id="deviceName2" v-if="device.name">{{device.name}}</span>
       <span id="deviceName2" v-else>{{device.remoteIP}}</span>
     </span>
-    <span id="deviceToggle">
+    <span id="deviceToggle" v-if="device.statusBit" >
       <button v-if="device.active" type="button" class="btn btn-outline-danger" @click="deactivate(device.id)">
         <i class="fas fa-times"></i>
       </button>
       <button v-else type="button" class="btn btn-outline-success" @click="getUI(device.remoteIP, device.id)">
         <i class="fas fa-chevron-right"></i>
+      </button>
+    </span>
+    <span id="deviceToggle" v-else>
+      <button type="button" class="btn btn-outline-warning">
+        <i class="fas fa-exclamation-triangle"></i>
       </button>
     </span>
   </div>

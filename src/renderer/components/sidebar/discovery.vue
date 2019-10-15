@@ -1,13 +1,12 @@
 <template>
   <div id="discovery">
-    <div id="discoveryStart">
-      <span id="discoveryButton">
-      <button type="button" class="btn btn-outline-light" :disabled="discoveryInProgress" @click="discovery()">Discover Devices</button>
-      </span>
-      <span id="discoveryInProgress">
-        <spinner v-if="discoveryInProgress"></spinner>
-      </span>
-    </div>
+    <span id="discoveryButton">
+      <button type="button" class="btn btn-outline-light btn-block" :disabled="discoveryInProgress" @click="discovery()">Discover Devices</button>
+      <button type="button" class="btn btn-outline-light btn-block" :disabled="discoveryInProgress" @click="refresh()">Refresh Devices</button>
+    </span>
+    <span id="discoveryInProgress">
+      <spinner v-if="discoveryInProgress"></spinner>
+    </span>
   </div>
 </template>
 
@@ -22,6 +21,9 @@
     methods: {
       discovery () {
         this.$store.dispatch('startDiscovery')
+      },
+      refresh () {
+        this.$store.dispatch('refreshCensusList')
       }
     },
     computed: {
@@ -35,10 +37,6 @@
 <style>
 #discovery {
   padding: 10px;
-}
-
-#discoveryStart {
-  padding-top: 10px;
 }
 
 #discoveryButton {
