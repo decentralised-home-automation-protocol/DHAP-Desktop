@@ -2,7 +2,15 @@
   <div id="PacketSender">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">IP</span>
+        <span class="input-group-text">Device</span>
+      </div>
+      <select class="form-control" @change="getDeviceIp($event)">
+        <option v-for="device in devices" v-bind:key="device.id">{{device.name}}</option>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">IP</span>
       </div>
       <input class="form-control" type="text" name="ipInput" placeholder="192.168.1.100" v-model="ipaddress">
     </div>
@@ -15,7 +23,7 @@
     </div>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">{{packetTypes[selectedPacketIndex][1]}}</span>
+        <span class="input-group-text">{{packetTypes[selectedPacketIndex][1]}}</span>
       </div>
       <input class="form-control" type="text" :placeholder=packetTypes[selectedPacketIndex][2] v-model="packetData">
     </div>
@@ -34,7 +42,7 @@
       return {
         selectedPacketIndex: 0,
         packetData: '',
-        ipaddress: '255.255.255.255',
+        ipaddress: '',
         packetTypes: [
           ['Send Credentials', '100|', 'ssid,password'],
           ['Discovery Request', '300|', 'mac,statusbit,visibilitybit,headerVersion'],
@@ -49,6 +57,11 @@
         ]
       }
     },
+    computed: {
+      devices () {
+        return this.$store.state.devices
+      }
+    },
     methods: {
       sendPacket (ipaddress, packetdata) {
         console.log('Sending: ' + this.packetTypes[this.selectedPacketIndex][1] + packetdata)
@@ -56,7 +69,13 @@
       },
       getPacketType (type) {
         this.selectedPacketIndex = type.target.selectedIndex
+      },
+      getDeviceIp (device) {
+        this.ipaddress = this.$store.state.devices[device.target.selectedIndex].remoteIP
       }
+    },
+    mounted () {
+      this.ipaddress = this.$store.state.devices[this.selectedPacketIndex].remoteIP
     }
   }
 </script>
