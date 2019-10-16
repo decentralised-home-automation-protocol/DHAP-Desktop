@@ -51,8 +51,8 @@
     },
     methods: {
       sendPacket (ipaddress, packetdata) {
-        console.log('Sending: ' + packetdata)
-        server.send(packetdata, 8888, ipaddress)
+        console.log('Sending: ' + this.packetTypes[this.selectedPacketIndex][1] + packetdata)
+        server.send(this.packetTypes[this.selectedPacketIndex][1] + packetdata, 8888, ipaddress)
       },
       getPacketType (type) {
         this.selectedPacketIndex = type.target.selectedIndex
