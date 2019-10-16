@@ -46,8 +46,8 @@
 
 <style>
   #sidebar {
-    min-width: 210px;
-    max-width: 210px;
+    min-width: 250px;
+    max-width: 250px;
     min-height: 100vh;
     border-right: 1px solid #9E9E9E;    
   }

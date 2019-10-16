@@ -11,7 +11,6 @@ var discoveryResponseReceived = false
 var noResponseCount = 0
 var sameListBroadcastCount = 0
 var censusList = ''
-export var broadcastAddress = '255.255.255.255'
 
 server.on('error', (err) => {
   console.log(`server error:\n${err.stack}`)
@@ -29,6 +28,24 @@ server.on('listening', () => {
 })
 
 server.bind(port)
+
+export function refreshCensusList () {
+  listeningForDiscoveryStart = (new Date()).getTime() * 2
+  refresh()
+}
+
+async function refresh () {
+  for (var loop = 0; loop < 5; loop++) {
+    const devices = store.default.state.devices
+    for (var i = 0; i < devices.length; i++) {
+      if (!devices[i].statusBit) {
+        sendPacketToIP('300', devices[i].remoteIP)
+        await sleep(200)
+      }
+    }
+  }
+  getDeviceHeaders()
+}
 
 export function startDiscovery () {
   noResponseCount = 0
@@ -73,7 +90,7 @@ async function getDeviceHeaders () {
   for (var loop = 0; loop < 10; loop++) {
     var devicesWithNoHeader = 0
     for (var i = 0; i < devices.length; i++) {
-      if (devices[i].name == null) {
+      if (devices[i].headerVersion === -1 || devices[i].name === null) {
         sendPacketToIP('320', devices[i].remoteIP)
         devicesWithNoHeader++
       }
@@ -83,7 +100,7 @@ async function getDeviceHeaders () {
       store.default.dispatch('doneDiscovery')
       return
     }
-    await sleep(1000)
+    await sleep(300)
   }
 }
 
@@ -91,16 +108,13 @@ function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-export function updateBroadcastAddress (bAddress) {
-  broadcastAddress = bAddress
-}
-
 export function sendPacketBroadcast (data) {
-  console.log('Sending broadcast to ' + broadcastAddress + ': ' + data)
-  server.send(data, port, broadcastAddress)
+  console.log('Sending broadcast to ' + store.default.state.broadcastAddress + ': ' + data)
+  server.send(data, port, store.default.state.broadcastAddress)
 }
 
 export function sendPacketToIP (data, ip) {
+  console.log('Sending packet to ' + ip + ': ' + data)
   server.send(data, port, ip)
 }
 
@@ -110,13 +124,13 @@ export function requestStatusLease (remoteIP) {
 }
 
 function getPacketData () {
-  const devices = store.default.state.devices
+  var devices = store.default.state.devices
   var payload = '300|'
   for (var i = 0; i < devices.length; i++) {
     if (i > 0) {
       payload += '-'
     }
-    payload += devices[i].id + ',' + devices[i].remoteIP + ',' + devices[i].statusBit + ',' + devices[i].visibilityBit
+    payload += devices[i].id + ',' + devices[i].statusBit + ',' + devices[i].visibilityBit
   }
 
   return payload
@@ -145,13 +159,15 @@ function handleIncomingPacket (packetData, remoteIP) {
       console.log('UI Received')
       const xml = packetData.toString().substring(4)
       xmlParser.parseXML(xml, ui => {
+        if (ui.length === 0) {
+          return
+        }
         store.default.dispatch('gotUI', {
           ip: remoteIP,
           ui
         })
+        requestStatusLease(remoteIP)
       })
-
-      requestStatusLease(remoteIP)
       break
     case '310':
       // Discovery: Discovery Response
@@ -167,6 +183,7 @@ function handleIncomingPacket (packetData, remoteIP) {
           lastContactDate: new Date(),
           active: false,
           static: false,
+          headerVersion: data[3],
           name: null,
           room: null
         }
@@ -178,7 +195,7 @@ function handleIncomingPacket (packetData, remoteIP) {
       // Discovery: Discovery Header Response
       console.log('Discovery header response received')
 
-      store.default.dispatch('addDeviceNameAndRoom', {mac: data[0], name: data[2], room: data[3]})
+      store.default.dispatch('addDeviceNameAndRoom', {mac: data[0], headerVersion: data[1], name: data[2], room: data[3]})
       break
     case '510':
       // Status: Request Response
