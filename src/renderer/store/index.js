@@ -34,6 +34,8 @@ export default new Vuex.Store({
           requestStatusLease(state.devices[i].remoteIP)
         }
       }
+      commit('discoveryInProgress', true)
+      refreshCensusList()
     },
     resetState ({commit}) {
       commit('resetState')
