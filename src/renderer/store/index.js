@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import { startDiscovery, sendPacketBroadcast, sendPacketToIP, requestStatusLease, refreshCensusList } from '../network-manager'
+import { startDiscovery, sendPacketBroadcast, sendPacketToIP, requestStatusLease, refreshCensusList, checkStillGettingUpdates } from '../network-manager'
 import { joinDevice, scanWifi } from '../joining'
 Vue.use(Vuex)
 
@@ -36,6 +36,7 @@ export default new Vuex.Store({
       }
       commit('discoveryInProgress', true)
       refreshCensusList()
+      checkStillGettingUpdates()
     },
     resetState ({commit}) {
       commit('resetState')
@@ -124,6 +125,7 @@ export default new Vuex.Store({
       const device = this.getters.devicesByMac(data.mac)
       for (var i = 0; i < data.updates.length; i++) {
         const value = data.updates[i]
+        commit('updateDeviceContactDate', device)
         commit('updateElementStatus', {device, status_location: i + 1, status: value})
       }
     }
@@ -149,6 +151,9 @@ export default new Vuex.Store({
       state.joiningInProgress = false
       state.discoveryInProgress = false
       state.broadcastAddress = '255.255.255.255'
+    },
+    updateDeviceContactDate (state, device) {
+      device.lastContactDate = (new Date()).getTime()
     },
     updateElementStatus (state, update) {
       if (update.device != null && update.device.ui != null) {
