@@ -109,18 +109,36 @@ function sleep (ms) {
 }
 
 export function sendPacketBroadcast (data) {
-  console.log('Sending broadcast to ' + store.default.state.broadcastAddress + ': ' + data)
+  // console.log('Sending broadcast to ' + store.default.state.broadcastAddress + ': ' + data)
   server.send(data, port, store.default.state.broadcastAddress)
 }
 
 export function sendPacketToIP (data, ip) {
-  console.log('Sending packet to ' + ip + ': ' + data)
+  // console.log('Sending packet to ' + ip + ': ' + data)
   server.send(data, port, ip)
 }
 
 export function requestStatusLease (remoteIP) {
-  console.log(remoteIP)
   sendPacketToIP('500|10000,1000,F', remoteIP)
+}
+
+export async function checkStillGettingUpdates () {
+  while (true) {
+    const devices = store.default.state.devices
+    const currentTime = (new Date()).getTime()
+
+    for (var i = 0; i < devices.length; i++) {
+      if (devices[i].active) {
+        // Check if a status update has been received within the last 5 seconds
+        if (devices[i].lastContactDate < (currentTime - 5000)) {
+          // Request a new lease as we have stopped getting updates for some reason
+          console.log(devices[i].name + ' stopped getting updates...')
+          requestStatusLease(devices[i].remoteIP)
+        }
+      }
+    }
+    await sleep(10000)
+  }
 }
 
 function getPacketData () {
@@ -180,7 +198,7 @@ function handleIncomingPacket (packetData, remoteIP) {
           ui: null,
           statusBit: data[1],
           visibilityBit: data[2],
-          lastContactDate: new Date(),
+          lastContactDate: (new Date()).getTime(),
           active: false,
           static: false,
           headerVersion: data[3],
@@ -203,7 +221,7 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '530':
       // Status: Status Update
-      console.log('Status update received')
+      // console.log('Status update received')
 
       store.default.dispatch('statusUpdate', {mac: data[0], updates: data.slice(2)})
 
