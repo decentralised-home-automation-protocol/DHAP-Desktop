@@ -109,12 +109,12 @@ function sleep (ms) {
 }
 
 export function sendPacketBroadcast (data) {
-  console.log('Sending broadcast to ' + store.default.state.broadcastAddress + ': ' + data)
+  // console.log('Sending broadcast to ' + store.default.state.broadcastAddress + ': ' + data)
   server.send(data, port, store.default.state.broadcastAddress)
 }
 
 export function sendPacketToIP (data, ip) {
-  console.log('Sending packet to ' + ip + ': ' + data)
+  // console.log('Sending packet to ' + ip + ': ' + data)
   server.send(data, port, ip)
 }
 
@@ -221,7 +221,7 @@ function handleIncomingPacket (packetData, remoteIP) {
       break
     case '530':
       // Status: Status Update
-      console.log('Status update received')
+      // console.log('Status update received')
 
       store.default.dispatch('statusUpdate', {mac: data[0], updates: data.slice(2)})
 
