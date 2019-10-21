@@ -2,10 +2,11 @@
   <div class="element scheduler">
     <p id="label">{{label}}</p>
     <select @change="onChange($event)">
-      <option v-for="(option, index) in options" :key="option" :value="index" :selected="isSelected(index)">{{option}}</option>
+      <option v-for="(option, index) in options" :key="option" :value="index" :selected=selected>{{option}}</option>
     </select>
-    <input type="time" :value=time>
-    <button class="btn btn-primary btn-sm">{{buttonLabel}}</button>
+    <input type="time" v-model="changeTime">
+    <button v-if="synced" class="btn btn-outline-success" @click="submit()">{{buttonLabel}}</button>
+    <button v-else class="btn btn-outline-danger" @click="submit()">{{buttonLabel}}</button>
   </div>
 </template>
 
@@ -22,7 +23,9 @@
       return {
         label: '',
         buttonLabel: '',
-        options: []
+        options: [],
+        changeTime: '12:00',
+        selected: 0
       }
     },
     mounted () {
@@ -40,25 +43,28 @@
         return index === this.selected
       },
       onChange (event) {
-        const status = event.target.value + '!' + this.time
+        const status = event.target.value + '!' + this.changeTime
+        this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: status})
+      },
+      submit () {
+        const vals = this.state.toString().split('!')
+        const status = vals[0] + '!' + this.changeTime
         this.$store.dispatch('iotCommand', {device: this.device, id: this.id, status: status})
       }
     },
+    watch: {
+      state: function (val) {
+        const newState = val.toString().split('!')
+        this.changeTime = newState[1]
+      }
+    },
     computed: {
-      time () {
-        if (this.state == null) {
-          return '12:00'
+      synced () {
+        if (this.state == null || this.state === '') {
+          return false
         } else {
           const vals = this.state.toString().split('!')
-          return vals[1]
-        }
-      },
-      selected () {
-        if (this.state == null) {
-          return 0
-        } else {
-          const vals = this.state.toString().split('!')
-          return parseInt(vals[0])
+          return vals[1] === this.changeTime
         }
       }
     }
