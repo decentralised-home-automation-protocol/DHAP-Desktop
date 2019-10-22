@@ -75,7 +75,10 @@
       }
     },
     mounted () {
-      this.ipaddress = this.$store.state.devices[this.selectedPacketIndex].remoteIP
+      const device = this.$store.state.devices[this.selectedPacketIndex]
+      if (device !== undefined) {
+        this.ipaddress = device.remoteIP
+      }
     }
   }
 </script>

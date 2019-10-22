@@ -123,10 +123,12 @@ export default new Vuex.Store({
     },
     statusUpdate ({ commit }, data) {
       const device = this.getters.devicesByMac(data.mac)
-      for (var i = 0; i < data.updates.length; i++) {
-        const value = data.updates[i]
+      if (device !== undefined) {
         commit('updateDeviceContactDate', device)
-        commit('updateElementStatus', {device, status_location: i + 1, status: value})
+        for (var i = 0; i < data.updates.length; i++) {
+          const value = data.updates[i]
+          commit('updateElementStatus', {device, status_location: i + 1, status: value})
+        }
       }
     }
   },
